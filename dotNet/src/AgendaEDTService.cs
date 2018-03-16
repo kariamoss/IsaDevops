@@ -14,7 +14,7 @@ namespace Partner.Service {
   {
     private const string MagicKey = "896983"; // ASCII code for "YES"
 
-    public boolean book(String name)
+    public bool book(String name)
     {
       return !name.Contains("3");
     }

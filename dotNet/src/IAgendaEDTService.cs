@@ -9,9 +9,9 @@ namespace Partner.Service {
   public interface IAgendaEDTService
   {
     [OperationContract]
-    [WebInvoke( Method = "GET", UriTemplate = "book",
+    [WebInvoke( Method = "GET", UriTemplate = "book/{roomName}",
                 ResponseFormat = WebMessageFormat.Json)]
-    boolean book(String roomName);
+    bool book(String roomName);
 
 }
 
