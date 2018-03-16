@@ -1,9 +1,6 @@
 package polyevent;
 
 
-import fr.unice.polytech.isa.polyevent.entities.Event;
-import fr.unice.polytech.isa.polyevent.entities.Room;
-
 import javax.ejb.Local;
 import java.util.List;
 

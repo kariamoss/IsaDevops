@@ -1,8 +1,6 @@
 package polyevent;
 
 
-import fr.unice.polytech.isa.polyevent.entities.Event;
-
 import javax.ejb.Local;
 
 @Local
