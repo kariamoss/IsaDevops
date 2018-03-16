@@ -1,7 +1,7 @@
 package fr.unice.polytech.isa.polyevent;
 
-import fr.unice.polytech.isa.polyevent.Entities.Coordinator;
-import fr.unice.polytech.isa.polyevent.Entities.Event;
+import fr.unice.polytech.isa.polyevent.entities.Coordinator;
+import fr.unice.polytech.isa.polyevent.entities.Event;
 
 import java.util.Date;
 
