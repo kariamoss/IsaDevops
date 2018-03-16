@@ -9,17 +9,12 @@
     <name>ISA :: PolyEvent :: J2E Backend</name>
 
     <modules>
-        <!-- TODO add new modules/components here
-        <module>scheduler</module>
-        <module>visualiser</module>
-        <module>benchmark</module>
-        -->
-
         <module>event-creator</module>
         <module>event-organizer</module>
         <module>room-booker</module>
-    <module>client</module>
-    <module>webapp</module>
+        <module>client</module>
+        <module>webapp</module>
+    <module>core</module>
   </modules>
 
     <properties>
