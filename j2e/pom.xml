@@ -9,6 +9,14 @@
     <version>1.0-SNAPSHOT</version>
     <name>ISA :: PolyEvent :: J2E Backend</name>
 
+    <modules>
+        <!-- TODO add new modules/components here
+        <module>scheduler</module>
+        <module>visualiser</module>
+        <module>benchmark</module>
+        -->
+    </modules>
+
     <properties>
         <!-- General Properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
