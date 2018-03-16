@@ -5,13 +5,15 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
 
-public class EventOrganizerTest {
+public class EventCreatorTest {
 
-    EventOrganizer eventOrganizer;
+    EventCreator eventCreator;
+    Coordinator coordinator;
 
     @Before
     public void init(){
-        eventOrganizer = new EventOrganizer();
+        coordinator = new Coordinator("paul", "Dupond", "pauldupond@youhou.com");
+        eventCreator = new EventCreator();
     }
 
     @Test
