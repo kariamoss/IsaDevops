@@ -1,4 +1,4 @@
-package fr.unice.polytech.isa.polyevent.entities;
+package polyevent;
 
 import java.util.List;
 
