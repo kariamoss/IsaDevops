@@ -15,6 +15,7 @@
         <module>client</module>
         <module>webapp</module>
     <module>core</module>
+    <module>j2e-interface</module>
   </modules>
 
     <properties>
