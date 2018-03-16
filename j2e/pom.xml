@@ -18,6 +18,7 @@
 
         <module>event-creator</module>
         <module>event-organizer</module>
+        <module>room-booker</module>
     </modules>
 
     <properties>
