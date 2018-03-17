@@ -1,5 +1,8 @@
 package webservice;
 
+import javax.jws.WebService;
+
+@WebService
 public class EventService implements IEventService {
 
     @Override
