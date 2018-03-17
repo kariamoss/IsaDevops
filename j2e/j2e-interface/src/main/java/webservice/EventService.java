@@ -6,7 +6,7 @@ import javax.jws.WebService;
 public class EventService implements IEventService {
 
     @Override
-    public void createEvent(String name) {
-        System.out.println(name);
+    public String createEvent(String name) {
+        return "salut";
     }
 }
