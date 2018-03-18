@@ -9,5 +9,5 @@ import javax.jws.WebService;
 public interface IEventService {
 
     @WebMethod
-    void createEvent(@WebParam(name="name") String name);
+    String createEvent(@WebParam(name="name") String name);
 }
