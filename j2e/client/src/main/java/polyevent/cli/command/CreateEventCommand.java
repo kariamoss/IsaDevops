@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import polyevent.Event;
 import polyevent.RoomType;
+import api.EventApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,8 @@ public class CreateEventCommand extends AbstractCommand<Void> {
 
     @Override
     public void execute() throws Exception {
-
+        EventApi api = new EventApi();
+        System.out.println(api.eventService.createEvent("salut"));
     }
 
     /**

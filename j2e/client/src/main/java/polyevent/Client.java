@@ -1,5 +1,8 @@
 package polyevent;
 
+import api.EventApi;
+import polyevent.cli.shell.Shell;
+
 /**
  * Hello world!
  *
@@ -7,6 +10,7 @@ package polyevent;
 public class Client {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Shell shell = new Shell();
+        shell.run();
     }
 }
