@@ -8,13 +8,16 @@
 
   <xs:complexType name="createEvent">
     <xs:sequence>
-      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="createEventResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
+      <xs:element name="return" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
 

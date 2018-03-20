@@ -8,11 +8,6 @@ import java.util.Date;
  */
 public class EventCreator implements IEventCreator
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
-
     @Override
     public boolean registerEvent(String name, int participantNumber, Date date, Coordinator coordinator) {
         return false;
