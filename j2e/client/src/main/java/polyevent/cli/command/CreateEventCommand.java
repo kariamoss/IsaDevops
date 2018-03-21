@@ -19,7 +19,7 @@ import java.util.List;
  *     <ul>One or more type of rooms</ul>
  * </li>
  */
-public class CreateEventCommand extends AbstractCommand<Void> {
+public class CreateEventCommand extends AbstractCommand<EventApi> {
 
     Event e;
 
@@ -57,5 +57,15 @@ public class CreateEventCommand extends AbstractCommand<Void> {
             rooms.add(RoomType.valueOf((String) s));
 
         this.e = new Event(estimatedPeopleNumber, eventName, rooms);
+    }
+
+    /**
+     * The method to call when the user wants to know the usage of this command
+     *
+     * @return the usage of this command, with a little description of the command
+     */
+    @Override
+    public String helper() {
+        return "Creates a new event at Polytech.\nUsage: createEvent eventName peopleNumber roomType1 [roomTypes] ";
     }
 }

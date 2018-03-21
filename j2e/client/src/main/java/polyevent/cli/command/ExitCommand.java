@@ -1,56 +1,61 @@
 package polyevent.cli.command;
 
-import polyevent.cli.shell.Shell;
+import api.EventApi;
 
 import java.util.List;
 
-public abstract class AbstractCommand<T> {
-
+public class ExitCommand extends AbstractCommand<EventApi> {
     /**
      * The identifier of the command
+     *
      * @return the identifier of the command as a string
      */
-    public abstract String command();
+    @Override
+    public String command() {
+        return "exit";
+    }
 
     /**
      * Executes and processes the concrete
      * implementation of an {@link AbstractCommand}
+     *
      * @throws Exception if the command fails or doesn't exist
      */
-    public abstract void execute() throws Exception;
+    @Override
+    public void execute() throws Exception {
+        // nothing to execute since an exit command has been fired
+    }
 
     /**
      * Loads the arguments for the given command,
      * and instantiates business objects that are necessary
      * to perform the user functionality
+     *
      * @param args the arguments of the command
      */
-    public abstract void load(List<String> args);
+    @Override
+    public void load(List<String> args) {
+
+    }
 
     /**
      * The method to call when the user wants to know the usage of this command
+     *
      * @return the usage of this command, with a little description of the command
      */
-    public abstract String helper();
+    @Override
+    public String helper() {
+        return "Exits the Shell and leaves the PolyEvent software.\nUsage: exit";
+    }
 
     /**
      * Whether the should stay alive or not
+     *
      * @return true if the shell should be kept alive
      */
-    public boolean shouldContinue() { return true; }  // default implementation
-
-    protected Shell<T> shell;
-
-    public void withShell(Shell<T> shell) { this.shell = shell;   }
-
-    public boolean process(List<String> args) throws Exception {
-        try { load(args); }
-        catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-        execute();
-
-        // whether the shell should stay alive or not
-        return shouldContinue();
+    @Override
+    public boolean shouldContinue() {
+        // exit command fired, ofc we shouldn't continue
+        return false;
     }
 }
