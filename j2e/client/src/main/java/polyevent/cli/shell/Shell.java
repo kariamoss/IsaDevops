@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
  */
 public class Shell<T> {
 
+    public T api;
+
     // The commands available in this very Shell
     private Map<String, Class<? extends AbstractCommand<T>>> availableCommands;
 
@@ -114,7 +116,6 @@ public class Shell<T> {
      */
     @SuppressWarnings("unchecked")
     private boolean processCommand(String keyWord, List<String> args) throws Exception {
-        System.out.println("availableCommands = " + availableCommands);
         if (availableCommands.containsKey(keyWord)) {
             Class<? extends AbstractCommand<T>> c = availableCommands.get(keyWord);
             try {

@@ -37,8 +37,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
 
     @Override
     public void execute() throws Exception {
-        EventApi api = new EventApi();
-        String result = api.eventService.createEvent(eventName);
+        String result = shell.api.eventService.createEvent(eventName);
         System.out.println("Created event with name: " + result);
     }
 
