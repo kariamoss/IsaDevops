@@ -31,7 +31,10 @@ public class Client extends Shell<EventApi> {
         System.out.println("Your new event organizer helper!\n");
         System.out.println();
 
-        Client client = new Client();
-        client.run();
+        //Client client = new Client();
+        //client.run();
+
+        EventApi api = new EventApi();
+        api.eventService.createEvent("salut");
     }
 }
