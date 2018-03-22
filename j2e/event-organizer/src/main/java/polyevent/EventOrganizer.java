@@ -1,5 +1,6 @@
 package polyevent;
 
+import javax.ejb.EJB;
 /**
  * Hello world!
  *
