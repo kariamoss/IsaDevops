@@ -90,7 +90,7 @@ public class Shell<T> {
      */
     private void registerCommand(Class<? extends AbstractCommand<T>> command) {
         try {
-            String name = command.newInstance().toString();
+            String name = command.newInstance().command();
             if (name.contains(" "))
                 throw new IllegalArgumentException("Unknown command : " + name);
             else
