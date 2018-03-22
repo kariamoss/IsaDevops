@@ -21,7 +21,9 @@ import java.util.List;
  */
 public class CreateEventCommand extends AbstractCommand<EventApi> {
 
-    Event e;
+    private String eventName;
+    private int estimatedPeopleNumber;
+    private List<RoomType> rooms;
 
     /**
      * The identifier of the command
@@ -36,7 +38,8 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
         EventApi api = new EventApi();
-        System.out.println(api.eventService.createEvent("salut"));
+        String result = api.eventService.createEvent(eventName);
+        System.out.println("Created event with name: " + result);
     }
 
     /**
@@ -48,15 +51,17 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public void load(List<String> args) {
-        String eventName = args.get(0);
-        int estimatedPeopleNumber = Integer.parseInt(args.get(1));
+        eventName = args.get(0);
+        /*
+        TODO keep this code here as it will be used after the MVP development
+        estimatedPeopleNumber = Integer.parseInt(args.get(1));
         List roomsGeneric = Arrays.asList(args.get(2).split(" "));
-        List<RoomType> rooms = new ArrayList<>();
+        rooms = new ArrayList<>();
 
         for (Object s : roomsGeneric)
             rooms.add(RoomType.valueOf((String) s));
 
-        this.e = new Event(estimatedPeopleNumber, eventName, rooms);
+        */
     }
 
     /**
