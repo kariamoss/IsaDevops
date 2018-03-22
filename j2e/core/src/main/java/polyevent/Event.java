@@ -10,6 +10,13 @@ public class Event {
     private int nbPeople;
     private String name;
     private List<Room> rooms;
+    private List<RoomType> desiredRoomTypes;
+
+    public Event(int nbPeople, String name, List<RoomType> roomTypes) {
+        this.nbPeople = nbPeople;
+        this.name = name;
+        this.desiredRoomTypes = roomTypes;
+    }
 
     public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {
         this.coordinator = coordinator;
