@@ -21,7 +21,6 @@ public class Client extends Shell<EventApi> {
                 CreateEventCommand.class,
                 ExitCommand.class
         );
-
     }
 
     public static void main(String[] args )

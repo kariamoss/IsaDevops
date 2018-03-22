@@ -21,7 +21,7 @@ public class Shell<T> {
 
     public final void run() {
         System.out.println("Client started.");
-        System.out.println("Available commands: " + availableCommands.values() + "t\n");
+        System.out.println("Available commands: " + availableCommands.values() + "\n");
         run(System.in, false, 0);
     }
 
@@ -114,6 +114,7 @@ public class Shell<T> {
      */
     @SuppressWarnings("unchecked")
     private boolean processCommand(String keyWord, List<String> args) throws Exception {
+        System.out.println("availableCommands = " + availableCommands);
         if (availableCommands.containsKey(keyWord)) {
             Class<? extends AbstractCommand<T>> c = availableCommands.get(keyWord);
             try {
