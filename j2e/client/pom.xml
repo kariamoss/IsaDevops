@@ -48,7 +48,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>Main</mainClass>
+              <mainClass>Client</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>
