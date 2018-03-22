@@ -21,7 +21,7 @@ public class Shell<T> {
 
     public final void run() {
         System.out.println("Client started.");
-        System.out.println("Available command: createEvent\n");
+        System.out.println("Available commands: " + availableCommands.values() + "t\n");
         run(System.in, false, 0);
     }
 
