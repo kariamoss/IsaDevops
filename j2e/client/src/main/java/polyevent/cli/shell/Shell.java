@@ -52,8 +52,8 @@ public class Shell<T> {
             try {
                 if (keyword.startsWith("#") || keyword.equals(""))
                     shouldContinue = true;
-                //else
-                //    shouldContinue = processCommand(keyword, args);
+                else
+                    shouldContinue = processCommand(keyword, args);
             }
             catch (IllegalArgumentException iae) {
                 System.err.println("Illegal arguments for command "+keyword+": " + args);
@@ -93,11 +93,42 @@ public class Shell<T> {
             String name = command.newInstance().toString();
             if (name.contains(" "))
                 throw new IllegalArgumentException("Unknown command : " + name);
-
-
+            else
+                availableCommands.put(name, command);
 
         } catch (IllegalAccessException | InstantiationException e) {
-            e.printStackTrace();
+            System.err.println("Couldn't instantiate command " + command.toString());
+        }
+    }
+
+    /**
+     * Executes the command that has the given identifier, with the given arguments args
+     * If the given command doesn't exist, this method should throw a
+     * {@link IllegalArgumentException}
+     *
+     * The implementation is inspired from the TCF project sample by
+     * <a href="https://github.com/mosser">Sebastien Mosser</a>
+     *
+     * @param keyWord the identifier of the command to process
+     * @param args the arguments of the command (if any)
+     */
+    @SuppressWarnings("unchecked")
+    private boolean processCommand(String keyWord, List<String> args) throws Exception {
+        if (availableCommands.containsKey(keyWord)) {
+            Class<? extends AbstractCommand<T>> c = availableCommands.get(keyWord);
+            try {
+                AbstractCommand commandInstance = c.newInstance();
+                commandInstance.withShell(this);
+                return commandInstance.process(args);
+
+            } catch (InstantiationException | IllegalAccessException e) {
+                System.err.println("Couldn't instantiate command : " + c.toString());
+                return true;
+            }
+        }
+        else {
+            System.err.println("Command " + keyWord + " is not a command of the system.");
+            return true;
         }
     }
 }
