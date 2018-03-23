@@ -1,11 +1,13 @@
 package polyevent;
 
+import javax.ejb.Stateless;
 import java.util.List;
 
 /**
  * Hello world!
  *
  */
+@Stateless
 public class RoomBooker implements IRoomBooker
 {
     @Override

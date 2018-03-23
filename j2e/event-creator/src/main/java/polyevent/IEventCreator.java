@@ -3,7 +3,6 @@ package polyevent;
 
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.ejb.Local;
 
