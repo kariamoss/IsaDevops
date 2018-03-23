@@ -15,9 +15,10 @@ import static org.junit.Assert.assertTrue;
 public class EventCreatorTest {
 
     @EJB
-    EventCreator eventCreator;
-    @EJB Coordinator coordinator;
-    Calendar startDate;
+    private IEventCreator eventCreator;
+
+    private Coordinator coordinator;
+    private Calendar startDate;
 
     @Before
     public void init(){
@@ -89,13 +90,5 @@ public class EventCreatorTest {
     public void eventCreationWithNullCoordinator() {
         boolean shouldNotSucceed = eventCreator.registerEvent("toto", 10, startDate, null);
         assertFalse(shouldNotSucceed);
-    }
-
-    @Test
-    public void roomAddTest(){
-        Room room = new Room(RoomType.MEETING_ROOM,100,"test");
-        Event event = new Event(100,"salut",new ArrayList<RoomType>());
-        event.addRoom(room);
-        assertFalse(event.getRooms().contains(room));
     }
 }
