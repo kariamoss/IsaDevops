@@ -1,6 +1,7 @@
 package polyevent;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import java.util.Random;
  * Hello world!
  *
  */
+@Stateless
 public class EventOrganizer implements IEventOrganizer {
 
     @EJB private IRoomBooker roomBooker;
