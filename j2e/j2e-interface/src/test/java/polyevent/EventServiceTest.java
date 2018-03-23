@@ -12,7 +12,9 @@ import webservice.EventService;
 
 import javax.ejb.EJB;
 
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertNull;
 
 @RunWith(Arquillian.class)
 public class EventServiceTest{
@@ -25,14 +27,25 @@ public class EventServiceTest{
     }
 
     @EJB private EventService eventService;
+    @EJB private Database memory;
+
+    private String coordinatorFalseMail;
+    private String coordinatorMail;
+
 
     @Before
     public void setUpContext(){
-
+        coordinatorFalseMail = "MarcJourdes@free.fr";
+        coordinatorMail = "MarcDu06@laposte.fr";
     }
 
     @Test
-    public void test(){
-        assertTrue(true);
+    public void falseMailTest(){
+        assertNull(memory.getCoordinatorByMail(coordinatorFalseMail));
+    }
+
+    @Test
+    public void correctMailTest(){
+        assertNull(memory.getCoordinatorByMail(coordinatorMail));
     }
 }

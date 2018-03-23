@@ -1,15 +1,17 @@
 package polyevent;
 
-import java.util.Date;
+import javax.ejb.Stateless;
+import java.util.Calendar;
 
 /**
  * Hello world!
  *
  */
+@Stateless
 public class EventCreator implements IEventCreator
 {
     @Override
-    public boolean registerEvent(String name, int participantNumber, Date date, Coordinator coordinator) {
+    public boolean registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
         return false;
     }
 
