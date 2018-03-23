@@ -8,6 +8,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 
 import javax.ejb.EJB;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 @RunWith(Arquillian.class)
 public class EventCreatorTest {
@@ -30,6 +32,9 @@ public class EventCreatorTest {
     @EJB
     private IEventCreator eventCreator;
 
+    @EJB
+    private IEventOrganizer eventOrganizer;
+
     private Coordinator coordinator;
     private Calendar startDate;
 
@@ -38,6 +43,7 @@ public class EventCreatorTest {
         coordinator = new Coordinator("paul", "Dupond", "pauldupond@youhou.com");
         eventCreator = new EventCreator();
         startDate = Calendar.getInstance();
+        //when(eventOrganizer.bookRoom())
     }
 
     /**
@@ -47,6 +53,12 @@ public class EventCreatorTest {
      */
     @Test
     public void goodEventCreation() {
+        // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
+        // as we want to unit test the IEventCreator component only
+        eventOrganizer = Mockito.mock(EventOrganizer.class);
+        Event e = Mockito.mock(Event.class);
+        when(eventOrganizer.bookRoom(e)).thenReturn(true);
+
         boolean shouldSucceed = eventCreator.registerEvent("toto", 10, startDate, coordinator);
         assertTrue(shouldSucceed);
     }
