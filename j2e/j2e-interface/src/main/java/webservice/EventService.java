@@ -1,6 +1,7 @@
 package webservice;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -13,10 +14,11 @@ import java.util.Date;
 
 
 @WebService
+@Stateless
 public class EventService implements IEventService {
 
     @EJB private IEventCreator eventCreator;
-    @EJB private transient Database memory;
+    @EJB private Database memory;
 
     @Override
     public boolean createEvent(String eventName, int nbParticipant, XMLGregorianCalendar date, String coordinatorMail) {
