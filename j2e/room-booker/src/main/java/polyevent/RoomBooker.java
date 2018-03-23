@@ -9,7 +9,7 @@ import java.util.List;
 public class RoomBooker implements IRoomBooker
 {
     @Override
-    public boolean book(List<RoomType> rooms, Event event) {
+    public boolean book(List<Room> rooms, Event event) {
         return false;
     }
 

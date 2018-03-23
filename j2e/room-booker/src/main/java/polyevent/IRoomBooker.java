@@ -7,7 +7,7 @@ import java.util.List;
 @Local
 public interface IRoomBooker {
 
-    boolean book(List<RoomType> rooms, Event event);
+    boolean book(List<Room> rooms, Event event);
 
     boolean cancelRoomBooking(List<Room> rooms, Event event);
 }

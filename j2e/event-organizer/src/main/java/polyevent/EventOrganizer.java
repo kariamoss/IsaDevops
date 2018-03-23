@@ -1,6 +1,9 @@
 package polyevent;
 
 import javax.ejb.EJB;
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Hello world!
  *
@@ -12,6 +15,12 @@ public class EventOrganizer implements IEventOrganizer {
 
     @Override
     public boolean bookRoom(Event event) {
-        return false;
+
+
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        rooms.add(new Room(RoomType.MEETING_ROOM, 100, (new Random()).nextBoolean() ? "E+103" : "E+101"));
+
+        return roomBooker.book(rooms, event);
     }
 }
