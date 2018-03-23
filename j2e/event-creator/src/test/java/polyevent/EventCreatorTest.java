@@ -65,6 +65,20 @@ public class EventCreatorTest {
     }
 
     /**
+     * Registers a new event with a starting date that isn't valid, i.e.,
+     * a date in the past
+     * The registration should fail because an event that already happened or
+     * has a date that has been passed shouldn't be registered (that's not logical)
+     */
+    @Test
+    public void eventCreationWithAlreadyPassedDate() {
+        Calendar badStartDate = Calendar.getInstance();
+        badStartDate.add(Calendar.HOUR_OF_DAY, -12);
+        boolean shouldNotSucceed = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
+        assertFalse(shouldNotSucceed);
+    }
+
+    /**
      * Registers a new event with a null coordinator
      * The registration should fail because an event is always associated to a coordinator
      */
