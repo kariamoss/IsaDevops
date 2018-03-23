@@ -4,6 +4,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -13,11 +15,13 @@ import java.util.Random;
 public class EventOrganizer implements IEventOrganizer {
 
     @EJB protected IRoomBooker roomBooker;
+    private Logger l = Logger.getLogger(EventOrganizer.class.getName());
 
 
     @Override
     public boolean bookRoom(Event event) {
 
+        l.log(Level.INFO, "Received request for room booking for event");
 
         ArrayList<Room> rooms = new ArrayList<>();
 

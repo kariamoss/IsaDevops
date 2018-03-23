@@ -4,6 +4,8 @@ import javax.ejb.Stateless;
 import java.util.Calendar;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 
 /**
@@ -16,8 +18,12 @@ public class EventCreator implements IEventCreator {
     @EJB protected IEventOrganizer eventOrganizer;
     @EJB protected Database memory;
 
+    private Logger l = Logger.getLogger(EventCreator.class.getName());
+
     @Override
     public boolean registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
+
+        l.log(Level.INFO, "Received request for event creation");
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
             return false;
