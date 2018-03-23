@@ -10,7 +10,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
       <xs:element name="arg1" type="xs:int"/>
-      <xs:element minOccurs="0" name="arg2" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:anySimpleType"/>
       <xs:element minOccurs="0" name="arg3" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -53,7 +53,7 @@
   </wsdl:binding>
   <wsdl:service name="EventServiceService">
     <wsdl:port binding="tns:EventServiceServiceSoapBinding" name="EventServicePort">
-      <soap:address location="http://localhost:8080/polyevent-backend/EventServiceService"/>
+      <soap:address location="http://localhost:8080/polyevent-backend/webservices/EventService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
