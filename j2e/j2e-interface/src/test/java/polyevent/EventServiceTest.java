@@ -11,6 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import webservice.EventService;
 import webservice.IEventService;
 
@@ -46,6 +47,7 @@ public class EventServiceTest{
     private String coordinatorFalseMail;
     private String coordinatorMail;
     private XMLGregorianCalendar dateBegin;
+    private Database database;
 
     @Before
     public void setUpContext(){
@@ -59,21 +61,31 @@ public class EventServiceTest{
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
+        eventService = new EventService();
+        eventCreator = mock(EventCreator.class);
+        database = spy(Database.class);
+        when(eventCreator.registerEvent
+                (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
+        ((EventService) eventService).eventCreator = eventCreator;
+        ((EventService) eventService).memory = database;
     }
 
+    /**
+     * Call EventCreation with not existing Coordinator
+     */
     @Test
     public void falseMailTest(){
         assertNull(memory.getCoordinatorByMail(coordinatorFalseMail));
         assertFalse(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail));
     }
 
+    /**
+     * Call EventCreation with existing Coordinator
+     */
     @Test
-    @Ignore
     public void correctMailTest(){
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
-        eventCreator = mock(IEventCreator.class);
-        when(eventCreator.registerEvent
-                (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
+
         assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
     }
 }

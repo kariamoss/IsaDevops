@@ -18,8 +18,8 @@ import java.util.Date;
 @Stateless
 public class EventService implements IEventService {
 
-    @EJB private IEventCreator eventCreator;
-    @EJB private Database memory;
+    @EJB public IEventCreator eventCreator;
+    @EJB public Database memory;
 
     @Override
     public boolean createEvent(String eventName, int nbParticipant, XMLGregorianCalendar date, String coordinatorMail) {
