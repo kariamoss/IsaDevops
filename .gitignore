@@ -9,3 +9,6 @@ out
 gen
 target
 *.exe
+
+# auto-generated stubs
+j2e/webapp/src/main/java/webservice/*.java
