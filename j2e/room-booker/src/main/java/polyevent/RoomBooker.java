@@ -12,7 +12,7 @@ public class RoomBooker implements IRoomBooker
 {
     @Override
     public boolean book(List<Room> rooms, Event event) {
-        return false;
+        return true;
     }
 
     @Override
