@@ -1,5 +1,6 @@
 package polyevent;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Event {
         this.nbPeople = nbPeople;
         this.name = name;
         this.desiredRoomTypes = roomTypes;
+        this.rooms = new ArrayList<>();
     }
 
     public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {
@@ -24,6 +26,7 @@ public class Event {
         this.endDate = endDate;
         this.nbPeople = nbPeople;
         this.name = name;
+        this.rooms = new ArrayList<>();
     }
 
     public List<Room> getRooms() {
