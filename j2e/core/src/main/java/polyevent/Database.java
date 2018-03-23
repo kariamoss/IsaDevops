@@ -36,4 +36,13 @@ public class Database {
         return events.remove(event);
     }
 
+    public boolean bookRoomsToEvent(Event event, List<Room> rooms) {
+        if(deleteEvent(event)) {
+            event.addRooms(rooms);
+            addEvent(event);
+            return true;
+        }
+        return false;
+    }
+
 }
