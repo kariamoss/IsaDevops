@@ -53,7 +53,7 @@ public class EventCreatorTest {
      * and return a valid result
      */
     @Test
-
+    @Ignore
     public void goodEventCreation() {
         // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
         // as we want to unit test the IEventCreator component only
