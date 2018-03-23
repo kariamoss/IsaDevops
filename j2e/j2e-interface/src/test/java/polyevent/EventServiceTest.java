@@ -1,33 +1,25 @@
 package polyevent;
 
-import static org.mockito.Mockito.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import webservice.EventService;
 import webservice.IEventService;
 
 import javax.ejb.EJB;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
 @RunWith(Arquillian.class)
 public class EventServiceTest{
@@ -46,21 +38,16 @@ public class EventServiceTest{
 
     private String coordinatorFalseMail;
     private String coordinatorMail;
-    private XMLGregorianCalendar dateBegin;
+    private Calendar dateBegin;
     private Database database;
 
     @Before
     public void setUpContext(){
         coordinatorFalseMail = "MarcJourdes@free.fr";
         coordinatorMail = "MarcDu06@laposte.fr";
-        GregorianCalendar c = new GregorianCalendar();
-        c.setTime(new Date(2019, 10 , 10, 10, 15));
-        dateBegin = null;
-        try {
-            dateBegin = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        dateBegin = Calendar.getInstance();
+        dateBegin.setTime(new Date(2019, 10 , 10, 10, 15));
+
         eventService = new EventService();
         eventCreator = mock(EventCreator.class);
         database = spy(Database.class);

@@ -1,17 +1,13 @@
 package webservice;
 
+import polyevent.Coordinator;
+import polyevent.Database;
+import polyevent.IEventCreator;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
-import javax.xml.datatype.XMLGregorianCalendar;
-
-import polyevent.Coordinator;
-import polyevent.Database;
-import polyevent.EventCreator;
-import polyevent.IEventCreator;
-
 import java.util.Calendar;
-import java.util.Date;
 
 
 @WebService
@@ -22,10 +18,9 @@ public class EventService implements IEventService {
     @EJB public Database memory;
 
     @Override
-    public boolean createEvent(String eventName, int nbParticipant, XMLGregorianCalendar date, String coordinatorMail) {
+    public boolean createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) {
         Coordinator coordinator = memory.getCoordinatorByMail(coordinatorMail);
 
-        Calendar dt = date.toGregorianCalendar();
-        return coordinator != null && eventCreator.registerEvent(eventName, nbParticipant, dt, coordinator);
+        return coordinator != null && eventCreator.registerEvent(eventName, nbParticipant, date, coordinator);
     }
 }

@@ -2,14 +2,12 @@ package webservice;
 
 
 import javax.jws.WebMethod;
-import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.Date;
+import java.util.Calendar;
 
 @WebService
 public interface IEventService {
 
     @WebMethod
-    boolean createEvent(String eventName, int nbParticipant, XMLGregorianCalendar date, String coordinatorMail);
+    boolean createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail);
 }
