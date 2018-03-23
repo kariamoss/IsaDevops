@@ -1,14 +1,17 @@
 package polyevent;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+import static org.mockito.Mockito.*;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import webservice.EventService;
 import webservice.IEventService;
 
@@ -39,6 +42,8 @@ public class EventServiceTest{
 
     @EJB private IEventService eventService;
     @EJB private Database memory;
+    @Mock
+    private IEventCreator eventCreator;
 
     private String coordinatorFalseMail;
     private String coordinatorMail;
@@ -65,8 +70,12 @@ public class EventServiceTest{
     }
 
     @Test
+    @Ignore //TODO Make mock work
     public void correctMailTest(){
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
+        assertNotNull(eventCreator);
+        when(eventCreator.registerEvent
+                (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
         assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
     }
 }
