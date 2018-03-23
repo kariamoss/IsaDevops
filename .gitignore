@@ -12,3 +12,6 @@ target
 
 # auto-generated stubs
 j2e/webapp/src/main/java/webservice/*.java
+
+# openjpa for arquillian test suites
+j2e/agent/*
