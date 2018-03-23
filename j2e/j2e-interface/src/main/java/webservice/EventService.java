@@ -7,6 +7,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 import polyevent.Coordinator;
 import polyevent.Database;
+import polyevent.EventCreator;
 import polyevent.IEventCreator;
 
 import java.util.Calendar;

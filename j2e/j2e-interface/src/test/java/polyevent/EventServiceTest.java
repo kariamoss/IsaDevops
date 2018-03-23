@@ -11,7 +11,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import webservice.EventService;
 import webservice.IEventService;
 
@@ -42,8 +41,7 @@ public class EventServiceTest{
 
     @EJB private IEventService eventService;
     @EJB private Database memory;
-    @Mock
-    private IEventCreator eventCreator;
+    @EJB private IEventCreator eventCreator;
 
     private String coordinatorFalseMail;
     private String coordinatorMail;
@@ -70,10 +68,10 @@ public class EventServiceTest{
     }
 
     @Test
-    @Ignore //TODO Make mock work
+    @Ignore
     public void correctMailTest(){
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
-        assertNotNull(eventCreator);
+        eventCreator = mock(IEventCreator.class);
         when(eventCreator.registerEvent
                 (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
         assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
