@@ -12,7 +12,7 @@ import java.util.Random;
 @Stateless
 public class EventOrganizer implements IEventOrganizer {
 
-    @EJB private IRoomBooker roomBooker;
+    @EJB protected IRoomBooker roomBooker;
 
 
     @Override

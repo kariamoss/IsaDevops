@@ -13,8 +13,8 @@ import javax.ejb.EJB;
 @Stateless
 public class EventCreator implements IEventCreator {
 
-    @EJB private IEventOrganizer eventOrganizer;
-    @EJB private transient Database memory;
+    @EJB protected IEventOrganizer eventOrganizer;
+    @EJB protected Database memory;
 
     @Override
     public boolean registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
@@ -26,9 +26,10 @@ public class EventCreator implements IEventCreator {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date.getTime());
         cal.add(Calendar.HOUR_OF_DAY, 12);
-        Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
 
+        Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
         memory.addEvent(event);
+
         return eventOrganizer.bookRoom(event);
     }
 

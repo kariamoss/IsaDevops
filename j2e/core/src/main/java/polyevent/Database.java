@@ -1,6 +1,7 @@
 package polyevent;
 
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +9,15 @@ import java.util.List;
 @Singleton
 public class Database {
 
-    private List<Coordinator> coordinators = Collections.singletonList(
-            new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr"));
+    private List<Coordinator> coordinators;
+    private List<Event> events;
 
-    private List<Event> events = new ArrayList<>();
+    public Database() {
+        this.coordinators = Collections.singletonList(
+                new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr")
+        );
+        this.events = new ArrayList<>();
+    }
 
     public Coordinator getCoordinatorByMail(String mail){
         for(Coordinator coordinator : coordinators){

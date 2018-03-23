@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
-
 import javax.ejb.EJB;
-
 import java.util.Calendar;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.notNull;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(Arquillian.class)
@@ -26,14 +26,16 @@ public class EventCreatorTest {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addPackage(IEventCreator.class.getPackage());
+                .addPackage(IEventCreator.class.getPackage())
+                .addPackage(IEventOrganizer.class.getPackage())
+                .addPackage(Database.class.getPackage());
     }
 
     @EJB
     private IEventCreator eventCreator;
 
-    @EJB
     private IEventOrganizer eventOrganizer;
+    private Database database;
 
     private Coordinator coordinator;
     private Calendar startDate;
@@ -41,9 +43,17 @@ public class EventCreatorTest {
     @Before
     public void init(){
         coordinator = new Coordinator("paul", "Dupond", "pauldupond@youhou.com");
-        eventCreator = new EventCreator();
         startDate = Calendar.getInstance();
-        //when(eventOrganizer.bookRoom())
+
+        eventCreator = new EventCreator();
+
+        eventOrganizer = Mockito.mock(EventOrganizer.class);
+        when(eventOrganizer.bookRoom(notNull(Event.class))).thenReturn(true);
+        database = Mockito.spy(Database.class);
+        doNothing().when(database).addEvent(notNull(Event.class));
+
+        ((EventCreator) eventCreator).eventOrganizer = eventOrganizer;
+        ((EventCreator) eventCreator).memory = database;
     }
 
     /**
@@ -55,11 +65,11 @@ public class EventCreatorTest {
     public void goodEventCreation() {
         // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
         // as we want to unit test the IEventCreator component only
-        eventOrganizer = Mockito.mock(EventOrganizer.class);
-        Event e = Mockito.mock(Event.class);
-        when(eventOrganizer.bookRoom(e)).thenReturn(true);
 
-        boolean shouldSucceed = eventCreator.registerEvent("toto", 10, startDate, coordinator);
+        Calendar startDateTwo = Calendar.getInstance();
+        startDateTwo.add(Calendar.HOUR_OF_DAY, 10);
+
+        boolean shouldSucceed = eventCreator.registerEvent("toto", 10, startDateTwo, coordinator);
         assertTrue(shouldSucceed);
     }
 
