@@ -1,13 +1,10 @@
 package polyevent.cli.command;
 
-import polyevent.Event;
-import polyevent.RoomType;
 import api.EventApi;
+import polyevent.RoomType;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * The class that will represent the command
@@ -24,8 +21,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
 
     private String eventName;
     private String email;
-    private XMLGregorianCalendar dateBegin;
-    private XMLGregorianCalendar dateEnd;
+    private Calendar startDate;
     private int estimatedPeopleNumber;
     private List<RoomType> rooms;
 
@@ -42,7 +38,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
 
-        boolean result = shell.api.eventService.createEvent(eventName, estimatedPeopleNumber, dateBegin, email);
+        boolean result = shell.api.eventService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
         System.out.println("Completion of event creation: " + result);
     }
 
@@ -58,15 +54,8 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
         eventName = args.get(0);
         estimatedPeopleNumber = Integer.parseInt(args.get(1));
         email = args.get(2);
-        GregorianCalendar c = new GregorianCalendar();
-        c.setTime(new Date(2018, 10 , 10, 10, 15));
-        // TODO Change to Calendar
-        dateBegin = null;
-        try {
-            dateBegin = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        startDate = Calendar.getInstance();
+        startDate.add(Calendar.HOUR_OF_DAY, 24); // + one day
 
         /*
         TODO keep this code here as it will be used after the MVP development
