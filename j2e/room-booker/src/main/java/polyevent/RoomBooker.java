@@ -1,5 +1,6 @@
 package polyevent;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.List;
 
@@ -8,15 +9,25 @@ import java.util.List;
  *
  */
 @Stateless
-public class RoomBooker implements IRoomBooker
-{
+public class RoomBooker implements IRoomBooker {
+
+    @EJB protected Database memory;
+    protected AgendaAPI api;
+
+    public RoomBooker() {
+        api = new AgendaAPI();
+    }
+
     @Override
     public boolean book(List<Room> rooms, Event event) {
-        AgendaAPI api = new AgendaAPI();
+
+        if(rooms.isEmpty())
+            return false;
+
         for(Room r : rooms)
             if (!api.bookRoom(r))
                 return false;
-        return true;
+        return memory.bookRoomsToEvent(event, rooms);
     }
 
     @Override
