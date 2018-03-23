@@ -26,8 +26,10 @@ public class RoomBooker implements IRoomBooker {
 
         l.log(Level.INFO, "Received request for room booking");
 
-        if(rooms.isEmpty())
+        if(rooms.isEmpty()) {
+            l.log(Level.SEVERE, "Can't book an empty list of rooms");
             return false;
+        }
 
         for(Room r : rooms)
             if (!api.bookRoom(r))

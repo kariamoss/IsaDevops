@@ -25,7 +25,7 @@ public class EventOrganizer implements IEventOrganizer {
 
         ArrayList<Room> rooms = new ArrayList<>();
 
-        rooms.add(new Room(RoomType.MEETING_ROOM, 100, (new Random()).nextBoolean() ? "E+103" : "E+101"));
+        rooms.add(new Room(RoomType.MEETING_ROOM, 100, (new Random()).nextBoolean() ? "E+100" : "E+101"));
 
         return roomBooker.book(rooms, event);
     }
