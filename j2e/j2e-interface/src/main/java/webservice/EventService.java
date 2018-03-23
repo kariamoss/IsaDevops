@@ -8,6 +8,7 @@ import polyevent.Coordinator;
 import polyevent.Database;
 import polyevent.IEventCreator;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -21,7 +22,7 @@ public class EventService implements IEventService {
     public boolean createEvent(String eventName, int nbParticipant, XMLGregorianCalendar date, String coordinatorMail) {
         Coordinator coordinator = memory.getCoordinatorByMail(coordinatorMail);
 
-        Date dt = date.toGregorianCalendar().getTime();
+        Calendar dt = date.toGregorianCalendar();
         return coordinator != null && eventCreator.registerEvent(eventName, nbParticipant, dt, coordinator);
     }
 }
