@@ -3,8 +3,10 @@ package polyevent;
 import org.junit.Before;
 import org.junit.Test;
 
+
 import javax.ejb.EJB;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertFalse;
@@ -12,7 +14,8 @@ import static org.junit.Assert.assertTrue;
 
 public class EventCreatorTest {
 
-    @EJB EventCreator eventCreator;
+    @EJB
+    EventCreator eventCreator;
     @EJB Coordinator coordinator;
     Calendar startDate;
 
@@ -86,5 +89,13 @@ public class EventCreatorTest {
     public void eventCreationWithNullCoordinator() {
         boolean shouldNotSucceed = eventCreator.registerEvent("toto", 10, startDate, null);
         assertFalse(shouldNotSucceed);
+    }
+
+    @Test
+    public void roomAddTest(){
+        Room room = new Room(RoomType.MEETING_ROOM,100,"test");
+        Event event = new Event(100,"salut",new ArrayList<RoomType>());
+        event.addRoom(room);
+        assertFalse(event.getRooms().contains(room));
     }
 }
