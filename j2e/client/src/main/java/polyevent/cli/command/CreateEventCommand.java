@@ -76,7 +76,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Creates a new event at Polytech.\nUsage: createEvent eventName peopleNumber email ";
+        return "Creates a new event at Polytech.\n\tUsage: createEvent eventName peopleNumber email ";
         //return "Creates a new event at Polytech.\nUsage: createEvent eventName peopleNumber roomType1 [roomTypes] ";
     }
 }

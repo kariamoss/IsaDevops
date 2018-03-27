@@ -14,8 +14,11 @@ public class Shell<T> {
 
     public T api;
 
+
     // The commands available in this very Shell
     private Map<String, Class<? extends AbstractCommand<T>>> availableCommands;
+    // Help symbols, corresponding to the client input that would trigger the help() method
+    private final String[] HELP_COMMAND_SYMBOLS = {"?", "help"};
 
     public Shell() {
         this.availableCommands = new HashMap<>();
@@ -23,7 +26,7 @@ public class Shell<T> {
 
     public final void run() {
         System.out.println("Client started.");
-        System.out.println("Available commands: " + availableCommands.values() + "\n");
+        System.out.println("Type ? or help to display the available commands\n");
         run(System.in, false, 0);
     }
 
@@ -51,18 +54,68 @@ public class Shell<T> {
             if(shouldEcho) {
                 System.out.println(keyword + " " + rawArgs);
             }
-            try {
-                if (keyword.startsWith("#") || keyword.equals(""))
-                    shouldContinue = true;
-                else
-                    shouldContinue = processCommand(keyword, args);
+            if (isHelpCommand(keyword)) {
+                help();
             }
-            catch (IllegalArgumentException iae) {
-                System.err.println("Illegal arguments for command "+keyword+": " + args);
-            } catch (Exception e) {
-                System.err.println("Exception caught while processing command:\n  " + e);
+            else {
+                try {
+                    if (keyword.startsWith("#") || keyword.equals(""))
+                        shouldContinue = true;
+                    else
+                        shouldContinue = processCommand(keyword, args);
+                } catch (IllegalArgumentException iae) {
+                    System.err.println("Illegal arguments for command " + keyword + ": " + args);
+                } catch (Exception e) {
+                    System.err.println("Exception caught while processing command:\n  " + e);
+                }
             }
         }
+    }
+
+    /**
+     * Returns true if the given input corresponds to one of the
+     * {@link #HELP_COMMAND_SYMBOLS} symbols
+     * @param keyword the client input, parsed from the command line
+     * @return true if the client asked for the help command
+     */
+    private boolean isHelpCommand(String keyword) {
+        for (String s : HELP_COMMAND_SYMBOLS) {
+            if (s.equals(keyword))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Loops through the {@link #availableCommands} collection,
+     * and displays the available commands, with their description
+     *
+     * The implementation is inspired from the TCF project sample by
+     * <a href="https://github.com/mosser">Sebastien Mosser</a>
+     */
+    private void help() {
+        List<Class<? extends AbstractCommand>> avail = new ArrayList<>(commands());
+        avail.sort(Comparator.comparing(Class::getCanonicalName));
+        for(Class<? extends AbstractCommand> c:  avail) {
+            try {
+                AbstractCommand instance = c.newInstance();
+                System.out.println("- " + instance.command()+": " + instance.helper());
+                // line break for prettier display
+                System.out.println();
+            }
+            catch(InstantiationException|IllegalAccessException e) {
+                System.err.println("Unable to print help for registered command " + c);
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Returns a {@link Collection<Class<AbstractCommand<T>>>}
+     * @return a collection of all the available commands in this {@link Shell}
+     */
+    private Collection<Class<? extends AbstractCommand<T>>> commands() {
+        return availableCommands.values();
     }
 
     /**

@@ -45,7 +45,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Exits the Shell and leaves the PolyEvent software.\nUsage: exit";
+        return "Exits the Shell and leaves the PolyEvent software.\n\tUsage: exit";
     }
 
     /**
