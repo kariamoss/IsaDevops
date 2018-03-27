@@ -1,5 +1,11 @@
 package polyevent;
 
+import org.apache.bval.constraints.NotEmpty;
+import polyevent.validation.EventValidationInterceptor;
+import polyevent.validation.custom.Positive;
+
+import javax.interceptor.Interceptors;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,14 +19,23 @@ public class Event {
     private List<Room> rooms;
     private List<RoomType> desiredRoomTypes;
 
-    public Event(int nbPeople, String name, List<RoomType> roomTypes) {
+    @Interceptors(EventValidationInterceptor.class)
+    public Event(
+            @Positive(message = "Number of people at the event can't be zero or negative") int nbPeople,
+            @NotEmpty(message =  "Name of the event cannot be empty") String name,
+            List<RoomType> roomTypes) {
         this.nbPeople = nbPeople;
         this.name = name;
         this.desiredRoomTypes = roomTypes;
         this.rooms = new ArrayList<>();
     }
 
-    public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {
+    public Event(
+            @NotNull(message = "The coordinator couldn't be identified") Coordinator coordinator,
+            Date startDate,
+            Date endDate,
+            @Positive(message = "Number of people at the event can't be zero or negative") int nbPeople,
+            @NotEmpty(message =  "Name of the event cannot be empty") String name) {
         this.coordinator = coordinator;
         this.startDate = startDate;
         this.endDate = endDate;
