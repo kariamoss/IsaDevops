@@ -1,14 +1,16 @@
 package polyevent;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import javax.ejb.EJB;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.notNull;
@@ -20,6 +22,8 @@ public class EventCatalogTest {
     private IEventCatalog eventCatalog;
     @EJB
     private IEventCatalog eventCatalog2;
+
+    private Validator validator;
 
     private Database database;
     private Database database2;
@@ -49,6 +53,9 @@ public class EventCatalogTest {
         when(database2.findEventByName(notNull(String.class))).thenReturn(null);
         ((EventCatalog) eventCatalog).database = database;
         ((EventCatalog) eventCatalog2).database = database2;
+
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
     }
 
     @Test
@@ -78,5 +85,22 @@ public class EventCatalogTest {
         Optional<Event> optionalEvent = eventCatalog2.getEventWithName(lookUpEventName);
         assertFalse(optionalEvent.isPresent());
         Object whatever = optionalEvent.get(); // throws the NoSuchElementException
+    }
+
+    @Test
+    @Ignore
+    public void testFindEventNameConstraintViolationNull() {
+        // TODO fix: there should be a violation for the given name
+        Set<ConstraintViolation<Optional>> violations
+                = validator.validate(eventCatalog.getEventWithName(null));
+
+        assertFalse(violations.isEmpty());
+    }
+
+    @Test
+    @Ignore
+    public void testFindEventNameConstraintViolationEmpty() {
+        // TODO
+        eventCatalog.getEventWithName("");
     }
 }

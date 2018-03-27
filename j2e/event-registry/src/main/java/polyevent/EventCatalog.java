@@ -27,6 +27,9 @@ public class EventCatalog implements IEventCatalog {
      * with the given name, or {@link Optional#empty} if no such {@link Event}
      * could be found
      *
+     * @implNote The parameter constraint validation is done in the bean interface
+     *           {@link IEventCatalog#getEventWithName(String)}
+     *
      * @param eventName the name of the event to retrieve
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
