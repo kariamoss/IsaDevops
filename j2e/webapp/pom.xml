@@ -14,6 +14,7 @@
     <versions.maven.compiler>3.6.1</versions.maven.compiler>
     <versions.json>20160810</versions.json>
     <versions.java>1.8</versions.java>
+    <cxf.version>3.1.10</cxf.version>
     <!-- J2E 7.x technological stack -->
     <versions.javaee>7.0-1</versions.javaee>
     <versions.openejb>7.0.2</versions.openejb>
