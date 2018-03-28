@@ -1,4 +1,4 @@
-package polyevent;
+package polyevent.event;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -8,8 +8,12 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import webservice.EventService;
-import webservice.IEventService;
+import polyevent.Coordinator;
+import polyevent.Database;
+import polyevent.EventCreator;
+import polyevent.IEventCreator;
+import webservice.event.EventService;
+import webservice.event.IEventService;
 
 import javax.ejb.EJB;
 import java.util.Calendar;

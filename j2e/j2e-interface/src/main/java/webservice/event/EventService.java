@@ -1,4 +1,4 @@
-package webservice;
+package webservice.event;
 
 import polyevent.Coordinator;
 import polyevent.Database;
