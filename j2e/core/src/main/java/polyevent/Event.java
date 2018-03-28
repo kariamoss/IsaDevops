@@ -60,4 +60,17 @@ public class Event {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "coordinator=" + coordinator +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", nbPeople=" + nbPeople +
+                ", name='" + name + '\'' +
+                ", rooms=" + rooms +
+                ", desiredRoomTypes=" + desiredRoomTypes +
+                '}';
+    }
 }

@@ -1,10 +1,14 @@
 package polyevent.cli.command;
 
 import api.EventApi;
+import polyevent.Event;
 
 import java.util.List;
 
-public class ExitCommand extends AbstractCommand<EventApi> {
+public class GetEventWithNameCommand extends AbstractCommand<EventApi> {
+
+    private String eventName;
+
     /**
      * The identifier of the command
      *
@@ -12,7 +16,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String command() {
-        return "exit";
+        return "getEventWithName";
     }
 
     /**
@@ -23,7 +27,15 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public void execute() throws Exception {
-        // nothing to execute since an exit command has been fired
+        Event event = shell.api.eventCatalogService.getEventWithName(eventName);
+
+        // no events with this name have been found...
+        if (event == null) {
+            System.out.println("No event with the name : " + eventName + " exists in the PolyEvent system!");
+        }
+        else {
+            System.out.println(event.toString());
+        }
     }
 
     /**
@@ -35,7 +47,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public void load(List<String> args) {
-        // empty method as this command has no arguments
+        eventName = args.get(0);
     }
 
     /**
@@ -45,17 +57,6 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Exits the Shell and leaves the PolyEvent software.\nUsage: " + command();
-    }
-
-    /**
-     * Whether the should stay alive or not
-     *
-     * @return true if the shell should be kept alive
-     */
-    @Override
-    public boolean shouldContinue() {
-        // exit command fired, ofc we shouldn't continue
-        return false;
+        return "Retrieves the event with the given name\nUsage: " + command() + " eventName";
     }
 }

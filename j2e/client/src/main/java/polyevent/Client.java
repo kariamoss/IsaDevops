@@ -3,6 +3,8 @@ package polyevent;
 import api.EventApi;
 import polyevent.cli.command.CreateEventCommand;
 import polyevent.cli.command.ExitCommand;
+import polyevent.cli.command.GetEventWithNameCommand;
+import polyevent.cli.command.GetEventsCommand;
 import polyevent.cli.shell.Shell;
 
 /**
@@ -20,7 +22,14 @@ public class Client extends Shell<EventApi> {
         api = new EventApi();
         // Add new command classes here
         register(
+                // to create a new event
                 CreateEventCommand.class,
+
+                // to perform an event retrieval
+                GetEventsCommand.class,
+                GetEventWithNameCommand.class,
+
+                // to exit the shell
                 ExitCommand.class
         );
     }
