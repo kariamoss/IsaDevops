@@ -6,7 +6,7 @@ import javax.jws.WebService;
 import java.util.Calendar;
 
 @WebService
-public interface IEventService {
+public interface IEventCreatorService {
 
     @WebMethod
     boolean createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail);

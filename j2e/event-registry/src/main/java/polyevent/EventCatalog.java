@@ -1,9 +1,11 @@
 package polyevent;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import java.util.List;
 import java.util.Optional;
 
+@Stateless
 public class EventCatalog implements IEventCatalog {
 
     @EJB protected Database database;

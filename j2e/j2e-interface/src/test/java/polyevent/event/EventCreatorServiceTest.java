@@ -12,8 +12,8 @@ import polyevent.Coordinator;
 import polyevent.Database;
 import polyevent.EventCreator;
 import polyevent.IEventCreator;
-import webservice.event.EventService;
-import webservice.event.IEventService;
+import webservice.event.EventCreatorService;
+import webservice.event.IEventCreatorService;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
@@ -26,17 +26,17 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(Arquillian.class)
-public class EventServiceTest{
+public class EventCreatorServiceTest {
 
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addPackage(IEventService.class.getPackage())
+                .addPackage(IEventCreatorService.class.getPackage())
                 .addPackage(Database.class.getPackage());
     }
 
-    @EJB private IEventService eventService;
+    @EJB private IEventCreatorService eventService;
     @EJB private Database memory;
     @EJB private IEventCreator eventCreator;
 
@@ -52,13 +52,13 @@ public class EventServiceTest{
         dateBegin = Calendar.getInstance();
         dateBegin.setTime(new Date(2019, 10 , 10, 10, 15));
 
-        eventService = new EventService();
+        eventService = new EventCreatorService();
         eventCreator = mock(EventCreator.class);
         database = spy(Database.class);
         when(eventCreator.registerEvent
                 (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
-        ((EventService) eventService).eventCreator = eventCreator;
-        ((EventService) eventService).memory = database;
+        ((EventCreatorService) eventService).eventCreator = eventCreator;
+        ((EventCreatorService) eventService).memory = database;
     }
 
     /**
