@@ -1,9 +1,10 @@
 package api;
 
+import polyevent.EventCatalogServiceService;
+import polyevent.IEventCatalogService;
 import webservice.EventServiceService;
 import webservice.IEventService;
-import webservice.event.EventCatalogServiceService;
-import webservice.event.IEventCatalogService;
+
 
 public class EventApi {
     private String url = "/polyevent-backend/EventServiceService";
