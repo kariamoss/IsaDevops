@@ -38,7 +38,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
 
-        boolean result = shell.api.eventService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
+        boolean result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
         System.out.println("Completion of event creation: " + result);
     }
 

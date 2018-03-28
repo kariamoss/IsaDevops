@@ -49,6 +49,7 @@
               <wsdlOptions>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventService.wsdl</wsdl>
+                  <wsdl>${basedir}/src/main/resources/EventCatalogService.wsdl</wsdl>
                 </wsdlOption>
               </wsdlOptions>
             </configuration>
