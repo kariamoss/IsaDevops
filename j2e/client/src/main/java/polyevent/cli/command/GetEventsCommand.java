@@ -1,10 +1,11 @@
 package polyevent.cli.command;
 
 import api.EventApi;
+import polyevent.Event;
 
 import java.util.List;
 
-public class ExitCommand extends AbstractCommand<EventApi> {
+public class GetEventsCommand extends AbstractCommand<EventApi> {
     /**
      * The identifier of the command
      *
@@ -12,7 +13,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String command() {
-        return "exit";
+        return "getEvents";
     }
 
     /**
@@ -23,7 +24,10 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public void execute() throws Exception {
-        // nothing to execute since an exit command has been fired
+        List<Event> events = shell.api.eventCatalogService.getAllEvents();
+        System.out.println("Events created with PolyEvent : ");
+        for (Event e : events)
+            System.out.println("\t" + e.toString());
     }
 
     /**
@@ -45,17 +49,6 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Exits the Shell and leaves the PolyEvent software.\nUsage: " + command();
-    }
-
-    /**
-     * Whether the should stay alive or not
-     *
-     * @return true if the shell should be kept alive
-     */
-    @Override
-    public boolean shouldContinue() {
-        // exit command fired, ofc we shouldn't continue
-        return false;
+        return "Retrieves all the events that were created with PolyEvent\nUsage: " + command();
     }
 }

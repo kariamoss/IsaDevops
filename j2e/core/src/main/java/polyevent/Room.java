@@ -1,9 +1,15 @@
 package polyevent;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
     private RoomType roomType;
     private int capacity;
     private String name;
+
+    public Room() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
 
     public Room(RoomType roomType, int capacity, String name) {
         this.roomType = roomType;
@@ -21,5 +27,26 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomType=" + roomType +
+                ", capacity=" + capacity +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

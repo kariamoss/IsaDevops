@@ -45,8 +45,12 @@ public class EventCreatorTest {
         coordinator = new Coordinator("paul", "Dupond", "pauldupond@youhou.com");
         startDate = Calendar.getInstance();
 
+        // we need to instantiate the EJBs in order for mocks/spies to work
+        // within an EJB container
         eventCreator = new EventCreator();
 
+        // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
+        // as we want to unit test the IEventCreator component only
         eventOrganizer = Mockito.mock(EventOrganizer.class);
         when(eventOrganizer.bookRoom(notNull(Event.class))).thenReturn(true);
         database = Mockito.spy(Database.class);
@@ -63,8 +67,6 @@ public class EventCreatorTest {
      */
     @Test
     public void goodEventCreation() {
-        // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
-        // as we want to unit test the IEventCreator component only
 
         Calendar startDateTwo = Calendar.getInstance();
         startDateTwo.add(Calendar.HOUR_OF_DAY, 10);

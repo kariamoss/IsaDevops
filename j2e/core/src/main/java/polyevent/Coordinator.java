@@ -1,12 +1,17 @@
 package polyevent;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Coordinator {
+public class Coordinator implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
     private List<Event> eventsCreated;
+
+    public Coordinator() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
 
     public Coordinator(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -33,4 +38,26 @@ public class Coordinator {
     public String getEmail() {
         return email;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinator{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
+
 }

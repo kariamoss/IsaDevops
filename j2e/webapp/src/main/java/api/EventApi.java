@@ -1,22 +1,26 @@
 package api;
 
-import webservice.EventServiceService;
-import webservice.IEventService;
+import polyevent.EventCatalogServiceService;
+import polyevent.EventCreatorServiceService;
+import polyevent.IEventCatalogService;
+import polyevent.IEventCreatorService;
 
-import javax.xml.ws.BindingProvider;
-import java.net.URL;
 
 public class EventApi {
     private String url = "/polyevent-backend/EventServiceService";
 
-    public IEventService eventService;
+    public IEventCreatorService eventCreatorService;
+    public IEventCatalogService eventCatalogService;
 
     public EventApi(){
         initEvent();
     }
 
     private void initEvent(){
-        EventServiceService factory = new EventServiceService();
-        this.eventService = factory.getEventServicePort();
+        EventCreatorServiceService factory = new EventCreatorServiceService();
+        this.eventCreatorService = factory.getEventCreatorServicePort();
+
+        EventCatalogServiceService catalogFactory = new EventCatalogServiceService();
+        this.eventCatalogService = catalogFactory.getEventCatalogServicePort();
     }
 }
