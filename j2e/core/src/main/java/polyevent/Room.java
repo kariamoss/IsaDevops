@@ -1,9 +1,15 @@
 package polyevent;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
     private RoomType roomType;
     private int capacity;
     private String name;
+
+    public Room() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
 
     public Room(RoomType roomType, int capacity, String name) {
         this.roomType = roomType;
