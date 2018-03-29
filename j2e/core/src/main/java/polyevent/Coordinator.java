@@ -9,6 +9,10 @@ public class Coordinator implements Serializable {
     private String email;
     private List<Event> eventsCreated;
 
+    public Coordinator() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
+
     public Coordinator(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
