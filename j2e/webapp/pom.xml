@@ -46,12 +46,6 @@
             <phase>generate-sources</phase>
             <configuration>
               <sourceRoot>${basedir}/src/main/java/</sourceRoot>
-              <defaultOptions>
-                <bindingFiles>
-                  <bindingFile>${basedir}/src/main/resources/jaxb/bindings.xml</bindingFile>
-                </bindingFiles>
-                <noAddressBinding>true</noAddressBinding>
-              </defaultOptions>
               <wsdlOptions>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventCreatorService.wsdl</wsdl>
