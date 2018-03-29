@@ -1,4 +1,4 @@
-package webservice;
+package webservice.event;
 
 import polyevent.Coordinator;
 import polyevent.Database;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 @WebService
 @Stateless
-public class EventService implements IEventService {
+public class EventCreatorService implements IEventCreatorService {
 
     @EJB public IEventCreator eventCreator;
     @EJB public Database memory;

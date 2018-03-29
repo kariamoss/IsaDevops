@@ -1,8 +1,9 @@
 package polyevent;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Coordinator {
+public class Coordinator implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
@@ -32,5 +33,13 @@ public class Coordinator {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinator{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

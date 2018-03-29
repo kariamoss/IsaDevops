@@ -1,7 +1,6 @@
 package polyevent;
 
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,4 +50,29 @@ public class Database {
         return false;
     }
 
+    /**
+     * Gets the events {@link Event} registered in the {@link Database}
+     * and returns them as a {@link List<Event>}
+     * @return the events registered in the database
+     */
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    /**
+     * Looks up for a {@link Database} entry
+     * in the {@link Event} table with the given {@link Event#name}
+     * and returns the first entry that was found
+     * @param eventName the name of the event to look up
+     * @return an {@link Event} with the given name, or null if no {@link Event}
+     *         with this name could be found
+     */
+    public Event findEventByName(String eventName) {
+        for (Event e : events) {
+            if (e.getName().equals(eventName)) {
+                return e;
+            }
+        }
+        return null;
+    }
 }

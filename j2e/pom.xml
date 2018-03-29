@@ -14,9 +14,10 @@
         <module>room-booker</module>
         <module>client</module>
         <module>webapp</module>
-    <module>core</module>
-    <module>j2e-interface</module>
-  </modules>
+        <module>event-registry</module>
+        <module>core</module>
+        <module>j2e-interface</module>
+    </modules>
 
     <properties>
         <!-- General Properties -->
