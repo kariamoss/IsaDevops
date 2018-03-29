@@ -35,7 +35,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public void load(List<String> args) {
-        // empty method as this command has no arguments
+
     }
 
     /**
@@ -45,7 +45,7 @@ public class ExitCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Exits the Shell and leaves the PolyEvent software.\nUsage: " + command();
+        return "Exits the Shell and leaves the PolyEvent software.\n\tUsage: exit";
     }
 
     /**

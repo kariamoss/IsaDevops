@@ -3,11 +3,7 @@ package polyevent.cli.command;
 import api.EventApi;
 import polyevent.RoomType;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -25,7 +21,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
 
     private String eventName;
     private String email;
-    private XMLGregorianCalendar startDate;
+    private Calendar startDate;
     private int estimatedPeopleNumber;
     private List<RoomType> rooms;
 
@@ -42,7 +38,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
 
-        boolean result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
+        boolean result = shell.api.eventService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
         System.out.println("Completion of event creation: " + result);
     }
 
@@ -58,13 +54,8 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
         eventName = args.get(0);
         estimatedPeopleNumber = Integer.parseInt(args.get(1));
         email = args.get(2);
-        GregorianCalendar tmpDate = new GregorianCalendar();
-        tmpDate.add(Calendar.HOUR_OF_DAY, 24);
-        try {
-            startDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(tmpDate);
-        } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
-        }
+        startDate = Calendar.getInstance();
+        startDate.add(Calendar.HOUR_OF_DAY, 24); // + one day
 
         /*
         TODO keep this code here as it will be used after the MVP development
@@ -85,6 +76,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Creates a new event at Polytech.\nUsage: " + command() + " eventName peopleNumber email ";
+        return "Creates a new event at Polytech.\n\tUsage: createEvent eventName peopleNumber email ";
+        //return "Creates a new event at Polytech.\nUsage: createEvent eventName peopleNumber roomType1 [roomTypes] ";
     }
 }
