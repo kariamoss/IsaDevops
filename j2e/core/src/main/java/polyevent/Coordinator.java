@@ -9,6 +9,10 @@ public class Coordinator implements Serializable {
     private String email;
     private List<Event> eventsCreated;
 
+    public Coordinator() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
+
     public Coordinator(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,6 +39,18 @@ public class Coordinator implements Serializable {
         return email;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "Coordinator{" +
@@ -42,4 +58,6 @@ public class Coordinator implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
+
 }
