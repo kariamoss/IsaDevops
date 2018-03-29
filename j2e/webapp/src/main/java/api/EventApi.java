@@ -1,9 +1,9 @@
 package api;
 
 import polyevent.EventCatalogServiceService;
+import polyevent.EventServiceService;
 import polyevent.IEventCatalogService;
-import webservice.EventServiceService;
-import webservice.IEventService;
+import polyevent.IEventService;
 
 
 public class EventApi {

@@ -49,12 +49,17 @@
               <wsdlOptions>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventService.wsdl</wsdl>
+                  <extraargs>
+                    <extraarg>-p</extraarg>
+                    <extraarg>polyevent</extraarg>
+                  </extraargs>
+                </wsdlOption>
+                <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventCatalogService.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
                   </extraargs>
-
                 </wsdlOption>
               </wsdlOptions>
             </configuration>
