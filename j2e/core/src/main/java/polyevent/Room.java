@@ -28,4 +28,16 @@ public class Room implements Serializable {
     public String getName() {
         return name;
     }
+
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
