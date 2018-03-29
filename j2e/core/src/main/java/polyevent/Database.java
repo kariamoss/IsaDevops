@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Database containing mock of distant database
+ */
 @Singleton
 public class Database {
 
