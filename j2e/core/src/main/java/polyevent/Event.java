@@ -14,6 +14,10 @@ public class Event implements Serializable {
     private List<Room> rooms;
     private List<RoomType> desiredRoomTypes;
 
+    public Event() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
+
     public Event(int nbPeople, String name, List<RoomType> roomTypes) {
         this.nbPeople = nbPeople;
         this.name = name;
