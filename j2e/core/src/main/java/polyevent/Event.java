@@ -14,6 +14,10 @@ public class Event implements Serializable {
     private List<Room> rooms;
     private List<RoomType> desiredRoomTypes;
 
+    public Event() {
+        // default constructor for JPA instantiation (unmarshalling)
+    }
+
     public Event(int nbPeople, String name, List<RoomType> roomTypes) {
         this.nbPeople = nbPeople;
         this.name = name;
@@ -21,7 +25,7 @@ public class Event implements Serializable {
         this.rooms = new ArrayList<>();
     }
 
-    public Event(Date startDate, Date endDate, int nbPeople, String name) {
+    public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {
         this.coordinator = coordinator;
         this.startDate = startDate;
         this.endDate = endDate;
