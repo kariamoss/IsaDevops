@@ -1,15 +1,15 @@
 package api;
 
 import polyevent.EventCatalogServiceService;
-import polyevent.EventServiceService;
+import polyevent.EventCreatorServiceService;
 import polyevent.IEventCatalogService;
-import polyevent.IEventService;
+import polyevent.IEventCreatorService;
 
 
 public class EventApi {
     private String url = "/polyevent-backend/EventServiceService";
 
-    public IEventService eventCreatorService;
+    public IEventCreatorService eventCreatorService;
     public IEventCatalogService eventCatalogService;
 
     public EventApi(){
@@ -17,8 +17,8 @@ public class EventApi {
     }
 
     private void initEvent(){
-        EventServiceService factory = new EventServiceService();
-        this.eventCreatorService = factory.getEventServicePort();
+        EventCreatorServiceService factory = new EventCreatorServiceService();
+        this.eventCreatorService = factory.getEventCreatorServicePort();
 
         EventCatalogServiceService catalogFactory = new EventCatalogServiceService();
         this.eventCatalogService = catalogFactory.getEventCatalogServicePort();
