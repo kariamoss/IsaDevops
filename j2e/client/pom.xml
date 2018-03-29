@@ -212,14 +212,14 @@
     <repository>
       <id>snapshots</id>
       <name>pop-os-snapshots</name>
-      <url>http://10.212.105.113:8081/artifactory/libs-snapshot-local</url>
+      <url>http://207.154.199.162:8081/artifactory/libs-snapshot-local</url>
     </repository>
   </repositories>
   <distributionManagement>
     <snapshotRepository>
       <id>snapshots</id>
       <name>pop-os-snapshots</name>
-      <url>http://10.212.105.113:8081/artifactory/libs-snapshot-local</url>
+      <url>http://207.154.199.162:8081/artifactory/libs-snapshot-local</url>
     </snapshotRepository>
   </distributionManagement>
 </project>
