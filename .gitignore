@@ -11,7 +11,7 @@ target
 *.exe
 
 # auto-generated stubs
-j2e/webapp/src/main/java/webservice/*.java
+j2e/webapp/src/main/java/polyevent/*.java
 
 # openjpa for arquillian test suites
 j2e/agent/*
