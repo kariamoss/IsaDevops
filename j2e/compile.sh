@@ -6,4 +6,5 @@ for i in $file
 do
     cd $i
     mvn install
+    cd ..
 done
