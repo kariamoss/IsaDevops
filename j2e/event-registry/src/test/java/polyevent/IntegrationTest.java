@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
+import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,8 +19,7 @@ import static org.junit.Assert.assertTrue;
 public class IntegrationTest {
 
     @EJB
-    private IEventCreator eventCreator;
-
+    private IEventCatalog eventCatalog;
 
     @EJB
     private Database memory;
@@ -28,27 +28,20 @@ public class IntegrationTest {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addPackage(IEventCreator.class.getPackage())
-                .addPackage(IEventOrganizer.class.getPackage())
-                .addPackage(IRoomBooker.class.getPackage())
+                .addPackage(IEventCatalog.class.getPackage())
                 .addPackage(Database.class.getPackage());
     }
 
     @Test
-    @Ignore
-    public void eventCreationTest() {
+    public void eventListingTest() {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);
 
-        boolean result = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
+        memory.addEvent(new Event(new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"), cal.getTime(), cal.getTime(), 30, "Eventname"));
 
-        assertTrue(result);
+        Optional<Event> result = eventCatalog.getEventWithName("Eventname");
 
-        Event event = memory.findEventByName("Eventname");
-
-        assertTrue(event != null);
-        assertTrue(!event.getRooms().isEmpty());
-
+        assertTrue(result.isPresent());
     }
 }
