@@ -30,7 +30,7 @@ public class Client extends Shell<EventApi> {
                 GetEventWithNameCommand.class,
 
                 // to exit the shell
-                ExitCoand.class
+                ExitCommand.class
         );
     }
 
