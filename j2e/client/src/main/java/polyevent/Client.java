@@ -20,7 +20,7 @@ public class Client extends Shell<EventApi> {
 
 
         api = new EventApi();
-        // Add new command classes here
+        // Add new a command classes here
         register(
                 // to create a new event
                 CreateEventCommand.class,
