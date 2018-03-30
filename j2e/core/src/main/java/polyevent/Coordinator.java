@@ -6,7 +6,7 @@ import java.util.List;
 public class Coordinator implements Serializable {
     private String firstName;
     private String lastName;
-    private Str email;
+    private String email;
     private List<Event> eventsCreated;
 
     public Coordinator() {

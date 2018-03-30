@@ -32,11 +32,6 @@
   <dependencies>
     <dependency>
       <groupId>polyevent</groupId>
-      <artifactId>core</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>polyevent</groupId>
       <artifactId>webapp</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
