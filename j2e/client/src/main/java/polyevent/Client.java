@@ -37,7 +37,7 @@ public class Client extends Shell<EventApi> {
     public static void main(String[] args )
     {
         System.out.println("Starting PolyEvent software\n");
-        System.out.println("Your new event organizer helper!\n");
+        System.out.println("Your new event is organizer helper!\n");
         System.out.println();
 
         Client client = new Client();
