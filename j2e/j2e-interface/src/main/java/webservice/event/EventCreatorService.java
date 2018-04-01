@@ -3,7 +3,7 @@ package webservice.event;
 import polyevent.Coordinator;
 import polyevent.Database;
 import polyevent.IEventCreator;
-import polyevent.communication.Message;
+import polyevent.Message;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -28,6 +28,6 @@ public class EventCreatorService implements IEventCreatorService {
                     .withStatusText("The coordinator doesn't exist")
                     .withTransmittedObject(new IllegalArgumentException("The coordinator doesn't exist"));
 
-        return  eventCreator.registerEvent(eventName, nbParticipant, date, coordinator);
+        return eventCreator.registerEvent(eventName, nbParticipant, date, coordinator);
     }
 }

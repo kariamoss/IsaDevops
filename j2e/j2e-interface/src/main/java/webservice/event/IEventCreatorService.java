@@ -1,7 +1,7 @@
 package webservice.event;
 
 
-import polyevent.communication.Message;
+import polyevent.Message;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

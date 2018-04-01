@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.*;
-import polyevent.communication.Message;
+import polyevent.Message;
 import webservice.event.EventCreatorService;
 import webservice.event.IEventCreatorService;
 

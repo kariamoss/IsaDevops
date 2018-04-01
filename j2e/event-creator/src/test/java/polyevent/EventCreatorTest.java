@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import polyevent.communication.Message;
 
 import javax.ejb.EJB;
 import java.util.Calendar;

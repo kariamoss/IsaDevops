@@ -17,7 +17,15 @@
 
   <xs:complexType name="createEventResponse">
     <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="return" type="tns:message"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="message">
+    <xs:sequence>
+      <xs:element name="status" type="xs:int"/>
+      <xs:element minOccurs="0" name="statusText" type="xs:string"/>
+      <xs:element minOccurs="0" name="transmittedObject" type="xs:anyType"/>
     </xs:sequence>
   </xs:complexType>
 

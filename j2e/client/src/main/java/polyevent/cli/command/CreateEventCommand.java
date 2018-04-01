@@ -2,7 +2,7 @@ package polyevent.cli.command;
 
 import api.EventApi;
 import polyevent.RoomType;
-import polyevent.communication.Message;
+import polyevent.Message;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;

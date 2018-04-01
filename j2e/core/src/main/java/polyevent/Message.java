@@ -1,4 +1,4 @@
-package polyevent.communication;
+package polyevent;
 
 import java.io.Serializable;
 

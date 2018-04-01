@@ -2,7 +2,7 @@
 cd j2e/webapp/src/main/resources
 ./refreshWsdl.sh
 cd ../../../..
-mvn install
+./compile.sh
 cd ../dotNet
 ./compile.sh
 cd ..

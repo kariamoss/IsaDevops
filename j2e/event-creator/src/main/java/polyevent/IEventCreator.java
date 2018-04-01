@@ -1,7 +1,5 @@
 package polyevent;
 
-import polyevent.communication.Message;
-
 import javax.ejb.Local;
 import java.util.Calendar;
 
