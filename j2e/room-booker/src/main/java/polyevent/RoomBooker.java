@@ -42,6 +42,12 @@ public class RoomBooker implements IRoomBooker {
                         .withStatus(500)
                         .withStatusText("A problem occurred while reserving rooms with the external service EDT")
                         .withTransmittedObject(new IllegalArgumentException("A problem occurred while reserving rooms with the external service EDT"));
+        if(!memory.bookRoomsToEvent(event, rooms)) {
+            return new Message()
+                    .withStatus(500)
+                    .withStatusText("A problem occurred while reserving rooms with the database")
+                    .withTransmittedObject(new IllegalArgumentException("A problem occurred while reserving rooms with the database"));
+        }
         return new Message()
                 .withStatus(200)
                 .withStatusText("Successfully booked rooms for the event")

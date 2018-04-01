@@ -57,7 +57,6 @@ public class RoomBookerTest {
     }
 
     @Test
-    @Ignore // todo fix
     public void databaseFail() {
         rooms.clear();
         Room room = mock(Room.class);
