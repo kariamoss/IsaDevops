@@ -1,12 +1,27 @@
 package polyevent;
 
+import org.apache.bval.constraints.Email;
+import org.apache.bval.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
 public class Coordinator implements Serializable {
+
+    @NotNull
+    @NotEmpty
     private String firstName;
+
+    @NotNull
+    @NotEmpty
     private String lastName;
+
+    @NotNull
+    @NotEmpty
+    @Email
     private String email;
+
     private List<Event> eventsCreated;
 
     public Coordinator() {

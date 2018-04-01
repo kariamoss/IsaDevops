@@ -1,16 +1,30 @@
 package polyevent;
 
+import org.apache.bval.constraints.NotEmpty;
+import polyevent.validation.custom.Positive;
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Event implements Serializable {
+
+    @NotNull
     private Coordinator coordinator;
+
+    @NotNull
+    @Positive(message = "The number of people at the event must be at least 1")
+    private int nbPeople;
+
+    @NotNull
+    @NotEmpty
+    private String name;
+
     private Date startDate;
     private Date endDate;
-    private int nbPeople;
-    private String name;
+
     private List<Room> rooms;
     private List<RoomType> desiredRoomTypes;
 
