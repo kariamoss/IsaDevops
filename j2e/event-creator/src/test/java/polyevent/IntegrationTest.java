@@ -8,6 +8,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import polyevent.communication.Message;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
@@ -41,9 +42,9 @@ public class IntegrationTest {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);
 
-        boolean result = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
+        Message result = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
 
-        assertTrue(result);
+        assertTrue(result.isOk());
 
         Event event = memory.findEventByName("Eventname");
 
