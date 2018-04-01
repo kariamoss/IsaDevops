@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 public class Message implements Serializable {
 
-    private Serializable transmittedObject;
+    private Object transmittedObject;
     private int status;
     private String statusText;
 
@@ -20,16 +20,16 @@ public class Message implements Serializable {
         // default constructor for JPA instantiation
     }
 
-    public void setTransmittedObject(Serializable transmittedObject) {
+    public void setTransmittedObject(Object transmittedObject) {
         this.transmittedObject = transmittedObject;
     }
 
-    public Message withTransmittedObject(Serializable transmittedObject) {
+    public Message withTransmittedObject(Object transmittedObject) {
         setTransmittedObject(transmittedObject);
         return this;
     }
 
-    public Serializable getTransmittedObject() {
+    public Object getTransmittedObject() {
         return transmittedObject;
     }
 
