@@ -1,12 +1,12 @@
 package polyevent;
 
+import polyevent.communication.Message;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.Calendar;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 
 /**
  * Hello world!
@@ -21,12 +21,15 @@ public class EventCreator implements IEventCreator {
     private Logger l = Logger.getLogger(EventCreator.class.getName());
 
     @Override
-    public boolean registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
+    public Message registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
 
         l.log(Level.INFO, "Received request for event creation");
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
-            return false;
+            return new Message()
+                    .withStatus(400)
+                    .withStatusText("Parameters of the request are invalid")
+                    .withTransmittedObject(new IllegalArgumentException("Parameters of the request are invalid"));
         }
 
         Calendar cal = Calendar.getInstance();

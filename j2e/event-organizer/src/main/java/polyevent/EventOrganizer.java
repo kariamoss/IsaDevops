@@ -1,5 +1,7 @@
 package polyevent;
 
+import polyevent.communication.Message;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class EventOrganizer implements IEventOrganizer {
 
 
     @Override
-    public boolean bookRoom(Event event) {
+    public Message bookRoom(Event event) {
 
         l.log(Level.INFO, "Received request for room booking for event");
 

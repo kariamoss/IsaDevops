@@ -1,5 +1,7 @@
 package polyevent;
 
+import polyevent.communication.Message;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.List;
@@ -22,19 +24,28 @@ public class RoomBooker implements IRoomBooker {
     }
 
     @Override
-    public boolean book(List<Room> rooms, Event event) {
+    public Message book(List<Room> rooms, Event event) {
 
         l.log(Level.INFO, "Received request for room booking");
 
         if(rooms.isEmpty()) {
             l.log(Level.SEVERE, "Can't book an empty list of rooms");
-            return false;
+            return new Message()
+                    .withStatus(400)
+                    .withStatusText("The list of desired rooms cannot be empty")
+                    .withTransmittedObject(new IllegalArgumentException("The list of desired rooms cannot be empty"));
         }
 
         for(Room r : rooms)
             if (!api.bookRoom(r))
-                return false;
-        return memory.bookRoomsToEvent(event, rooms);
+                return new Message()
+                        .withStatus(500)
+                        .withStatusText("A problem occurred while reserving rooms with the external service EDT")
+                        .withTransmittedObject(new IllegalArgumentException("A problem occurred while reserving rooms with the external service EDT"));
+        return new Message()
+                .withStatus(200)
+                .withStatusText("Successfully booked rooms for the event")
+                .withTransmittedObject(event);
     }
 
     @Override

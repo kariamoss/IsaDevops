@@ -1,6 +1,8 @@
 package webservice.event;
 
 
+import polyevent.communication.Message;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.Calendar;
@@ -9,5 +11,5 @@ import java.util.Calendar;
 public interface IEventCreatorService {
 
     @WebMethod
-    boolean createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail);
+    Message createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail);
 }

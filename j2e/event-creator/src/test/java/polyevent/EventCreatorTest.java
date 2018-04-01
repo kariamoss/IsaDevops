@@ -9,11 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import polyevent.communication.Message;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.doNothing;
@@ -52,7 +52,14 @@ public class EventCreatorTest {
         // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
         // as we want to unit test the IEventCreator component only
         eventOrganizer = Mockito.mock(EventOrganizer.class);
-        when(eventOrganizer.bookRoom(notNull(Event.class))).thenReturn(true);
+        when(eventOrganizer.bookRoom(notNull(Event.class)))
+                .thenReturn(
+                        new Message()
+                                .withStatus(200)
+                                .withStatusText("Successfully booked rooms for the event")
+                                .withTransmittedObject(notNull(Event.class))
+                );
+
         database = Mockito.spy(Database.class);
         doNothing().when(database).addEvent(notNull(Event.class));
 
@@ -71,8 +78,8 @@ public class EventCreatorTest {
         Calendar startDateTwo = Calendar.getInstance();
         startDateTwo.add(Calendar.HOUR_OF_DAY, 10);
 
-        boolean shouldSucceed = eventCreator.registerEvent("toto", 10, startDateTwo, coordinator);
-        assertTrue(shouldSucceed);
+        Message shouldSucceed = eventCreator.registerEvent("toto", 10, startDateTwo, coordinator);
+        assertTrue(shouldSucceed.isOk());
     }
 
     /**
@@ -81,8 +88,8 @@ public class EventCreatorTest {
      */
     @Test
     public void eventCreationWithBadPeopleNumber() {
-        boolean shouldNotSucceed = eventCreator.registerEvent("toto", -10, startDate, coordinator);
-        assertFalse(shouldNotSucceed);
+        Message shouldNotSucceed = eventCreator.registerEvent("toto", -10, startDate, coordinator);
+        assertTrue(shouldNotSucceed.isNotOk());
     }
 
     /**
@@ -91,8 +98,8 @@ public class EventCreatorTest {
      */
     @Test
     public void eventCreationWithNoName() {
-        boolean shouldNotSucceed = eventCreator.registerEvent("", 10, startDate, coordinator);
-        assertFalse(shouldNotSucceed);
+        Message shouldNotSucceed = eventCreator.registerEvent("", 10, startDate, coordinator);
+        assertTrue(shouldNotSucceed.isNotOk());
     }
 
     /**
@@ -101,8 +108,8 @@ public class EventCreatorTest {
      */
     @Test
     public void eventCreationWithNullName() {
-        boolean shouldNotSucceed = eventCreator.registerEvent(null, 10, startDate, coordinator);
-        assertFalse(shouldNotSucceed);
+        Message shouldNotSucceed = eventCreator.registerEvent(null, 10, startDate, coordinator);
+        assertTrue(shouldNotSucceed.isNotOk());
     }
 
     /**
@@ -115,8 +122,8 @@ public class EventCreatorTest {
     public void eventCreationWithAlreadyPassedDate() {
         Calendar badStartDate = Calendar.getInstance();
         badStartDate.add(Calendar.HOUR_OF_DAY, -12);
-        boolean shouldNotSucceed = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
-        assertFalse(shouldNotSucceed);
+        Message shouldNotSucceed = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
+        assertTrue(shouldNotSucceed.isNotOk());
     }
 
     /**
@@ -125,7 +132,7 @@ public class EventCreatorTest {
      */
     @Test
     public void eventCreationWithNullCoordinator() {
-        boolean shouldNotSucceed = eventCreator.registerEvent("toto", 10, startDate, null);
-        assertFalse(shouldNotSucceed);
+        Message shouldNotSucceed = eventCreator.registerEvent("toto", 10, startDate, null);
+        assertTrue(shouldNotSucceed.isNotOk());
     }
 }

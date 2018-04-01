@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,7 +52,7 @@ public class RoomBookerTest {
     @Test
     public void bookEmptyRooms() {
         rooms.clear();
-        assertFalse(roomBooker.book(rooms, event));
+        assertTrue(roomBooker.book(rooms, event).isNotOk());
     }
 
     @Test
@@ -63,7 +62,7 @@ public class RoomBookerTest {
         rooms.add(room);
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(false);
         when(api.bookRoom(room)).thenReturn(true);
-        assertFalse(roomBooker.book(rooms, event));
+        assertTrue(roomBooker.book(rooms, event).isNotOk());
     }
 
     @Test
@@ -73,7 +72,7 @@ public class RoomBookerTest {
         rooms.add(room);
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(true);
         when(api.bookRoom(room)).thenReturn(true);
-        assertTrue(roomBooker.book(rooms, event));
+        assertTrue(roomBooker.book(rooms, event).isOk());
     }
 
     @Test
@@ -86,6 +85,6 @@ public class RoomBookerTest {
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(true);
         when(api.bookRoom(room1)).thenReturn(true);
         when(api.bookRoom(room2)).thenReturn(false);
-        assertFalse(roomBooker.book(rooms, event));
+        assertTrue(roomBooker.book(rooms, event).isNotOk());
     }
 }

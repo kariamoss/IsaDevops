@@ -1,15 +1,14 @@
 package polyevent;
 
-
-
-import java.util.Calendar;
+import polyevent.communication.Message;
 
 import javax.ejb.Local;
+import java.util.Calendar;
 
 @Local
 public interface IEventCreator {
 
-    boolean registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator);
+    Message registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator);
 
     boolean cancelEvent(Event event);
 }

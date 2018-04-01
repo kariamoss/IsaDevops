@@ -8,10 +8,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import polyevent.Coordinator;
-import polyevent.Database;
-import polyevent.EventCreator;
-import polyevent.IEventCreator;
+import polyevent.*;
+import polyevent.communication.Message;
 import webservice.event.EventCreatorService;
 import webservice.event.IEventCreatorService;
 
@@ -21,7 +19,6 @@ import java.util.Date;
 
 import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
@@ -56,7 +53,13 @@ public class EventCreatorServiceTest {
         eventCreator = mock(EventCreator.class);
         database = spy(Database.class);
         when(eventCreator.registerEvent
-                (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class))).thenReturn(true);
+                (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class)))
+                .thenReturn(
+                        new Message()
+                        .withStatus(200)
+                        .withStatusText("Successfully created event")
+                        .withTransmittedObject(notNull(Event.class))
+                );
         ((EventCreatorService) eventService).eventCreator = eventCreator;
         ((EventCreatorService) eventService).memory = database;
     }
@@ -67,7 +70,7 @@ public class EventCreatorServiceTest {
     @Test
     public void falseMailTest(){
         assertNull(memory.getCoordinatorByMail(coordinatorFalseMail));
-        assertFalse(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail));
+        assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail).isNotOk());
     }
 
     /**
@@ -76,7 +79,6 @@ public class EventCreatorServiceTest {
     @Test
     public void correctMailTest(){
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
-
-        assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
+        assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail).isOk());
     }
 }

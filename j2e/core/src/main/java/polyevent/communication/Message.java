@@ -14,7 +14,7 @@ public class Message implements Serializable {
 
     private Serializable transmittedObject;
     private int status;
-    private int statusText;
+    private String statusText;
 
     public Message() {
         // default constructor for JPA instantiation
@@ -22,6 +22,11 @@ public class Message implements Serializable {
 
     public void setTransmittedObject(Serializable transmittedObject) {
         this.transmittedObject = transmittedObject;
+    }
+
+    public Message withTransmittedObject(Serializable transmittedObject) {
+        setTransmittedObject(transmittedObject);
+        return this;
     }
 
     public Serializable getTransmittedObject() {
@@ -36,15 +41,35 @@ public class Message implements Serializable {
         this.status = status;
     }
 
-    public int getStatusText() {
+    public Message withStatus(int status) {
+        setStatus(status);
+        return this;
+    }
+
+    public String getStatusText() {
         return statusText;
     }
 
-    public void setStatusText(int statusText) {
+    public void setStatusText(String statusText) {
         this.statusText = statusText;
     }
 
+    public Message withStatusText(String status) {
+        setStatusText(status);
+        return this;
+    }
+
     public String getMessage() {
-        return transmittedObject.toString();
+        if (transmittedObject != null)
+            return transmittedObject.toString();
+        return "";
+    }
+
+    public boolean isOk() {
+        return status == 200;
+    }
+
+    public boolean isNotOk() {
+        return !isOk();
     }
 }

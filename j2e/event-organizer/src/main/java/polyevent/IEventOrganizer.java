@@ -1,11 +1,13 @@
 package polyevent;
 
 
+import polyevent.communication.Message;
+
 import javax.ejb.Local;
 
 @Local
 public interface IEventOrganizer {
 
-    boolean bookRoom(Event event);
+    Message bookRoom(Event event);
 
 }
