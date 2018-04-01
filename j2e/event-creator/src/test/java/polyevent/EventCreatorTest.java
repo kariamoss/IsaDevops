@@ -57,7 +57,7 @@ public class EventCreatorTest {
                         new Message()
                                 .withStatus(200)
                                 .withStatusText("Successfully booked rooms for the event")
-                                .withTransmittedObject(notNull(Event.class))
+                                .withTransmittedObject(null)
                 );
 
         database = Mockito.spy(Database.class);
