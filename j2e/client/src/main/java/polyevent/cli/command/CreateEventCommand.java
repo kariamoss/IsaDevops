@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import api.EventApi;
 import polyevent.RoomType;
+import polyevent.communication.Message;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -42,8 +43,8 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
 
-        boolean result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
-        System.out.println("Completion of event creation: " + result);
+        Message result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
+        System.out.println("Completion of event creation: " + result.getMessage());
     }
 
     /**
