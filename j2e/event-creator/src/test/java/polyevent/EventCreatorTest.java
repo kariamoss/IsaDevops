@@ -41,8 +41,9 @@ public class EventCreatorTest {
 
     @Before
     public void init(){
-        coordinator = new Coordinator("paul", "Dupond", "pauldupond@youhou.com");
+        coordinator = new Coordinator("paul", "Dupond", "MarcDu06@laposte.fr");
         startDate = Calendar.getInstance();
+        startDate.add(Calendar.HOUR_OF_DAY, 10);
 
         // we need to instantiate the EJBs in order for mocks/spies to work
         // within an EJB container
@@ -73,11 +74,7 @@ public class EventCreatorTest {
      */
     @Test
     public void goodEventCreation() {
-
-        Calendar startDateTwo = Calendar.getInstance();
-        startDateTwo.add(Calendar.HOUR_OF_DAY, 10);
-
-        Message shouldSucceed = eventCreator.registerEvent("toto", 10, startDateTwo, coordinator);
+        Message shouldSucceed = eventCreator.registerEvent("toto", 10, startDate, coordinator);
         assertTrue(shouldSucceed.isOk());
     }
 

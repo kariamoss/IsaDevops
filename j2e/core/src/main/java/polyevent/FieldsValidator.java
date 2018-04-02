@@ -19,7 +19,7 @@ public class FieldsValidator {
      * @return true if the string is semantically correct
      */
     public static boolean isStringValid(String str) {
-        return str != null && str.equals("");
+        return str != null && !str.equals("");
     }
 
     /**
