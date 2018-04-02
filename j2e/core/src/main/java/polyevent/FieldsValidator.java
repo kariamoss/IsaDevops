@@ -1,4 +1,4 @@
-package polyevent.validation;
+package polyevent;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

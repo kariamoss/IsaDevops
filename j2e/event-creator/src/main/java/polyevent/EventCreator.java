@@ -1,7 +1,5 @@
 package polyevent;
 
-import polyevent.validation.FieldsValidator;
-
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.Calendar;
