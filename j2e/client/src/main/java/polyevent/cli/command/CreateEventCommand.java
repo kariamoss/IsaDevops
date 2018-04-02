@@ -1,8 +1,8 @@
 package polyevent.cli.command;
 
 import api.EventApi;
-import polyevent.RoomType;
 import polyevent.Message;
+import polyevent.RoomType;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -44,7 +44,11 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     public void execute() throws Exception {
 
         Message result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
-        System.out.println("Completion of event creation: " + result.getMessage());
+
+        if (result.isOk())
+            System.out.println(result.getMessage());
+        else
+            System.err.println("Failed to create event : " + result.getMessage());
     }
 
     /**
@@ -64,7 +68,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
         try {
             startDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(tmpDate);
         } catch (DatatypeConfigurationException e) {
-            e.printStackTrace();
+            System.err.println("Failed to retrieve date from system due to a configuration error");
         }
 
         /*
