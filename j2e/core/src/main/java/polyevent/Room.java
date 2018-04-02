@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Room implements Serializable {
     private RoomType roomType;
-    
     private int capacity;
     private String name;
 

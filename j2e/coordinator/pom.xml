@@ -4,7 +4,7 @@
 
     <groupId>polyevent</groupId>
 
-    <artifactId>event-registry</artifactId>
+    <artifactId>coordinator</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -204,7 +204,7 @@
         </plugins>
     </build>
 
-    <name>event-registry</name>
+    <name>coordinator</name>
     <url>http://maven.apache.org</url>
 
     <repositories>
