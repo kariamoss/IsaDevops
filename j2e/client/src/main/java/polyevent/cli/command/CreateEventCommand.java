@@ -45,10 +45,11 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
 
         Message result = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
 
-        if (result.isOk())
-            System.out.println(result.getMessage());
+        // request was successful
+        if (result.getStatus() == 200)
+            System.out.println(result.getTransmittedObject().toString());
         else
-            System.err.println("Failed to create event : " + result.getMessage());
+            System.err.println("Failed to create event : " + result.getTransmittedObject().toString());
     }
 
     /**
