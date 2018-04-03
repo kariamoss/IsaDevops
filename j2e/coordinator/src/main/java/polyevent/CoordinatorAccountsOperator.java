@@ -19,8 +19,8 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
 
     /**
      * An operation to register a new {@link Coordinator} in the database
-     * The newly created {@link Coordinator} is passed through the
-     * {@link Message} if the registration was successful, otherwise
+     * The newly created {@link Coordinator} is passed as the return value
+     * if the registration was successful, otherwise
      * an {@link Exception} describing the problem
      * should be passed as a return value
      *
@@ -28,16 +28,13 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * @param lastName  the last name for this account
      * @param email     the email of this account, used for further authentication
      * @param password  the password of this account, used for further authentication
-     * @return a {@link Message} object containing the result of the registration
+     * @return a {@link Coordinator} object containing the result of the registration
      * process
      */
     @Override
-    public Message register(String firstName, String lastName, String email, String password) {
+    public Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException {
         if (!areRegistrationInformationValid(firstName, lastName, email, password)) {
-            return new Message()
-                    .withStatus(400)
-                    .withStatusText("Parameters for the registration of a new Coordinator are not valid")
-                    .withTransmittedObject(new IllegalArgumentException("Parameters for the registration of a new Coordinator are not valid"));
+            throw new InvalidRequestParametersException("Parameters for the registration of a new Coordinator are not valid");
         }
 
         return database.registerCoordinator(firstName, lastName, email, password);
@@ -50,7 +47,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * <p>
      * If the authentication was successful, the corresponding
      * {@link Coordinator} object is passed as the result of the
-     * returned {@link Message}, otherwise, an {@link Exception}
+     * request, otherwise, an {@link Exception}
      * should be returned to indicate the problem that occurred while authenticating
      * the {@link Coordinator}
      *
@@ -60,26 +57,16 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * result of the authentication trial
      */
     @Override
-    public Message authenticate(String email, String password) {
+    public Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException {
         if (!areLoginInformationValid(email, password)) {
-            return new Message()
-                    .withStatus(400)
-                    .withStatusText("Parameters for coordinator authentication are invalid")
-                    .withTransmittedObject(new IllegalArgumentException("Parameters for coordinator authentication are invalid"));
+            throw new InvalidRequestParametersException("Parameters for coordinator authentication are invalid");
         }
 
         Coordinator c = database.getCoordinatorByMail(email);
-
         if (c == null) {
-            return new Message()
-                    .withStatus(404)
-                    .withStatusText("Invalid email for login")
-                    .withTransmittedObject(new InvalidCredentialsException("Invalid email for login"));
+            throw new InvalidCredentialsException("Invalid email for login");
         }
-        return new Message()
-                .withStatus(200)
-                .withStatusText("Successfully logged Coordinator in!")
-                .withTransmittedObject(c);
+        return c;
     }
 
     /**

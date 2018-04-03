@@ -13,17 +13,17 @@ public interface ICoordinatorRegistrator {
 
     /**
      * An operation to register a new {@link Coordinator} in the database
-     * The newly created {@link Coordinator} is passed through the
-     * {@link Message} if the registration was successful, otherwise
+     * The newly created {@link Coordinator} is passed as the return value
+     * if the registration was successful, otherwise
      * an {@link Exception} describing the problem
      * should be passed as a return value
      *
      * @param firstName the first name for this account
-     * @param lastName the last name for this account
-     * @param email the email of this account, used for further authentication
-     * @param password the password of this account, used for further authentication
-     * @return a {@link Message} object containing the result of the registration
-     *         process
+     * @param lastName  the last name for this account
+     * @param email     the email of this account, used for further authentication
+     * @param password  the password of this account, used for further authentication
+     * @return a {@link Coordinator} object containing the result of the registration
+     * process
      */
-    Message register(String firstName, String lastName, String email, String password);
+    Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException;
 }

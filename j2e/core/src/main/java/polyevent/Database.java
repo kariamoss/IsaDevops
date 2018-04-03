@@ -34,8 +34,8 @@ public class Database {
 
     /**
      * An operation to register a new {@link Coordinator} in the database
-     * The newly created {@link Coordinator} is passed through the
-     * {@link Message} if the registration was successful, otherwise
+     * The newly created {@link Coordinator} is passed as the returned value
+     * of this method if the registration was successful, otherwise
      * an {@link Exception} describing the problem
      * should be passed as a return value
      *
@@ -43,23 +43,19 @@ public class Database {
      * @param lastName  the last name for this account
      * @param email     the email of this account, used for further authentication
      * @param password  the password of this account, used for further authentication
-     * @return a {@link Message} object containing the result of the registration
+     * @return a {@link Coordinator} object containing the result of the registration
+     * i.e., the newly created {@link Coordinator},
      * process or an exception if a user with the given email already exists in the database
      */
-    public Message registerCoordinator(String firstName, String lastName, String email, String password) {
-        if (getCoordinatorByMail(email) != null)
-            return new Message()
-                    .withStatus(400)
-                    .withStatusText("A coordinator with this email already exists in the database")
-                    .withTransmittedObject(new UserAlreadyExistsException("A coordinator with the email " + email + " already exists in the database"));
+    public Coordinator registerCoordinator(String firstName, String lastName, String email, String password) throws UserAlreadyExistsException {
+        if (getCoordinatorByMail(email) != null) {
+            throw new UserAlreadyExistsException("A coordinator with this email already exists in the database");
+        }
 
         Coordinator c = new Coordinator(firstName, lastName, email);
         this.coordinators.add(c);
 
-        return new Message()
-                .withStatus(200)
-                .withStatusText("Successfully registered your new account!")
-                .withTransmittedObject(c);
+        return c;
     }
 
     public void addEvent(Event event) {

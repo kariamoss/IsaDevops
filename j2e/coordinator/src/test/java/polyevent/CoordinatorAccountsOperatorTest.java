@@ -32,83 +32,66 @@ public class CoordinatorAccountsOperatorTest {
     @EJB private ICoordinatorRegistrator coordinatorRegistrator;
 
     @Test
-    public void registerWithGoodInformation() {
-        Message m = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
-        assertTrue(m.isOk());
-        assertNotEquals(m.getTransmittedObject(), null);
-        assertEquals(((Coordinator) m.getTransmittedObject()).getEmail(), "toto@tutu.fr");
+    public void registerWithGoodInformation() throws UserAlreadyExistsException, InvalidRequestParametersException {
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
+        assertNotEquals(null, c);
+        assertEquals(c.getEmail(), "toto@tutu.fr");
     }
 
-    @Test
-    public void registerWithBadName() {
-        Message m = coordinatorRegistrator.register("", "Tutu", "toto@tutu.fr", "tototutu");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
+    @Test(expected = InvalidRequestParametersException.class)
+    public void registerWithBadName() throws UserAlreadyExistsException, InvalidRequestParametersException {
+        Coordinator c = coordinatorRegistrator.register("", "Tutu", "toto@tutu.fr", "tototutu");
+        assertNull(c);
 
-        m = coordinatorRegistrator.register(null, "Tutu", "toto@tutu.fr", "tototutu");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
+        c = coordinatorRegistrator.register(null, "Tutu", "toto@tutu.fr", "tototutu");
+        assertNull(c);
 
-        m = coordinatorRegistrator.register("Toto", null, "toto@tutu.fr", "tototutu");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
+        c = coordinatorRegistrator.register("Toto", null, "toto@tutu.fr", "tototutu");
+        assertNull(c);
 
-        m = coordinatorRegistrator.register("Toto", "", "toto@tutu.fr", "tototutu");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
+        c = coordinatorRegistrator.register("Toto", "", "toto@tutu.fr", "tototutu");
+        assertNull(c);
     }
 
-    @Test
+    @Test(expected = InvalidRequestParametersException.class)
     @Ignore
-    public void registerWithBadEmail() {
+    public void registerWithBadEmail() throws UserAlreadyExistsException, InvalidRequestParametersException {
         // TODO FIX THIS TEST ==> FieldsValidator.isValidEmail detects "toto" as a valid email
-        Message m = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
+        assertNull(c);
+    }
+
+    @Test(expected = InvalidRequestParametersException.class)
+    public void registerWithBadPassword() throws UserAlreadyExistsException, InvalidRequestParametersException {
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", null);
+        assertNull(c);
+
+        c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "");
+        assertNull(c);
+    }
+
+    @Test(expected = UserAlreadyExistsException.class)
+    public void registerAlreadyExistingUser() throws UserAlreadyExistsException, InvalidRequestParametersException {
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
+        assertNotNull(c);
+
+        Coordinator c2 = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
+        assertNull(c2);
     }
 
     @Test
-    public void registerWithBadPassword() {
-        Message m = coordinatorRegistrator.register("Toto", "Tutu", "toto", null);
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
-
-        m = coordinatorRegistrator.register("Toto", "Tutu", "toto", "");
-        assertTrue(m.isNotOk());
-        assertEquals(400, m.getStatus());
-    }
-
-    @Test
-    public void registerAlreadyExistingUser() {
-        Message m = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
-        assertTrue(m.isOk());
-        assertNotEquals(m.getTransmittedObject(), null);
-
-        Message wrongEmail = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
-        assertTrue(wrongEmail.isNotOk());
-        assertEquals(400, wrongEmail.getStatus());
-        assertNotEquals(null, wrongEmail.getTransmittedObject());
-        assertEquals(UserAlreadyExistsException.class, wrongEmail.getTransmittedObject().getClass());
-    }
-
-    @Test
-    public void authenticateWithGoodCredentials() {
+    public void authenticateWithGoodCredentials() throws UserAlreadyExistsException, InvalidRequestParametersException, InvalidCredentialsException {
         String email = "email@email.fr";
-        Message m = coordinatorRegistrator.register("Toto", "Tutu", email, "tototutu");
-        Message goodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", email, "tototutu");
+        Coordinator cGoodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
 
-        assertTrue(goodAuth.isOk());
-        assertEquals(Coordinator.class, goodAuth.getTransmittedObject().getClass());
-        assertEquals(((Coordinator) goodAuth.getTransmittedObject()).getEmail(), email);
+        assertEquals(c, cGoodAuth);
     }
 
-    @Test
-    public void authenticateWithBadCredentials() {
+    @Test(expected = InvalidCredentialsException.class)
+    public void authenticateWithBadCredentials() throws InvalidCredentialsException, InvalidRequestParametersException {
         String email = "bademail@email.fr";
-        Message goodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
-
-        assertTrue(goodAuth.isNotOk());
-        assertEquals(404, goodAuth.getStatus());
-        assertEquals(InvalidCredentialsException.class, goodAuth.getTransmittedObject().getClass());
+        Coordinator c = coordinatorAuthenticator.authenticate(email, "tototutu");
+        assertNull(c);
     }
 }
