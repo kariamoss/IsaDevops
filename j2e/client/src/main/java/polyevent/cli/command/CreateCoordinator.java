@@ -1,7 +1,7 @@
 package polyevent.cli.command;
 
 import api.EventApi;
-import polyevent.Message;
+import polyevent.Coordinator;
 
 import java.util.List;
 
@@ -31,13 +31,13 @@ public class CreateCoordinator extends AbstractCommand<EventApi>{
 
     @Override
     public void execute() throws Exception {
-        Message result = shell.api.coordinatorService.register(firstName, lastName, email, password);
+        Coordinator c = shell.api.coordinatorService.register(firstName, lastName, email, password);
 
         // request was successful
-        if (result.getStatus() == 200)
-            System.out.println(result.getTransmittedObject().toString());
+        if (c != null)
+            System.out.println(c.toString());
         else
-            System.err.println("Failed to create event : " + result.getTransmittedObject().toString());
+            System.err.println("Failed to new coordinator");
     }
 
     @Override
