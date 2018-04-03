@@ -227,6 +227,13 @@
                     <extraarg>polyevent</extraarg>
                   </extraargs>
                 </wsdlOption>
+                <wsdlOption>
+                  <wsdl>${basedir}/src/main/resources/CoordinatorService.wsdl</wsdl>
+                  <extraargs>
+                    <extraarg>-p</extraarg>
+                    <extraarg>polyevent</extraarg>
+                  </extraargs>
+                </wsdlOption>
               </wsdlOptions>
             </configuration>
             <goals>

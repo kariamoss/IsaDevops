@@ -1,9 +1,6 @@
 package api;
 
-import polyevent.EventCatalogServiceService;
-import polyevent.EventCreatorServiceService;
-import polyevent.IEventCatalogService;
-import polyevent.IEventCreatorService;
+import polyevent.*;
 
 
 public class EventApi {
@@ -11,6 +8,8 @@ public class EventApi {
 
     public IEventCreatorService eventCreatorService;
     public IEventCatalogService eventCatalogService;
+    public ICoordinatorService coordinatorService;
+
 
     public EventApi(){
         initEvent();
@@ -22,5 +21,8 @@ public class EventApi {
 
         EventCatalogServiceService catalogFactory = new EventCatalogServiceService();
         this.eventCatalogService = catalogFactory.getEventCatalogServicePort();
+
+        CoordinatorServiceService coordinatorFactory = new CoordinatorServiceService();
+        this.coordinatorService = coordinatorFactory.getCoordinatorServicePort();
     }
 }
