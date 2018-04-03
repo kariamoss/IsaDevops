@@ -9,7 +9,7 @@ import javax.jws.WebService;
 @WebService
 public interface ICoordinatorService {
     /**
-     * An operation to register a new {@link Coordinator} in the database
+     * Consume the ICoordinatorRegistrator bean to register a new {@link Coordinator}
      * The newly created {@link Coordinator} is passed through the
      * {@link Message} if the registration was successful, otherwise
      * an {@link Exception} describing the problem
