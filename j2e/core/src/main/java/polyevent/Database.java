@@ -2,7 +2,6 @@ package polyevent;
 
 import javax.ejb.Singleton;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,9 +18,8 @@ public class Database {
     private Logger l = Logger.getLogger(Database.class.getName());
 
     public Database() {
-        this.coordinators = Collections.singletonList(
-                new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr")
-        );
+        this.coordinators = new ArrayList<>();
+        this.coordinators.add(new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr")); // todo remove this line
         this.events = new ArrayList<>();
     }
 
@@ -34,8 +32,38 @@ public class Database {
         return null;
     }
 
+    /**
+     * An operation to register a new {@link Coordinator} in the database
+     * The newly created {@link Coordinator} is passed through the
+     * {@link Message} if the registration was successful, otherwise
+     * an {@link Exception} describing the problem
+     * should be passed as a return value
+     *
+     * @param firstName the first name for this account
+     * @param lastName  the last name for this account
+     * @param email     the email of this account, used for further authentication
+     * @param password  the password of this account, used for further authentication
+     * @return a {@link Message} object containing the result of the registration
+     * process or an exception if a user with the given email already exists in the database
+     */
+    public Message registerCoordinator(String firstName, String lastName, String email, String password) {
+        if (getCoordinatorByMail(email) != null)
+            return new Message()
+                    .withStatus(400)
+                    .withStatusText("A coordinator with this email already exists in the database")
+                    .withTransmittedObject(new UserAlreadyExistsException("A coordinator with the email " + email + " already exists in the database"));
+
+        Coordinator c = new Coordinator(firstName, lastName, email);
+        this.coordinators.add(c);
+
+        return new Message()
+                .withStatus(200)
+                .withStatusText("Successfully registered your new account!")
+                .withTransmittedObject(c);
+    }
+
     public void addEvent(Event event) {
-        l.log(Level.INFO, "inserting event in db"); //todo : add Event::toString
+        l.log(Level.INFO, "inserting event in db : " + event.toString());
         events.add(event);
     }
 

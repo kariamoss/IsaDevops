@@ -40,7 +40,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
                     .withTransmittedObject(new IllegalArgumentException("Parameters for the registration of a new Coordinator are not valid"));
         }
 
-        return null;
+        return database.registerCoordinator(firstName, lastName, email, password);
     }
 
     /**
@@ -68,7 +68,18 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
                     .withTransmittedObject(new IllegalArgumentException("Parameters for coordinator authentication are invalid"));
         }
 
-        return null;
+        Coordinator c = database.getCoordinatorByMail(email);
+
+        if (c == null) {
+            return new Message()
+                    .withStatus(404)
+                    .withStatusText("Invalid email for login")
+                    .withTransmittedObject(new InvalidCredentialsException("Invalid email for login"));
+        }
+        return new Message()
+                .withStatus(200)
+                .withStatusText("Successfully logged Coordinator in!")
+                .withTransmittedObject(c);
     }
 
     /**
