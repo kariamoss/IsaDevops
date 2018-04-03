@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import javax.ejb.EJB;
 import java.util.Calendar;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
@@ -36,14 +37,14 @@ public class IntegrationTest {
 
     @Test
     @Ignore
-    public void eventCreationTest() {
+    public void eventCreationTest() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);
 
-        Message result = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
+        Event e = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
 
-        assertTrue(result.isOk());
+        assertNotNull(e);
 
         Event event = memory.findEventByName("Eventname");
 

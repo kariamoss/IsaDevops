@@ -6,7 +6,7 @@ import java.util.Calendar;
 @Local
 public interface IEventCreator {
 
-    Message registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator);
+    Event registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException;
 
     boolean cancelEvent(Event event);
 }

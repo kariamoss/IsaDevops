@@ -13,7 +13,8 @@ import org.mockito.Mockito;
 import javax.ejb.EJB;
 import java.util.Calendar;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -40,7 +41,7 @@ public class EventCreatorTest {
     private Calendar startDate;
 
     @Before
-    public void init(){
+    public void init() throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         coordinator = new Coordinator("paul", "Dupond", "MarcDu06@laposte.fr");
         startDate = Calendar.getInstance();
         startDate.add(Calendar.HOUR_OF_DAY, 10);
@@ -52,13 +53,7 @@ public class EventCreatorTest {
         // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
         // as we want to unit test the IEventCreator component only
         eventOrganizer = Mockito.mock(EventOrganizer.class);
-        when(eventOrganizer.bookRoom(notNull(Event.class)))
-                .thenReturn(
-                        new Message()
-                                .withStatus(200)
-                                .withStatusText("Successfully booked rooms for the event")
-                                .withTransmittedObject(null)
-                );
+        when(eventOrganizer.bookRoom(notNull(Event.class))).thenReturn(new Event());
 
         database = Mockito.spy(Database.class);
         doNothing().when(database).addEvent(notNull(Event.class));
@@ -73,39 +68,39 @@ public class EventCreatorTest {
      * and return a valid result
      */
     @Test
-    public void goodEventCreation() {
-        Message shouldSucceed = eventCreator.registerEvent("toto", 10, startDate, coordinator);
-        assertTrue(shouldSucceed.isOk());
+    public void goodEventCreation() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+        Event e = eventCreator.registerEvent("toto", 10, startDate, coordinator);
+        assertNotNull(e);
     }
 
     /**
      * Registers a new event with a negative number of people
      * The registration should fail because a negative number of people is impossible
      */
-    @Test
-    public void eventCreationWithBadPeopleNumber() {
-        Message shouldNotSucceed = eventCreator.registerEvent("toto", -10, startDate, coordinator);
-        assertTrue(shouldNotSucceed.isNotOk());
+    @Test(expected = InvalidRequestParametersException.class)
+    public void eventCreationWithBadPeopleNumber() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+        Event e = eventCreator.registerEvent("toto", -10, startDate, coordinator);
+        assertNull(e);
     }
 
     /**
      * Registers a new event with an empty name
      * The registration should fail because an event should always have a name
      */
-    @Test
-    public void eventCreationWithNoName() {
-        Message shouldNotSucceed = eventCreator.registerEvent("", 10, startDate, coordinator);
-        assertTrue(shouldNotSucceed.isNotOk());
+    @Test(expected = InvalidRequestParametersException.class)
+    public void eventCreationWithNoName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+        Event e = eventCreator.registerEvent("", 10, startDate, coordinator);
+        assertNull(e);
     }
 
     /**
      * Registers a new event with a null name
      * The registration should fail because an event should always have a name
      */
-    @Test
-    public void eventCreationWithNullName() {
-        Message shouldNotSucceed = eventCreator.registerEvent(null, 10, startDate, coordinator);
-        assertTrue(shouldNotSucceed.isNotOk());
+    @Test(expected = InvalidRequestParametersException.class)
+    public void eventCreationWithNullName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+        Event e = eventCreator.registerEvent(null, 10, startDate, coordinator);
+        assertNull(e);
     }
 
     /**
@@ -114,21 +109,21 @@ public class EventCreatorTest {
      * The registration should fail because an event that already happened or
      * has a date that has been passed shouldn't be registered (that's not logical)
      */
-    @Test
-    public void eventCreationWithAlreadyPassedDate() {
+    @Test(expected = InvalidRequestParametersException.class)
+    public void eventCreationWithAlreadyPassedDate() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         Calendar badStartDate = Calendar.getInstance();
         badStartDate.add(Calendar.HOUR_OF_DAY, -12);
-        Message shouldNotSucceed = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
-        assertTrue(shouldNotSucceed.isNotOk());
+        Event e = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
+        assertNull(e);
     }
 
     /**
      * Registers a new event with a null coordinator
      * The registration should fail because an event is always associated to a coordinator
      */
-    @Test
-    public void eventCreationWithNullCoordinator() {
-        Message shouldNotSucceed = eventCreator.registerEvent("toto", 10, startDate, null);
-        assertTrue(shouldNotSucceed.isNotOk());
+    @Test(expected = InvalidRequestParametersException.class)
+    public void eventCreationWithNullCoordinator() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+        Event e = eventCreator.registerEvent("toto", 10, startDate, null);
+        assertNull(e);
     }
 }

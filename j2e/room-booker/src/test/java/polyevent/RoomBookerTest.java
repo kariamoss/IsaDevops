@@ -6,7 +6,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -14,7 +13,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,34 +50,34 @@ public class RoomBookerTest {
         rooms = new ArrayList<>();
     }
 
-    @Test
-    public void bookEmptyRooms() {
+    @Test(expected = InvalidRoomException.class)
+    public void bookEmptyRooms() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
         rooms.clear();
-        assertTrue(roomBooker.book(rooms, event).isNotOk());
+        assertNull(roomBooker.book(rooms, event));
     }
 
-    @Test
-    public void databaseFail() {
+    @Test(expected = DatabaseSavingException.class)
+    public void databaseFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
         rooms.clear();
         Room room = mock(Room.class);
         rooms.add(room);
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(false);
         when(api.bookRoom(room)).thenReturn(true);
-        assertTrue(roomBooker.book(rooms, event).isNotOk());
+        assertNull(roomBooker.book(rooms, event));
     }
 
     @Test
-    public void allOk() {
+    public void allOk() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
         rooms.clear();
         Room room = mock(Room.class);
         rooms.add(room);
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(true);
         when(api.bookRoom(room)).thenReturn(true);
-        assertTrue(roomBooker.book(rooms, event).isOk());
+        assertNotNull(roomBooker.book(rooms, event));
     }
 
-    @Test
-    public void roomServiceFail() {
+    @Test(expected = RoomNotAvailableException.class)
+    public void roomServiceFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
         rooms.clear();
         Room room1 = mock(Room.class);
         rooms.add(room1);
@@ -86,6 +86,6 @@ public class RoomBookerTest {
         when(memory.bookRoomsToEvent(event, rooms)).thenReturn(true);
         when(api.bookRoom(room1)).thenReturn(true);
         when(api.bookRoom(room2)).thenReturn(false);
-        assertTrue(roomBooker.book(rooms, event).isNotOk());
+        assertNull(roomBooker.book(rooms, event));
     }
 }

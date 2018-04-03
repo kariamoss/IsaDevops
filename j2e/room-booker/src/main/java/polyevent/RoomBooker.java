@@ -22,34 +22,26 @@ public class RoomBooker implements IRoomBooker {
     }
 
     @Override
-    public Message book(List<Room> rooms, Event event) {
+    public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
 
         l.log(Level.INFO, "Received request for room booking");
 
         if(rooms.isEmpty()) {
             l.log(Level.SEVERE, "Can't book an empty list of rooms");
-            return new Message()
-                    .withStatus(400)
-                    .withStatusText("The list of desired rooms cannot be empty")
-                    .withTransmittedObject(new IllegalArgumentException("The list of desired rooms cannot be empty"));
+            throw new InvalidRoomException("The list of desired rooms cannot be empty");
         }
 
-        for(Room r : rooms)
-            if (!api.bookRoom(r))
-                return new Message()
-                        .withStatus(500)
-                        .withStatusText("A problem occurred while reserving rooms with the external service EDT")
-                        .withTransmittedObject(new IllegalArgumentException("A problem occurred while reserving rooms with the external service EDT"));
-        if(!memory.bookRoomsToEvent(event, rooms)) {
-            return new Message()
-                    .withStatus(500)
-                    .withStatusText("A problem occurred while reserving rooms with the database")
-                    .withTransmittedObject(new IllegalArgumentException("A problem occurred while reserving rooms with the database"));
+        for(Room r : rooms) {
+            if (!api.bookRoom(r)) {
+                throw new RoomNotAvailableException("One or more rooms are not available (they have already been booked)");
+            }
         }
-        return new Message()
-                .withStatus(200)
-                .withStatusText("Successfully booked rooms for the event")
-                .withTransmittedObject(event);
+
+        if(!memory.bookRoomsToEvent(event, rooms)) {
+            throw new DatabaseSavingException("Internal error while saving the rooms for the event in the database");
+        }
+
+        return event;
     }
 
     @Override

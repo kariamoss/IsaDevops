@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.*;
-import polyevent.Message;
 import webservice.event.EventCreatorService;
 import webservice.event.IEventCreatorService;
 
@@ -18,7 +17,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
@@ -43,7 +41,7 @@ public class EventCreatorServiceTest {
     private Database database;
 
     @Before
-    public void setUpContext(){
+    public void setUpContext() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         coordinatorFalseMail = "MarcJourdes@free.fr";
         coordinatorMail = "MarcDu06@laposte.fr";
         dateBegin = Calendar.getInstance();
@@ -55,10 +53,7 @@ public class EventCreatorServiceTest {
         when(eventCreator.registerEvent
                 (eq("test"), eq(10), any(Calendar.class), any(Coordinator.class)))
                 .thenReturn(
-                        new Message()
-                        .withStatus(200)
-                        .withStatusText("Successfully created event")
-                        .withTransmittedObject(notNull(Event.class))
+                        new Event()
                 );
         ((EventCreatorService) eventService).eventCreator = eventCreator;
         ((EventCreatorService) eventService).memory = database;
@@ -67,18 +62,18 @@ public class EventCreatorServiceTest {
     /**
      * Call EventCreation with not existing Coordinator
      */
-    @Test
-    public void falseMailTest(){
+    @Test(expected = InvalidCredentialsException.class)
+    public void falseMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         assertNull(memory.getCoordinatorByMail(coordinatorFalseMail));
-        assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail).isNotOk());
+        assertNull(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail));
     }
 
     /**
      * Call EventCreation with existing Coordinator
      */
     @Test
-    public void correctMailTest(){
+    public void correctMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
-        assertTrue(eventService.createEvent("test", 10, dateBegin, coordinatorMail).isOk());
+        assertNotNull(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
     }
 }
