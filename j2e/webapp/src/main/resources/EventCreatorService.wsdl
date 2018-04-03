@@ -1,11 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://event.webservice/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="EventCreatorServiceService" targetNamespace="http://event.webservice/">
   <wsdl:types>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://event.webservice/" elementFormDefault="unqualified" targetNamespace="http://event.webservice/" version="1.0">
-
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://event.webservice/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://event.webservice/">
   <xs:element name="createEvent" type="tns:createEvent"/>
-
   <xs:element name="createEventResponse" type="tns:createEventResponse"/>
-
   <xs:complexType name="createEvent">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -14,21 +11,73 @@
       <xs:element minOccurs="0" name="arg3" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-
   <xs:complexType name="createEventResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:message"/>
+      <xs:element minOccurs="0" name="return" type="tns:event"/>
     </xs:sequence>
   </xs:complexType>
-
-  <xs:complexType name="message">
+  <xs:complexType name="event">
     <xs:sequence>
-      <xs:element name="status" type="xs:int"/>
-      <xs:element minOccurs="0" name="statusText" type="xs:string"/>
-      <xs:element minOccurs="0" name="transmittedObject" type="xs:anyType"/>
+      <xs:element minOccurs="0" name="coordinator" type="tns:coordinator"/>
+      <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element name="nbPeople" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="rooms" nillable="true" type="tns:room"/>
+      <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
     </xs:sequence>
   </xs:complexType>
-
+  <xs:complexType name="coordinator">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="eventsCreated" nillable="true" type="tns:event"/>
+      <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+      <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="room">
+    <xs:sequence>
+      <xs:element name="capacity" type="xs:int"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="roomType" type="tns:roomType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="roomType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MEETING_ROOM"/>
+      <xs:enumeration value="MEAL"/>
+      <xs:enumeration value="LEARNING_CENTRE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="InvalidCredentialsException" type="tns:InvalidCredentialsException"/>
+  <xs:complexType name="InvalidCredentialsException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DatabaseSavingException" type="tns:DatabaseSavingException"/>
+  <xs:complexType name="DatabaseSavingException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoomNotAvailableException" type="tns:RoomNotAvailableException"/>
+  <xs:complexType name="RoomNotAvailableException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvalidRequestParametersException" type="tns:InvalidRequestParametersException"/>
+  <xs:complexType name="InvalidRequestParametersException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="InvalidRoomException" type="tns:InvalidRoomException"/>
+  <xs:complexType name="InvalidRoomException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
 </xs:schema>
   </wsdl:types>
   <wsdl:message name="createEvent">
@@ -39,12 +88,42 @@
     <wsdl:part element="tns:createEventResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="DatabaseSavingException">
+    <wsdl:part element="tns:DatabaseSavingException" name="DatabaseSavingException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidRequestParametersException">
+    <wsdl:part element="tns:InvalidRequestParametersException" name="InvalidRequestParametersException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidRoomException">
+    <wsdl:part element="tns:InvalidRoomException" name="InvalidRoomException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidCredentialsException">
+    <wsdl:part element="tns:InvalidCredentialsException" name="InvalidCredentialsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RoomNotAvailableException">
+    <wsdl:part element="tns:RoomNotAvailableException" name="RoomNotAvailableException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="IEventCreatorService">
     <wsdl:operation name="createEvent">
       <wsdl:input message="tns:createEvent" name="createEvent">
     </wsdl:input>
       <wsdl:output message="tns:createEventResponse" name="createEventResponse">
     </wsdl:output>
+      <wsdl:fault message="tns:InvalidCredentialsException" name="InvalidCredentialsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:RoomNotAvailableException" name="RoomNotAvailableException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidRequestParametersException" name="InvalidRequestParametersException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidRoomException" name="InvalidRoomException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:DatabaseSavingException" name="DatabaseSavingException">
+    </wsdl:fault>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="EventCreatorServiceServiceSoapBinding" type="tns:IEventCreatorService">
@@ -57,6 +136,21 @@
       <wsdl:output name="createEventResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+      <wsdl:fault name="InvalidCredentialsException">
+        <soap:fault name="InvalidCredentialsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="RoomNotAvailableException">
+        <soap:fault name="RoomNotAvailableException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidRequestParametersException">
+        <soap:fault name="InvalidRequestParametersException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidRoomException">
+        <soap:fault name="InvalidRoomException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DatabaseSavingException">
+        <soap:fault name="DatabaseSavingException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="EventCreatorServiceService">
