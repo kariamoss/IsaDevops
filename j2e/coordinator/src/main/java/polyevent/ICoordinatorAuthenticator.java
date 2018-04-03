@@ -18,7 +18,7 @@ public interface ICoordinatorAuthenticator {
      *
      * If the authentication was successful, the corresponding
      * {@link Coordinator} object is passed as the result of the
-     * returned {@link Message}, otherwise, an {@link Exception}
+     * request, otherwise, an {@link Exception}
      * should be returned to indicate the problem that occurred while authenticating
      * the {@link Coordinator}
      *
@@ -27,5 +27,5 @@ public interface ICoordinatorAuthenticator {
      * @return a {@link Coordinator} or an {@link Exception} depending on the
      *         result of the authentication trial
      */
-    Message authenticate(String email, String password);
+    Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException;
 }

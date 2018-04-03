@@ -6,6 +6,6 @@ import javax.ejb.Local;
 @Local
 public interface IEventOrganizer {
 
-    Message bookRoom(Event event);
+    Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException;
 
 }

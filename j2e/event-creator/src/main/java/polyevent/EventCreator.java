@@ -19,15 +19,12 @@ public class EventCreator implements IEventCreator {
     private Logger l = Logger.getLogger(EventCreator.class.getName());
 
     @Override
-    public Message registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) {
+    public Event registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
 
         l.log(Level.INFO, "Received request for event creation");
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
-            return new Message()
-                    .withStatus(400)
-                    .withStatusText("Parameters of the request are invalid")
-                    .withTransmittedObject(new IllegalArgumentException("Parameters of the request are invalid"));
+            throw new InvalidRequestParametersException("Parameters of the request are invalid");
         }
 
         Calendar cal = Calendar.getInstance();

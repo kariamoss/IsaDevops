@@ -7,7 +7,7 @@ import java.util.List;
 @Local
 public interface IRoomBooker {
 
-    Message book(List<Room> rooms, Event event);
+    Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException;
 
     boolean cancelRoomBooking(List<Room> rooms, Event event);
 }

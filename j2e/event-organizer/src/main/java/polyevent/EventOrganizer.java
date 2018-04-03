@@ -19,7 +19,7 @@ public class EventOrganizer implements IEventOrganizer {
 
 
     @Override
-    public Message bookRoom(Event event) {
+    public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
 
         l.log(Level.INFO, "Received request for room booking for event");
 
