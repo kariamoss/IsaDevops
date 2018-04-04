@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import polyevent.cli.shell.Shell;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractCommand<T> {
@@ -48,8 +49,11 @@ public abstract class AbstractCommand<T> {
         catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
-        execute();
-
+        try {
+            execute();
+        } catch (Exception e) {
+            System.err.println(Arrays.toString(e.getStackTrace()));
+        }
         // whether the shell should stay alive or not
         return shouldContinue();
     }
