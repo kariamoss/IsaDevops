@@ -47,7 +47,7 @@ public abstract class AbstractCommand<T> {
     public boolean process(List<String> args) throws Exception {
         try { load(args); }
         catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            System.err.println(Arrays.toString(e.getStackTrace()));
         }
         try {
             execute();
