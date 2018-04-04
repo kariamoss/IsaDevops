@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import polyevent.cli.shell.Shell;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractCommand<T> {
@@ -46,7 +47,7 @@ public abstract class AbstractCommand<T> {
     public boolean process(List<String> args) throws Exception {
         try { load(args); }
         catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            System.err.println(Arrays.toString(e.getStackTrace()));
         }
         execute();
 
