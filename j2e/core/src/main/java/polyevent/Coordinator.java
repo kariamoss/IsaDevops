@@ -24,14 +24,22 @@ public class Coordinator implements Serializable {
 
     private List<Event> eventsCreated;
 
+    @NotNull
+    private String password;
+
     public Coordinator() {
         // default constructor for JPA instantiation (unmarshalling)
     }
 
     public Coordinator(String firstName, String lastName, String email) {
+        this(firstName, lastName, email, "");
+    }
+
+    public Coordinator(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
     }
 
     public List<Event> getEventsCreated() {
@@ -64,6 +72,14 @@ public class Coordinator implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

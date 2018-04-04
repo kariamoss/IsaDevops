@@ -36,7 +36,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
         if (!areRegistrationInformationValid(firstName, lastName, email, password)) {
             throw new InvalidRequestParametersException("Parameters for the registration of a new Coordinator are not valid");
         }
-
+        // todo the password should be encrypted and salted before being inserted in the database
         return database.registerCoordinator(firstName, lastName, email, password);
     }
 
@@ -64,7 +64,15 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
 
         Coordinator c = database.getCoordinatorByMail(email);
         if (c == null) {
-            throw new InvalidCredentialsException("Invalid email for login");
+            // we don't inform the user that the email is invalid because
+            // we don't want to give information to a potential hacker that the email is wrong
+            throw new InvalidCredentialsException("Invalid credentials for login");
+        }
+        else if (!c.getPassword().equals(password)) {
+            // we don't inform the user that the password (only) is invalid because
+            // we don't want to give information to a potential hacker that the email he used
+            // was right, and only the password was wrong
+            throw new InvalidCredentialsException("Invalid credentials for login");
         }
         return c;
     }

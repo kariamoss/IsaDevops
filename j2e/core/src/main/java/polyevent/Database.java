@@ -52,7 +52,7 @@ public class Database {
             throw new UserAlreadyExistsException("A coordinator with this email already exists in the database");
         }
 
-        Coordinator c = new Coordinator(firstName, lastName, email);
+        Coordinator c = new Coordinator(firstName, lastName, email, password);
         this.coordinators.add(c);
 
         return c;
