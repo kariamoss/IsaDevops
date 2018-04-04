@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 file="core
-        webapp client event-creator event-organizer event-registry coordinator j2e-interface room-booker"
+     webapp room-booker event-registry coordinator
+     client event-organizer
+     j2e-interface"
 
 for i in $file
 do
