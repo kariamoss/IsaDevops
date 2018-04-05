@@ -110,7 +110,7 @@
   </wsdl:binding>
   <wsdl:service name="CoordinatorServiceService">
     <wsdl:port binding="tns:CoordinatorServiceServiceSoapBinding" name="CoordinatorServicePort">
-      <soap:address location="http://localhost:8080/polyevent-backend/webservices/CoordinatorService"/>
+      <soap:address location="http://localhost:8080/j2e-interface-1.0-SNAPSHOT/webservices/CoordinatorService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

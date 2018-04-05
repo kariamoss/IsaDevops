@@ -155,7 +155,7 @@
   </wsdl:binding>
   <wsdl:service name="EventCreatorServiceService">
     <wsdl:port binding="tns:EventCreatorServiceServiceSoapBinding" name="EventCreatorServicePort">
-      <soap:address location="http://localhost:8080/polyevent-backend/webservices/EventCreatorService"/>
+      <soap:address location="http://localhost:8080/j2e-interface-1.0-SNAPSHOT/webservices/EventCreatorService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
