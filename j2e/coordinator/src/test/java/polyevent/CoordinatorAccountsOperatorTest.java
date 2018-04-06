@@ -34,8 +34,8 @@ public class CoordinatorAccountsOperatorTest {
     @Test
     public void registerWithGoodInformation() throws UserAlreadyExistsException, InvalidRequestParametersException {
         Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
-        assertNotEquals(null, c);
-        assertEquals(c.getEmail(), "toto@tutu.fr");
+        assertNotNull(c);
+        assertEquals("toto@tutu.fr", c.getEmail());
     }
 
     @Test(expected = InvalidRequestParametersException.class)
