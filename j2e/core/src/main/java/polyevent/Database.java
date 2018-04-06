@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 /**
  * Database containing mock of distant database
+ * TODO remove database
  */
 @Singleton
 public class Database {
