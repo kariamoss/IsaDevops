@@ -20,7 +20,7 @@ public class CoordinatorService implements ICoordinatorService {
      * The newly created {@link Coordinator} is passed through the
      * returned value if the registration was successful, otherwise
      * an {@link Exception} describing the problem
-     * should be passed as a return value
+     * that should be passed as a return value
      *
      * @param firstName the first name for this account
      * @param lastName the last name for this account

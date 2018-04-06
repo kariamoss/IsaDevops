@@ -21,7 +21,7 @@ public class EventCreator implements IEventCreator {
     @Override
     public Event registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
 
-        l.log(Level.INFO, "Received request for event creation");
+        l.log(Level.INFO, "Received request for the event creation");
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
             throw new InvalidRequestParametersException("Parameters of the request are invalid");
