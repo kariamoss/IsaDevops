@@ -74,6 +74,8 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
             // was right, and only the password was wrong
             throw new InvalidCredentialsException("Invalid credentials for login");
         }
+        // clears the password to avoid hacker to leak the password from the object at runtime
+        c.setPassword("");
         return c;
     }
 
