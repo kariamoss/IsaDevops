@@ -6,11 +6,13 @@ file="core
      event-creator
      j2e-interface"
 
-mvn deploy
+cd root
+mvn install
+cd ..
 
 for i in $file
 do
     cd $i
-    mvn clean install
+    mvn clean deploy
     cd ..
 done
