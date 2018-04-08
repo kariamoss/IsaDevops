@@ -7,6 +7,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
@@ -18,6 +19,8 @@ import java.util.UUID;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
+@Category(IntegrationTests.class)
+@Ignore
 public class IntegrationTest {
 
     @EJB
@@ -31,7 +34,6 @@ public class IntegrationTest {
     }
 
     @Test
-    @Ignore
     public void createEventTest() {
         Client client = new Client();
 

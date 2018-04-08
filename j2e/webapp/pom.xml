@@ -33,24 +33,24 @@
             <id>generate-sources</id>
             <phase>generate-sources</phase>
             <configuration>
-              <sourceRoot>${basedir}/src/main/java/</sourceRoot>
+              <sourceRoot>./src/main/java/</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/src/main/resources/EventCreatorService.wsdl</wsdl>
+                  <wsdl>./src/main/resources/EventCreatorService.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
                   </extraargs>
                 </wsdlOption>
                 <wsdlOption>
-                  <wsdl>${basedir}/src/main/resources/EventCatalogService.wsdl</wsdl>
+                  <wsdl>./src/main/resources/EventCatalogService.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
                   </extraargs>
                 </wsdlOption>
                 <wsdlOption>
-                  <wsdl>${basedir}/src/main/resources/CoordinatorService.wsdl</wsdl>
+                  <wsdl>./src/main/resources/CoordinatorService.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
