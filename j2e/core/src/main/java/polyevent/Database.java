@@ -1,5 +1,7 @@
 package polyevent;
 
+import polyevent.exceptions.UserAlreadyExistsException;
+
 import javax.ejb.Singleton;
 import java.util.ArrayList;
 import java.util.List;

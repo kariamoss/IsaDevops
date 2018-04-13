@@ -1,4 +1,4 @@
-package polyevent;
+package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
 

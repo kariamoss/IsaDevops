@@ -8,6 +8,9 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import polyevent.exceptions.InvalidCredentialsException;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.ejb.EJB;
 

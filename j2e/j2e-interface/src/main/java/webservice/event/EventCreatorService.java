@@ -1,6 +1,10 @@
 package webservice.event;
 
-import polyevent.*;
+import polyevent.Coordinator;
+import polyevent.Database;
+import polyevent.Event;
+import polyevent.IEventCreator;
+import polyevent.exceptions.*;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

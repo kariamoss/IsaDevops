@@ -1,5 +1,9 @@
 package polyevent;
 
+import polyevent.exceptions.InvalidCredentialsException;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.UserAlreadyExistsException;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 

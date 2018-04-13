@@ -1,5 +1,8 @@
 package polyevent;
 
+import polyevent.exceptions.InvalidCredentialsException;
+import polyevent.exceptions.InvalidRequestParametersException;
+
 import javax.ejb.Local;
 
 /**

@@ -9,6 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.InvalidRoomException;
+import polyevent.exceptions.RoomNotAvailableException;
 
 import javax.ejb.EJB;
 import java.util.Calendar;

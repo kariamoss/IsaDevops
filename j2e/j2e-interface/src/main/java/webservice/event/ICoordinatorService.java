@@ -1,8 +1,8 @@
 package webservice.event;
 
 import polyevent.Coordinator;
-import polyevent.InvalidRequestParametersException;
-import polyevent.UserAlreadyExistsException;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
