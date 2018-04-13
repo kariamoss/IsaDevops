@@ -22,6 +22,7 @@
       <xs:element maxOccurs="unbounded" minOccurs="0" name="eventsCreated" nillable="true" type="tns:event"/>
       <xs:element minOccurs="0" name="firstName" type="xs:string"/>
       <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+      <xs:element minOccurs="0" name="password" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="event">
