@@ -1,7 +1,11 @@
 package polyevent;
 
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.annotation.Resource;
+import javax.ejb.*;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,8 +14,10 @@ import java.util.logging.Logger;
  * Hello world!
  *
  */
-@Stateless
-public class RoomBooker implements IRoomBooker {
+@MessageDriven(activationConfig = {
+        @ActivationConfigProperty( propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
+        @ActivationConfigProperty( propertyName = "destination", propertyValue ="/queue/room/booker") })
+public class RoomBooker implements MessageListener {
 
     @EJB protected Database memory;
     protected AgendaAPI api;
@@ -21,7 +27,6 @@ public class RoomBooker implements IRoomBooker {
         api = new AgendaAPI();
     }
 
-    @Override
     public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
 
         l.log(Level.INFO, "Received request for room booking");
@@ -44,8 +49,19 @@ public class RoomBooker implements IRoomBooker {
         return event;
     }
 
-    @Override
     public boolean cancelRoomBooking(List<Room> rooms, Event event) {
         return false;
+    }
+
+
+    @Override
+    public void onMessage(Message message) {
+        try{
+            l.log(Level.INFO, "message received");
+            BookingWrapper wrapper = (BookingWrapper) ((ObjectMessage) message).getObject();
+            book(wrapper.getRooms(),wrapper.getEvent());
+        }catch (Exception e) {
+
+        }
     }
 }

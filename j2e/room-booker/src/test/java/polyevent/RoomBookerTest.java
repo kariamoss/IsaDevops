@@ -28,7 +28,7 @@ public class RoomBookerTest {
                 .addPackage(IRoomBooker.class.getPackage());
     }
 
-    private IRoomBooker roomBooker;
+    private RoomBooker roomBooker;
     private Database memory;
     private AgendaAPI api;
 
