@@ -13,7 +13,6 @@
   <version>1.0-SNAPSHOT</version>
   <name>polyevent-backend</name>
   <packaging>war</packaging>
-  <url>http://maven.apache.org</url>
 
   <dependencies>
     <dependency>
@@ -29,6 +28,11 @@
     <dependency>
       <groupId>polyevent</groupId>
       <artifactId>coordinator</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>polyevent</groupId>
+      <artifactId>jsf</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
