@@ -33,6 +33,7 @@
   </plugins>
   </build>
 
+
   <profiles>
     <profile>
       <id>integrationTest</id>
@@ -51,6 +52,9 @@
     </profile>
     <profile>
       <id>unitTest</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -65,4 +69,5 @@
       </build>
     </profile>
   </profiles>
+
 </project>
