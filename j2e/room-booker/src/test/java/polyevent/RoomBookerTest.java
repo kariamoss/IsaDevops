@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.InvalidRoomException;
+import polyevent.exceptions.RoomNotAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
