@@ -37,6 +37,7 @@
               <wsdlOptions>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventCreatorService.wsdl</wsdl>
+                  <wsdlLocation>classpath:EventCreatorService.wsdl</wsdlLocation>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
@@ -44,6 +45,7 @@
                 </wsdlOption>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/EventCatalogService.wsdl</wsdl>
+                  <wsdlLocation>classpath:EventCatalogService.wsdl</wsdlLocation>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
@@ -51,6 +53,7 @@
                 </wsdlOption>
                 <wsdlOption>
                   <wsdl>${basedir}/src/main/resources/CoordinatorService.wsdl</wsdl>
+                  <wsdlLocation>classpath:CoordinatorService.wsdl</wsdlLocation>
                   <extraargs>
                     <extraarg>-p</extraarg>
                     <extraarg>polyevent</extraarg>
