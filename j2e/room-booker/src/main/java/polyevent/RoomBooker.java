@@ -15,8 +15,7 @@ import java.util.logging.Logger;
  *
  */
 @MessageDriven(activationConfig = {
-        @ActivationConfigProperty( propertyName = "destinationType", propertyValue = "javax.jms.Queue"),
-        @ActivationConfigProperty( propertyName = "destination", propertyValue ="/queue/room/booker") })
+        @ActivationConfigProperty( propertyName = "destinationType", propertyValue = "javax.jms.Queue"),})
 public class RoomBooker implements MessageListener {
 
     @EJB protected Database memory;
@@ -61,6 +60,8 @@ public class RoomBooker implements MessageListener {
             BookingWrapper wrapper = (BookingWrapper) ((ObjectMessage) message).getObject();
             book(wrapper.getRooms(),wrapper.getEvent());
         }catch (Exception e) {
+            l.log(Level.WARNING, "request for booking couldn't not be made");
+            l.log(Level.WARNING, e.getMessage());
 
         }
     }

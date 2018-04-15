@@ -20,6 +20,9 @@ public class EventOrganizer implements IEventOrganizer {
     private Logger l = Logger.getLogger(EventOrganizer.class.getName());
 
 
+
+
+
     @Override
     public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
 
@@ -46,12 +49,14 @@ public class EventOrganizer implements IEventOrganizer {
             Connection connection = connectionFactory.createConnection();
             connection.start();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer printer = session.createProducer(bookingQueue);
-            printer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-            printer.send(session.createObjectMessage(wrapper));
-            printer.close();
+            MessageProducer booker = session.createProducer(bookingQueue);
+            booker.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            booker.send(session.createObjectMessage(wrapper));
+            booker.close();
             session.close();
             connection.close();
+            l.log(Level.INFO, "msg sent");
+
         } catch (JMSException e){
             l.log(Level.WARNING,"unable to book room for event :"+event.getName());
         }

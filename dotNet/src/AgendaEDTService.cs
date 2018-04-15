@@ -16,6 +16,7 @@ namespace Partner.Service {
 
     public bool book(String name)
     {
+      Console.WriteLine("received booking request for :" + name);
       return !name.Contains("3");
     }
   }
