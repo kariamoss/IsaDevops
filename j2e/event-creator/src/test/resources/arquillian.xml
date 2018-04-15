@@ -16,7 +16,7 @@
                 my-datasource.UserName = sa
                 my-datasource.Password =
                 my-datasource.JtaManaged = true
-                my-datasource.LogSql = false
+                my-datasource.LogSql = true
             </property>
         </configuration>
     </container>

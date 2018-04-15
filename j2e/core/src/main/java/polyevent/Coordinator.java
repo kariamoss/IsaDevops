@@ -3,11 +3,19 @@ package polyevent;
 import org.apache.bval.constraints.Email;
 import org.apache.bval.constraints.NotEmpty;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
+@Entity
+@Table(name="coordinators")
 public class Coordinator implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @NotNull
     @NotEmpty
@@ -22,6 +30,7 @@ public class Coordinator implements Serializable {
     @Email
     private String email;
 
+    @OneToMany(mappedBy="coordinator")
     private List<Event> eventsCreated;
 
     @NotNull
@@ -40,6 +49,14 @@ public class Coordinator implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<Event> getEventsCreated() {
@@ -90,5 +107,22 @@ public class Coordinator implements Serializable {
                 '}';
     }
 
+    /**
+     * Two coordinators are equal if they have the same credentials
+     * @param o the object to compare to this very one
+     * @return true if this object and o are equals
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinator that = (Coordinator) o;
+        return Objects.equals(email, that.email) &&
+                Objects.equals(password, that.password);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
+    }
 }

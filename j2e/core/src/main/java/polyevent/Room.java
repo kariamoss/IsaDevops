@@ -1,11 +1,33 @@
 package polyevent;
 
-import java.io.Serializable;
+import org.apache.bval.constraints.NotEmpty;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
+
+@Entity
+@Table(name="rooms")
 public class Room implements Serializable {
+
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @Enumerated(EnumType.STRING)
     private RoomType roomType;
+
     private int capacity;
+
+    @NotNull
+    @NotEmpty
     private String name;
+
+    @NotNull
+    @ManyToMany(mappedBy = "rooms")
+    private List<Event> events;
 
     public Room() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -15,6 +37,22 @@ public class Room implements Serializable {
         this.roomType = roomType;
         this.capacity = capacity;
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     public RoomType getRoomType() {
@@ -48,5 +86,23 @@ public class Room implements Serializable {
                 ", capacity=" + capacity +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    /**
+     * A room is equal to another room if both names are equal
+     * @param o the room to compare with this very one
+     * @return true if this object and o are equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return Objects.equals(name, room.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
