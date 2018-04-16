@@ -2,6 +2,7 @@ package polyevent;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
@@ -27,6 +28,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
+@Transactional(TransactionMode.COMMIT)
 public class EventCatalogTest {
 
     @Deployment
@@ -34,6 +36,9 @@ public class EventCatalogTest {
         return ShrinkWrap.create(JavaArchive.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addPackage(IEventCatalog.class.getPackage())
+                .addPackage(EventCatalog.class.getPackage())
+                .addPackage(Event.class.getPackage())
+                .addPackage(Coordinator.class.getPackage())
                 .addAsManifestResource(new ClassLoaderAsset("META-INF/persistence.xml"), "persistence.xml");
     }
 
@@ -54,7 +59,6 @@ public class EventCatalogTest {
     private String lookUpEventName;
 
     @Before
-    @Transactional
     public void setUpMocks() {
         lookUpEventName = "Event1";
 
