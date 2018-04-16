@@ -13,7 +13,8 @@ import java.util.Objects;
 public class Room implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
 
     @Enumerated(EnumType.STRING)

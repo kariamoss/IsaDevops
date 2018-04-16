@@ -17,10 +17,11 @@ public class Event implements Serializable {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Coordinator coordinator;
 
     @NotNull
@@ -35,7 +36,17 @@ public class Event implements Serializable {
     private Date endDate;
 
     @ManyToMany
-    @JoinTable(name="events_rooms")
+    @JoinTable(
+            name="events_rooms",
+            joinColumns = @JoinColumn(
+                    name="event_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="room_id",
+                    referencedColumnName = "id"
+            )
+    )
     private List<Room> rooms;
 
     public Event() {

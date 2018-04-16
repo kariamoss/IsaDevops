@@ -6,6 +6,7 @@ import org.apache.bval.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class Coordinator implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
@@ -30,11 +31,18 @@ public class Coordinator implements Serializable {
     @Email
     private String email;
 
-    @OneToMany(mappedBy="coordinator")
-    private List<Event> eventsCreated;
-
     @NotNull
     private String password;
+
+    @OneToMany(
+            cascade = {
+                    CascadeType.REMOVE,
+                    CascadeType.MERGE
+            },
+            fetch = FetchType.LAZY,
+            mappedBy="coordinator"
+    )
+    private List<Event> eventsCreated;
 
     public Coordinator() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -49,6 +57,7 @@ public class Coordinator implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.eventsCreated = new ArrayList<>();
     }
 
     public int getId() {
@@ -97,6 +106,10 @@ public class Coordinator implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void addEvent(Event e) {
+        this.eventsCreated.add(e);
     }
 
     @Override

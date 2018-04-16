@@ -8,16 +8,17 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
+import polyevent.entities.Room;
+import polyevent.entities.RoomType;
 
-import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
@@ -48,7 +49,7 @@ public class EventCatalogTest {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Resource
+    @Inject
     private UserTransaction userTransaction;
 
     private Coordinator c;
@@ -56,23 +57,34 @@ public class EventCatalogTest {
     private Event e1;
     private Event e2;
 
+    private Room r1;
+    private Room r2;
+
     private String lookUpEventName;
 
     @Before
     public void setUpMocks() {
         lookUpEventName = "Event1";
 
-        c = new Coordinator("Maxime", "Flament", "maximeflam@gmail.com", "abcd");
         e1 = new Event(c, 100, lookUpEventName);
         e2 = new Event(c, 10, "Event2");
 
-        entityManager.persist(c);
-        entityManager.persist(e1);
-        entityManager.persist(e2);
+        r1 = new Room(RoomType.MEETING_ROOM, 100, "E+100");
+        r2 = new Room(RoomType.MEETING_ROOM, 20, "E+101");
+
+        e1.addRoom(r1);
+        e2.addRoom(r2);
+
+        c = new Coordinator("Maxime", "Flament", "maximeflam@gmail.com", "abcd");
+        c.addEvent(e1);
+        c.addEvent(e2);
     }
 
     @Test
     public void testGetAllEvents() {
+        entityManager.persist(e1);
+        entityManager.persist(e2);
+        entityManager.persist(c);
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals("Size of event list should be equal to 2", optionalEvents.get().size(), 2);
@@ -80,13 +92,16 @@ public class EventCatalogTest {
     }
 
     @Test
+    @Ignore
     public void testFindEventWithName() {
+        entityManager.persist(c);
         Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertTrue(optionalEvent.isPresent());
         assertEquals(optionalEvent.get().getName(), lookUpEventName);
     }
 
     @Test
+    @Ignore
     public void testGetAllEventsEmpty() {
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
@@ -111,20 +126,5 @@ public class EventCatalogTest {
     @Ignore
     public void testFindEventNameConstraintViolationEmpty() {
         //todo
-    }
-
-    @After
-    public void cleanSetUp() throws Exception {
-        userTransaction.begin();
-            c = entityManager.merge(c);
-            entityManager.remove(c);
-            c = null;
-            e1 = entityManager.merge(e1);
-            entityManager.remove(e1);
-            e1 = null;
-            e2 = entityManager.merge(e2);
-            entityManager.remove(e2);
-            e2 = null;
-        userTransaction.commit();
     }
 }
