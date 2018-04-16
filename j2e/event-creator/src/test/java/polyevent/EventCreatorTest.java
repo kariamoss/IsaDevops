@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 import polyevent.exceptions.DatabaseSavingException;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.InvalidRoomException;
@@ -41,7 +43,7 @@ public class EventCreatorTest {
     private IEventOrganizer eventOrganizer;
     private Database database;
 
-    private Coordinator coordinator;
+    private polyevent.entities.Coordinator coordinator;
     private Calendar startDate;
 
     @Before
@@ -57,10 +59,10 @@ public class EventCreatorTest {
         // mocks the call to IEventOrganizer.bookRoom(Room) in order to return true
         // as we want to unit test the IEventCreator component only
         eventOrganizer = Mockito.mock(EventOrganizer.class);
-        when(eventOrganizer.bookRoom(notNull(Event.class))).thenReturn(new Event());
+        when(eventOrganizer.bookRoom(notNull(polyevent.entities.Event.class))).thenReturn(new polyevent.entities.Event());
 
         database = Mockito.spy(Database.class);
-        doNothing().when(database).addEvent(notNull(Event.class));
+        doNothing().when(database).addEvent(notNull(polyevent.entities.Event.class));
 
         ((EventCreator) eventCreator).eventOrganizer = eventOrganizer;
         ((EventCreator) eventCreator).memory = database;
@@ -73,7 +75,7 @@ public class EventCreatorTest {
      */
     @Test
     public void goodEventCreation() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
-        Event e = eventCreator.registerEvent("toto", 10, startDate, coordinator);
+        polyevent.entities.Event e = eventCreator.registerEvent("toto", 10, startDate, coordinator);
         assertNotNull(e);
     }
 
@@ -83,7 +85,7 @@ public class EventCreatorTest {
      */
     @Test(expected = InvalidRequestParametersException.class)
     public void eventCreationWithBadPeopleNumber() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
-        Event e = eventCreator.registerEvent("toto", -10, startDate, coordinator);
+        polyevent.entities.Event e = eventCreator.registerEvent("toto", -10, startDate, coordinator);
         assertNull(e);
     }
 
@@ -93,7 +95,7 @@ public class EventCreatorTest {
      */
     @Test(expected = InvalidRequestParametersException.class)
     public void eventCreationWithNoName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
-        Event e = eventCreator.registerEvent("", 10, startDate, coordinator);
+        polyevent.entities.Event e = eventCreator.registerEvent("", 10, startDate, coordinator);
         assertNull(e);
     }
 
@@ -103,7 +105,7 @@ public class EventCreatorTest {
      */
     @Test(expected = InvalidRequestParametersException.class)
     public void eventCreationWithNullName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
-        Event e = eventCreator.registerEvent(null, 10, startDate, coordinator);
+        polyevent.entities.Event e = eventCreator.registerEvent(null, 10, startDate, coordinator);
         assertNull(e);
     }
 
@@ -117,7 +119,7 @@ public class EventCreatorTest {
     public void eventCreationWithAlreadyPassedDate() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
         Calendar badStartDate = Calendar.getInstance();
         badStartDate.add(Calendar.HOUR_OF_DAY, -12);
-        Event e = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
+        polyevent.entities.Event e = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
         assertNull(e);
     }
 

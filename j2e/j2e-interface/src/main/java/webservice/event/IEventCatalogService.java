@@ -1,6 +1,6 @@
 package webservice.event;
 
-import polyevent.Event;
+import polyevent.entities.Event;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

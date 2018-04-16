@@ -1,4 +1,4 @@
-package polyevent;
+package polyevent.entities;
 
 import org.apache.bval.constraints.Email;
 import org.apache.bval.constraints.NotEmpty;

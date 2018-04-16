@@ -1,7 +1,7 @@
 package webservice.event;
 
-import polyevent.Coordinator;
 import polyevent.ICoordinatorRegistrator;
+import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
 

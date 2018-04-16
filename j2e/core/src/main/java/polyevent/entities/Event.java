@@ -1,9 +1,9 @@
-package polyevent;
+package polyevent.entities;
 
 import org.apache.bval.constraints.NotEmpty;
-import polyevent.validation.custom.Positive;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class Event implements Serializable {
     private Coordinator coordinator;
 
     @NotNull
-    @Positive(message = "The number of people at the event must be at least 1")
+    @Min(0)
     private int nbPeople;
 
     @NotNull
@@ -34,7 +34,7 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany
     @JoinTable(name="events_rooms")
     private List<Room> rooms;
 
@@ -43,9 +43,11 @@ public class Event implements Serializable {
     }
 
     public Event(int nbPeople, String name) {
-        this.nbPeople = nbPeople;
-        this.name = name;
-        this.rooms = new ArrayList<>();
+        this(null, null, null, nbPeople, name);
+    }
+
+    public Event(Coordinator coordinator, int nbPeople, String name) {
+        this(coordinator, null, null, nbPeople, name);
     }
 
     public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {

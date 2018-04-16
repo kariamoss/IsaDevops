@@ -1,14 +1,27 @@
 package polyevent;
 
-import javax.ejb.EJB;
+import polyevent.entities.Event;
+
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
 public class EventCatalog implements IEventCatalog {
 
-    @EJB protected Database database;
+    @PersistenceContext private EntityManager entityManager;
+
+    private Logger l = Logger.getLogger(EventCatalog.class.getName());
+
 
     /**
      * Looks up in the event database and returns all the entries
@@ -19,9 +32,24 @@ public class EventCatalog implements IEventCatalog {
      */
     @Override
     public Optional<List<Event>> getAllEvents() {
-        // database.getEvents() will be an empty List<Event>
-        // if no events have been created yet
-        return Optional.of(database.getEvents());
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Event> criteria = builder.createQuery(Event.class);
+        Root<Event> root =  criteria.from(Event.class);
+        criteria.select(root);
+        TypedQuery<Event> query = entityManager.createQuery(criteria);
+        try {
+            // No need to use ofNullable because an event with such a name may not yet exist
+            // in the database, but first of all,
+            // this is not a situation where the back-end should crash with a NPE,
+            // second the JPA framework has built-in exceptions to handle such case
+            return Optional.of(query.getResultList());
+        } catch (NoResultException nre){
+            l.log(Level.FINEST, "No events found in the database", nre);
+            // database.getEvents() will be an empty List<Event>
+            // if no events have been created yet
+            return Optional.empty();
+        }
     }
 
     /**
@@ -37,9 +65,20 @@ public class EventCatalog implements IEventCatalog {
      */
     @Override
     public Optional<Event> getEventWithName(String eventName) {
-        // We use ofNullable because an event with such a name may not yet exist in the database
-        // this is not a situation where the back-end should crash with a NPE
-        // instead, it should output this information to the client (no event with such name)
-        return Optional.ofNullable(database.findEventByName(eventName));
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Event> criteria = builder.createQuery(Event.class);
+        Root<Event> root =  criteria.from(Event.class);
+        criteria.select(root).where(builder.equal(root.get("name"), eventName));
+        TypedQuery<Event> query = entityManager.createQuery(criteria);
+        try {
+            // No need to use ofNullable because an event with such a name may not yet exist
+            // in the database, but first of all,
+            // this is not a situation where the back-end should crash with a NPE,
+            // second the JPA framework has built-in exceptions to handle such case
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException nre){
+            l.log(Level.FINEST, "No result for ["+eventName+"]", nre);
+            return Optional.empty();
+        }
     }
 }

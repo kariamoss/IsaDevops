@@ -1,5 +1,6 @@
 package polyevent;
 
+import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidCredentialsException;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
@@ -9,7 +10,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * The implementation for several {@link Coordinator} accounts operations
+ * The implementation for several {@link polyevent.entities.Coordinator} accounts operations
  *
  * @see ICoordinatorRegistrator
  * @see ICoordinatorAuthenticator
@@ -22,8 +23,8 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
     @EJB private Database database;
 
     /**
-     * An operation to register a new {@link Coordinator} in the database
-     * The newly created {@link Coordinator} is passed as the return value
+     * An operation to register a new {@link polyevent.entities.Coordinator} in the database
+     * The newly created {@link polyevent.entities.Coordinator} is passed as the return value
      * if the registration was successful, otherwise
      * an {@link Exception} describing the problem
      * should be passed as a return value
@@ -32,11 +33,11 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * @param lastName  the last name for this account
      * @param email     the email of this account, used for further authentication
      * @param password  the password of this account, used for further authentication
-     * @return a {@link Coordinator} object containing the result of the registration
+     * @return a {@link polyevent.entities.Coordinator} object containing the result of the registration
      * process
      */
     @Override
-    public Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException {
+    public polyevent.entities.Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException {
         if (!areRegistrationInformationValid(firstName, lastName, email, password)) {
             throw new InvalidRequestParametersException("Parameters for the registration of a new Coordinator are not valid");
         }
@@ -45,28 +46,28 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
     }
 
     /**
-     * Authenticates the {@link Coordinator}
+     * Authenticates the {@link polyevent.entities.Coordinator}
      * with the given credentials, and returns the result of the
      * operation trial
      * <p>
      * If the authentication was successful, the corresponding
-     * {@link Coordinator} object is passed as the result of the
+     * {@link polyevent.entities.Coordinator} object is passed as the result of the
      * request, otherwise, an {@link Exception}
      * should be returned to indicate the problem that occurred while authenticating
-     * the {@link Coordinator}
+     * the {@link polyevent.entities.Coordinator}
      *
-     * @param email the email of the {@link Coordinator} account
-     * @param password the password of the {@link Coordinator} account
-     * @return a {@link Coordinator} or an {@link Exception} depending on the
+     * @param email the email of the {@link polyevent.entities.Coordinator} account
+     * @param password the password of the {@link polyevent.entities.Coordinator} account
+     * @return a {@link polyevent.entities.Coordinator} or an {@link Exception} depending on the
      * result of the authentication trial
      */
     @Override
-    public Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException {
+    public polyevent.entities.Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException {
         if (!areLoginInformationValid(email, password)) {
             throw new InvalidRequestParametersException("Parameters for coordinator authentication are invalid");
         }
 
-        Coordinator c = database.getCoordinatorByMail(email);
+        polyevent.entities.Coordinator c = database.getCoordinatorByMail(email);
         if (c == null) {
             // we don't inform the user that the email is invalid because
             // we don't want to give information to a potential hacker that the email is wrong
@@ -84,7 +85,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
     }
 
     /**
-     * Returns true if the credentials of the {@link Coordinator}
+     * Returns true if the credentials of the {@link polyevent.entities.Coordinator}
      * are valid ones
      *
      * @param email the email to validate
@@ -99,10 +100,10 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
 
     /**
      * Returns true if the parameters for the registration of
-     * a new {@link Coordinator} are semantically valid
-     * @param firstName the first name of the new {@link Coordinator}
-     * @param lastName the last name of the new {@link Coordinator}
-     * @param email the email of the new {@link Coordinator}
+     * a new {@link polyevent.entities.Coordinator} are semantically valid
+     * @param firstName the first name of the new {@link polyevent.entities.Coordinator}
+     * @param lastName the last name of the new {@link polyevent.entities.Coordinator}
+     * @param email the email of the new {@link polyevent.entities.Coordinator}
      * @param password the password of the new {@link Coordinator}
      * @return true if the given parameters are semantically valid
      */

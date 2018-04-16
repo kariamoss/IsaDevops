@@ -1,61 +1,70 @@
 package polyevent;
 
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.notNull;
-import static org.mockito.Mockito.when;
 
+@RunWith(Arquillian.class)
 public class EventCatalogTest {
+
+    @Deployment
+    public static JavaArchive createDeployment() {
+        return ShrinkWrap.create(JavaArchive.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addPackage(IEventCatalog.class.getPackage())
+                .addAsManifestResource(new ClassLoaderAsset("META-INF/persistence.xml"), "persistence.xml");
+    }
 
     @EJB
     private IEventCatalog eventCatalog;
-    @EJB
-    private IEventCatalog eventCatalog2;
 
-    private Validator validator;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    private Database database;
-    private Database database2;
+    @Resource
+    private UserTransaction userTransaction;
+
+    private Coordinator c;
+
+    private Event e1;
+    private Event e2;
 
     private String lookUpEventName;
 
     @Before
+    @Transactional
     public void setUpMocks() {
-        // mocks the database entries, and verifies that
-        List<Event> events = new ArrayList<>();
-        List<RoomType> l = new ArrayList<>();
-        l.add(RoomType.MEETING_ROOM);
-
         lookUpEventName = "Event1";
 
-        events.add(new Event(100, lookUpEventName, l));
-        events.add(new Event(10, "Event2", l));
+        c = new Coordinator("Maxime", "Flament", "maximeflam@gmail.com", "abcd");
+        e1 = new Event(c, 100, lookUpEventName);
+        e2 = new Event(c, 10, "Event2");
 
-        eventCatalog = new EventCatalog();
-        eventCatalog2 = new EventCatalog();
-
-        database = Mockito.mock(Database.class);
-        database2 = Mockito.mock(Database.class);
-        when(database.getEvents()).thenReturn(events);
-        when(database.findEventByName(notNull(String.class))).thenReturn(events.get(0));
-        when(database2.getEvents()).thenReturn(new ArrayList<>());
-        when(database2.findEventByName(notNull(String.class))).thenReturn(null);
-        ((EventCatalog) eventCatalog).database = database;
-        ((EventCatalog) eventCatalog2).database = database2;
-
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
+        entityManager.persist(c);
+        entityManager.persist(e1);
+        entityManager.persist(e2);
     }
 
     @Test
@@ -75,14 +84,15 @@ public class EventCatalogTest {
 
     @Test
     public void testGetAllEventsEmpty() {
-        Optional<List<Event>> optionalEvents = eventCatalog2.getAllEvents();
+        Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals(optionalEvents.get().size(), 0);
     }
 
     @Test(expected = NoSuchElementException.class)
+    @Ignore
     public void testFindEventWithNameEmpty() {
-        Optional<Event> optionalEvent = eventCatalog2.getEventWithName(lookUpEventName);
+        Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertFalse(optionalEvent.isPresent());
         Object whatever = optionalEvent.get(); // throws the NoSuchElementException
     }
@@ -90,17 +100,27 @@ public class EventCatalogTest {
     @Test
     @Ignore
     public void testFindEventNameConstraintViolationNull() {
-        // TODO fix: there should be a violation for the given name
-        Set<ConstraintViolation<Optional>> violations
-                = validator.validate(eventCatalog.getEventWithName(null));
-
-        assertFalse(violations.isEmpty());
+        //todo
     }
 
     @Test
     @Ignore
     public void testFindEventNameConstraintViolationEmpty() {
-        // TODO
-        eventCatalog.getEventWithName("");
+        //todo
+    }
+
+    @After
+    public void cleanSetUp() throws Exception {
+        userTransaction.begin();
+            c = entityManager.merge(c);
+            entityManager.remove(c);
+            c = null;
+            e1 = entityManager.merge(e1);
+            entityManager.remove(e1);
+            e1 = null;
+            e2 = entityManager.merge(e2);
+            entityManager.remove(e2);
+            e2 = null;
+        userTransaction.commit();
     }
 }

@@ -1,7 +1,7 @@
 package webservice.event;
 
-import polyevent.Event;
 import polyevent.IEventCatalog;
+import polyevent.entities.Event;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

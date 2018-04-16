@@ -4,6 +4,7 @@ import api.EventApi;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import polyevent.entities.Event;
 
 import javax.xml.datatype.DatatypeFactory;
 import java.util.Calendar;

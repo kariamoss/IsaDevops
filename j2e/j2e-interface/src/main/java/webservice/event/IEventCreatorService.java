@@ -1,7 +1,7 @@
 package webservice.event;
 
 
-import polyevent.Event;
+import polyevent.entities.Event;
 import polyevent.exceptions.*;
 
 import javax.jws.WebMethod;

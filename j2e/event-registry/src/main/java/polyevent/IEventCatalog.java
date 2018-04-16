@@ -1,6 +1,7 @@
 package polyevent;
 
 import org.apache.bval.constraints.NotEmpty;
+import polyevent.entities.Event;
 
 import javax.ejb.Local;
 import javax.validation.constraints.NotNull;

@@ -1,8 +1,8 @@
 package polyevent.cli.command;
 
 import api.EventApi;
-import polyevent.Event;
-import polyevent.RoomType;
+import polyevent.entities.Event;
+import polyevent.entities.RoomType;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;

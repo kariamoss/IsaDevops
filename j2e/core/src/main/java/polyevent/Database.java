@@ -1,5 +1,8 @@
 package polyevent;
 
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
+import polyevent.entities.Room;
 import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.ejb.Singleton;

@@ -1,21 +1,20 @@
 package polyevent;
 
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import polyevent.entities.Event;
+import polyevent.entities.Room;
+import polyevent.entities.RoomType;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
 
 public class EventTest {
     private Event event;
 
     @Before
     public void init(){
-        this.event = new Event(100,"salut",new ArrayList<RoomType>());
+        this.event = new Event(100,"salut");
     }
 
     @Test

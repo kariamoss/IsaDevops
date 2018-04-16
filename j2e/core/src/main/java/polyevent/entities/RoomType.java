@@ -1,4 +1,4 @@
-package polyevent;
+package polyevent.entities;
 
 public enum RoomType {
     MEETING_ROOM("Meeting room", true),

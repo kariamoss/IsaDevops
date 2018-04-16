@@ -7,15 +7,14 @@
 
         <jta-data-source>EventOrganization</jta-data-source>
 
-        <class>polyevent.Coordinator</class>
-        <class>polyevent.Event</class>
-        <class>polyevent.Room</class>
+        <class>polyevent.entities.Coordinator</class>
+        <class>polyevent.entities.Event</class>
+        <class>polyevent.entities.Room</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
             <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
-            <property name="openjpa.RuntimeUnenhancedClasses" value="unsupported" />
         </properties>
 
     </persistence-unit>

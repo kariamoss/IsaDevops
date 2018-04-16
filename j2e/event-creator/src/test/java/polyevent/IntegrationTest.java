@@ -8,6 +8,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 import polyevent.exceptions.DatabaseSavingException;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.InvalidRoomException;
@@ -46,7 +48,7 @@ public class IntegrationTest {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);
 
-        Event e = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
+        polyevent.entities.Event e = eventCreator.registerEvent("Eventname", 30, cal, new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr"));
 
         assertNotNull(e);
 

@@ -1,4 +1,4 @@
-package polyevent;
+package polyevent.entities;
 
 import org.apache.bval.constraints.NotEmpty;
 
@@ -25,7 +25,6 @@ public class Room implements Serializable {
     @NotEmpty
     private String name;
 
-    @NotNull
     @ManyToMany(mappedBy = "rooms")
     private List<Event> events;
 

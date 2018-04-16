@@ -1,9 +1,9 @@
 package webservice.event;
 
-import polyevent.Coordinator;
 import polyevent.Database;
-import polyevent.Event;
 import polyevent.IEventCreator;
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 import polyevent.exceptions.*;
 
 import javax.ejb.EJB;

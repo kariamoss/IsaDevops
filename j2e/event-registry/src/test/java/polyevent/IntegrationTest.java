@@ -8,6 +8,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
@@ -33,6 +35,7 @@ public class IntegrationTest {
     }
 
     @Test
+    @Ignore
     public void eventListingTest() {
 
         Calendar cal = Calendar.getInstance();
