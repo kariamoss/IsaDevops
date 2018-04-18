@@ -42,6 +42,9 @@ public class Coordinator implements Serializable {
             },
             fetch = FetchType.LAZY,
             mappedBy="coordinator"
+            // whenever an element is removed from this collection,
+            // it is deleted in the database as well
+            //orphanRemoval = true
     )
     private List<Event> eventsCreated;
 

@@ -1,6 +1,7 @@
 package polyevent;
 
 import polyevent.entities.Event;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -64,7 +65,11 @@ public class EventCatalog implements IEventCatalog {
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
     @Override
-    public Optional<Event> getEventWithName(String eventName) {
+    public Optional<Event> getEventWithName(String eventName) throws InvalidRequestParametersException {
+        if (!isParameterValid(eventName)) {
+            throw new InvalidRequestParametersException("Cannot find an event with an empty or null name : " + eventName);
+        }
+
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Event> criteria = builder.createQuery(Event.class);
         Root<Event> root =  criteria.from(Event.class);
@@ -80,5 +85,15 @@ public class EventCatalog implements IEventCatalog {
             l.log(Level.FINEST, "No result for ["+eventName+"]", nre);
             return Optional.empty();
         }
+    }
+
+    /**
+     * Returns true if the event name is valid according to the
+     * {@link FieldsValidator#isStringValid(String)} method
+     * @param eventName the name of the event
+     * @return true if the event name parameter is valid
+     */
+    private boolean isParameterValid(String eventName) {
+        return FieldsValidator.isStringValid(eventName);
     }
 }

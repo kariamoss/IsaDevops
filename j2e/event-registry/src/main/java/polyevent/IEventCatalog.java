@@ -1,10 +1,9 @@
 package polyevent;
 
-import org.apache.bval.constraints.NotEmpty;
 import polyevent.entities.Event;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.Local;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +26,5 @@ public interface IEventCatalog {
      * @param eventName the name of the event to retrieve
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
-    Optional<Event> getEventWithName(
-            @NotNull(message = "Cannot find an event with a null name")
-            @NotEmpty(message = "Cannot find an event with no name")
-                    String eventName);
+    Optional<Event> getEventWithName(String eventName) throws InvalidRequestParametersException;
 }

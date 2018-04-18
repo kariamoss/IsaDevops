@@ -10,13 +10,13 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
 import polyevent.entities.Room;
 import polyevent.entities.RoomType;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -30,10 +30,10 @@ import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.COMMIT)
@@ -123,7 +123,7 @@ public class EventCatalogTest {
      * @see Coordinator#eventsCreated
      */
     @Test
-    public void testFindEventWithName() {
+    public void testFindEventWithName() throws InvalidRequestParametersException {
         Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertTrue(optionalEvent.isPresent());
         assertEquals(optionalEvent.get().getName(), lookUpEventName);
@@ -141,6 +141,8 @@ public class EventCatalogTest {
     @Test
     public void testGetAllEventsEmpty() {
         c.setEventsCreated(new ArrayList<>());
+        e1.setCoordinator(null);
+        e2.setCoordinator(null);
 
         entityManager.remove(e1);
         entityManager.remove(e2);
@@ -150,26 +152,18 @@ public class EventCatalogTest {
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals(optionalEvents.get().size(), 0);
+
+
     }
 
-    @Test(expected = NoSuchElementException.class)
-    @Ignore
-    public void testFindEventWithNameEmpty() {
-        Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
-        assertFalse(optionalEvent.isPresent());
-        Object whatever = optionalEvent.get(); // throws the NoSuchElementException
+    @Test(expected = InvalidRequestParametersException.class)
+    public void testFindEventWithNameEmpty() throws InvalidRequestParametersException {
+        eventCatalog.getEventWithName("");
     }
 
-    @Test
-    @Ignore
-    public void testFindEventNameConstraintViolationNull() {
-        //todo
-    }
-
-    @Test
-    @Ignore
-    public void testFindEventNameConstraintViolationEmpty() {
-        //todo
+    @Test(expected = InvalidRequestParametersException.class)
+    public void testFindEventNameConstraintViolationNull() throws InvalidRequestParametersException {
+        eventCatalog.getEventWithName(null);
     }
 
     /**
@@ -197,10 +191,13 @@ public class EventCatalogTest {
     @After
     public void cleanUp() throws Exception {
         userTransaction.begin();
-            Coordinator coordinator = this.findCoordinator(coordinatorEmail).get();
-            entityManager.refresh(coordinator);
-            entityManager.remove(coordinator);
-            c = null;
+            Optional<Coordinator> optionalCoordinator = this.findCoordinator(coordinatorEmail);
+            if (optionalCoordinator.isPresent()) {
+                Coordinator coordinator = optionalCoordinator.get();
+                entityManager.refresh(coordinator);
+                entityManager.remove(coordinator);
+                c = null;
+            }
         userTransaction.commit();
     }
 }

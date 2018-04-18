@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class IntegrationTest {
 
     @Test
     @Ignore
-    public void eventListingTest() {
+    public void eventListingTest() throws InvalidRequestParametersException {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);
