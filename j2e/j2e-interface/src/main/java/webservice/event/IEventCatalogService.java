@@ -1,6 +1,7 @@
 package webservice.event;
 
 import polyevent.entities.Event;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -30,5 +31,5 @@ public interface IEventCatalogService {
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
     @WebMethod
-    Event getEventWithName(String eventName);
+    Event getEventWithName(String eventName) throws InvalidRequestParametersException;
 }

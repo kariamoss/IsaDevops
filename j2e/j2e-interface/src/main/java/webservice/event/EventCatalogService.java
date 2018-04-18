@@ -2,6 +2,7 @@ package webservice.event;
 
 import polyevent.IEventCatalog;
 import polyevent.entities.Event;
+import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -39,7 +40,7 @@ public class EventCatalogService implements IEventCatalogService {
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
     @Override
-    public Event getEventWithName(String eventName) {
+    public Event getEventWithName(String eventName) throws InvalidRequestParametersException {
         Optional<Event> event = eventCatalog.getEventWithName(eventName);
         return event.orElse(null);
     }
