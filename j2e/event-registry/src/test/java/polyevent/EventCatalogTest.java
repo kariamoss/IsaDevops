@@ -32,8 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.COMMIT)
@@ -154,6 +153,32 @@ public class EventCatalogTest {
         assertEquals(optionalEvents.get().size(), 0);
 
 
+    }
+
+    /**
+     * Tests that the removal of the {@link Coordinator}
+     * {@link #c} from the database also removes the associated events,
+     * and thus the find method doesn't return wrong results
+     */
+    @Test
+    public void testDestroyCoordinatorCascade() throws Exception {
+
+        int cId = c.getId();
+
+        c.setEventsCreated(new ArrayList<>());
+        e1.setCoordinator(null);
+        e2.setCoordinator(null);
+        entityManager.remove(c);
+        c = null;
+
+        int e1Id = e1.getId();
+        int e2Id = e2.getId();
+
+        assertTrue(eventCatalog.getAllEvents().isPresent());
+        assertTrue(eventCatalog.getAllEvents().get().isEmpty());
+        assertNull(entityManager.find(Coordinator.class, cId));
+        assertNull(entityManager.find(Event.class, e1Id));
+        assertNull(entityManager.find(Event.class, e2Id));
     }
 
     @Test(expected = InvalidRequestParametersException.class)
