@@ -99,7 +99,6 @@ public class EventCatalogTest {
     }
 
     @Test
-    @Ignore
     public void testFindEventWithName() {
         Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertTrue(optionalEvent.isPresent());
@@ -109,6 +108,7 @@ public class EventCatalogTest {
     @Test
     @Ignore
     public void testGetAllEventsEmpty() {
+        // todo fix
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals(optionalEvents.get().size(), 0);
@@ -161,7 +161,7 @@ public class EventCatalogTest {
         userTransaction.begin();
             Coordinator coordinator = this.findCoordinator(coordinatorEmail).get();
             entityManager.refresh(coordinator);
-            entityManager.refresh(coordinator);
+            entityManager.remove(coordinator);
             c = null;
         userTransaction.commit();
     }
