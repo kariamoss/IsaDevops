@@ -28,6 +28,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -70,26 +71,40 @@ public class EventCatalogTest {
     private Room r2;
 
     private String lookUpEventName;
+    private String badLookupEventName;
 
     @Before
     public void setUpMocks() {
         lookUpEventName = "Event1";
+        badLookupEventName = "Event2";
         coordinatorEmail = "maximeflam@gmail.com";
 
         c = new Coordinator("Maxime", "Flament", coordinatorEmail, "abcd");
-        entityManager.persist(c);
 
         e1 = new Event(c, 100, lookUpEventName);
-        e2 = new Event(c, 10, "Event2");
+        e2 = new Event(c, 10, badLookupEventName);
 
-        entityManager.persist(e1);
-        entityManager.persist(e2);
+        c.addEvent(e1);
+        c.addEvent(e2);
+
+        e1.setCoordinator(c);
+        e2.setCoordinator(c);
+
+        entityManager.persist(c);
 
         r1 = new Room(RoomType.MEETING_ROOM, 100, "E+100");
         r2 = new Room(RoomType.MEETING_ROOM, 20, "E+101");
 
     }
 
+    /**
+     * Tests that the {@link Event} objects associated to the {@link Coordinator}
+     * have been stored in the database by transitivity (OneToMany relationship)
+     * by using the {@link EventCatalog} events lookup method
+     *
+     * @see EventCatalog#getAllEvents()
+     * @see Coordinator#eventsCreated
+     */
     @Test
     public void testGetAllEvents() {
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
@@ -98,17 +113,40 @@ public class EventCatalogTest {
         assertEquals(optionalEvents.get().get(0).getName(), lookUpEventName);
     }
 
+    /**
+     * Tests that the {@link Event} with the name {@link #lookUpEventName} {@link #e1}
+     * object associated to the {@link Coordinator}
+     * has been stored in the database by transitivity (OneToMany relationship)
+     * by using the {@link EventCatalog} event name lookup method
+     *
+     * @see EventCatalog#getEventWithName(String)
+     * @see Coordinator#eventsCreated
+     */
     @Test
-    @Ignore
     public void testFindEventWithName() {
         Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertTrue(optionalEvent.isPresent());
         assertEquals(optionalEvent.get().getName(), lookUpEventName);
     }
 
+    /**
+     * Tests that after the removal of both events from the coordinator,
+     * the {@link Event} objects associated to the {@link Coordinator}
+     * have been successfully removed from the database, thus, that the
+     * list of results is empty
+     *
+     * @see EventCatalog#getAllEvents()
+     * @see Coordinator#eventsCreated
+     */
     @Test
-    @Ignore
     public void testGetAllEventsEmpty() {
+        c.setEventsCreated(new ArrayList<>());
+
+        entityManager.remove(e1);
+        entityManager.remove(e2);
+        e1 = null;
+        e2 = null;
+
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals(optionalEvents.get().size(), 0);
@@ -161,7 +199,7 @@ public class EventCatalogTest {
         userTransaction.begin();
             Coordinator coordinator = this.findCoordinator(coordinatorEmail).get();
             entityManager.refresh(coordinator);
-            entityManager.refresh(coordinator);
+            entityManager.remove(coordinator);
             c = null;
         userTransaction.commit();
     }
