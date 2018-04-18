@@ -21,7 +21,12 @@ import polyevent.entities.RoomType;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -56,6 +61,8 @@ public class EventCatalogTest {
 
     private Coordinator c;
 
+    private String coordinatorEmail;
+
     private Event e1;
     private Event e2;
 
@@ -67,12 +74,9 @@ public class EventCatalogTest {
     @Before
     public void setUpMocks() {
         lookUpEventName = "Event1";
-    }
+        coordinatorEmail = "maximeflam@gmail.com";
 
-    @Test
-    public void testGetAllEvents() {
-
-        c = new Coordinator("Maxime", "Flament", "maximeflam@gmail.com", "abcd");
+        c = new Coordinator("Maxime", "Flament", coordinatorEmail, "abcd");
         entityManager.persist(c);
 
         e1 = new Event(c, 100, lookUpEventName);
@@ -84,6 +88,10 @@ public class EventCatalogTest {
         r1 = new Room(RoomType.MEETING_ROOM, 100, "E+100");
         r2 = new Room(RoomType.MEETING_ROOM, 20, "E+101");
 
+    }
+
+    @Test
+    public void testGetAllEvents() {
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
         assertEquals("Size of event list should be equal to 2", optionalEvents.get().size(), 2);
@@ -126,22 +134,35 @@ public class EventCatalogTest {
         //todo
     }
 
+    /**
+     * Utility method used to retrieve a Coordinator from the database
+     * This method is used in the {@link @After} method to retrieve the coordinator
+     * {@link #c} and recreate it in the database after ech test, since the execution order
+     * of the methods inside test suites is not guaranteed to remain the same
+     * over 2 executions
+     * @return the {@link Coordinator} that was created for this test suite
+     */
+    private Optional<Coordinator> findCoordinator(String email) {
+        // todo remove this method and use the CoordinatorRegistry to retrieve the Coordinator in the @After method
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Coordinator> criteria = builder.createQuery(Coordinator.class);
+        Root<Coordinator> root =  criteria.from(Coordinator.class);
+        criteria.select(root).where(builder.equal(root.get("email"), email));
+        TypedQuery<Coordinator> query = entityManager.createQuery(criteria);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException nre){
+            return Optional.empty();
+        }
+    }
+
     @After
     public void cleanUp() throws Exception {
-        /*
-        try {
-            userTransaction.begin();
-                c = entityManager.merge(c);
-                e1 = entityManager.merge(e1);
-                e2 = entityManager.merge(e2);
-                entityManager.remove(e1);
-                entityManager.remove(e2);
-                entityManager.remove(c);
-            userTransaction.commit();
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("e.getCause() = " + e.getCause());
-        }
-        */
+        userTransaction.begin();
+            Coordinator coordinator = this.findCoordinator(coordinatorEmail).get();
+            entityManager.refresh(coordinator);
+            entityManager.refresh(coordinator);
+            c = null;
+        userTransaction.commit();
     }
 }
