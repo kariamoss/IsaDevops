@@ -26,7 +26,8 @@ public class Room implements Serializable {
     @NotEmpty
     private String name;
 
-    @ManyToMany(mappedBy = "rooms")
+    //@ManyToMany(mappedBy = "rooms")
+    @Transient
     private List<Event> events;
 
     public Room() {

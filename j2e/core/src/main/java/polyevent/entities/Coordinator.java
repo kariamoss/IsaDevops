@@ -37,7 +37,8 @@ public class Coordinator implements Serializable {
     @OneToMany(
             cascade = {
                     CascadeType.REMOVE,
-                    CascadeType.MERGE
+                    CascadeType.MERGE,
+                    CascadeType.PERSIST
             },
             fetch = FetchType.LAZY,
             mappedBy="coordinator"

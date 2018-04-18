@@ -3,7 +3,6 @@ package polyevent.entities;
 import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class Event implements Serializable {
     private Coordinator coordinator;
 
     @NotNull
-    @Min(0)
+    //@Min(0)
     private int nbPeople;
 
     @NotNull
@@ -35,8 +34,8 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    @ManyToMany
-    @JoinTable(
+    //@ManyToMany
+    /*@JoinTable(
             name="events_rooms",
             joinColumns = @JoinColumn(
                     name="event_id",
@@ -46,7 +45,8 @@ public class Event implements Serializable {
                     name="room_id",
                     referencedColumnName = "id"
             )
-    )
+    )*/
+    @Transient
     private List<Room> rooms;
 
     public Event() {
@@ -134,6 +134,8 @@ public class Event implements Serializable {
         return name;
     }
 
+
+
     @Override
     public String toString() {
         return "Event{" +
@@ -145,6 +147,8 @@ public class Event implements Serializable {
                 ", rooms=" + rooms +
                 '}';
     }
+
+
 
     @Override
     public boolean equals(Object o) {
