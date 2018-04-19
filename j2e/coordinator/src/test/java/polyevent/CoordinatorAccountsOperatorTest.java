@@ -6,7 +6,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
@@ -16,6 +15,8 @@ import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import static org.junit.Assert.*;
 
@@ -39,12 +40,14 @@ public class CoordinatorAccountsOperatorTest {
     @EJB private ICoordinatorAuthenticator coordinatorAuthenticator;
     @EJB private ICoordinatorRegistrator coordinatorRegistrator;
 
+    @PersistenceContext private EntityManager entityManager;
+
     @Test
     public void registerWithGoodInformation() throws UserAlreadyExistsException, InvalidRequestParametersException, InvalidCredentialsException {
         Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
         assertNotNull(c);
         assertEquals("toto@tutu.fr", c.getEmail());
-        assertEquals(c, coordinatorAuthenticator.authenticate(c.getEmail(),c.getPassword()));
+        assertEquals(c, coordinatorAuthenticator.authenticate(c.getEmail(), c.getPassword()));
     }
 
     @Test(expected = InvalidRequestParametersException.class)
@@ -60,12 +63,12 @@ public class CoordinatorAccountsOperatorTest {
 
         c = coordinatorRegistrator.register("Toto", "", "toto@tutu.fr", "tototutu");
         assertNull(c);
+
+        assertNull(entityManager.find(Coordinator.class, "toto@tutu.fr"));
     }
 
     @Test(expected = InvalidRequestParametersException.class)
-    @Ignore
     public void registerWithBadEmail() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        // TODO FIX THIS TEST ==> FieldsValidator.isValidEmail detects "toto" as a valid email
         Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
         assertNull(c);
     }
@@ -77,6 +80,8 @@ public class CoordinatorAccountsOperatorTest {
 
         c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "");
         assertNull(c);
+
+        assertNull(entityManager.find(Coordinator.class, "toto"));
     }
 
     @Test(expected = UserAlreadyExistsException.class)
@@ -84,8 +89,14 @@ public class CoordinatorAccountsOperatorTest {
         Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
         assertNotNull(c);
 
+        assertNotNull(entityManager.find(Coordinator.class, c.getId()));
+        assertEquals(c, entityManager.find(Coordinator.class, c.getId()));
+
         Coordinator c2 = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
         assertNull(c2);
+
+        // checks that the register trial of c2 didn't replace c in the database
+        assertEquals(c, entityManager.find(Coordinator.class, "tutu@tutu.fr"));
     }
 
     @Test
@@ -95,6 +106,10 @@ public class CoordinatorAccountsOperatorTest {
         Coordinator cGoodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
 
         assertEquals(c, cGoodAuth);
+        assertEquals(c.getId(), cGoodAuth.getId());
+        assertNotNull(entityManager.find(Coordinator.class, c.getId()));
+        assertEquals(c, entityManager.find(Coordinator.class, c.getId()));
+        assertEquals(cGoodAuth, entityManager.find(Coordinator.class, c.getId()));
     }
 
     @Test(expected = InvalidCredentialsException.class)
@@ -102,5 +117,6 @@ public class CoordinatorAccountsOperatorTest {
         String email = "bademail@email.fr";
         Coordinator c = coordinatorAuthenticator.authenticate(email, "tototutu");
         assertNull(c);
+        assertNull(entityManager.find(Coordinator.class, "bademail@email.fr"));
     }
 }

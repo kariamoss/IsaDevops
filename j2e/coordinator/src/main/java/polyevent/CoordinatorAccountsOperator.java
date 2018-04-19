@@ -81,11 +81,13 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      */
     @Override
     public Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException {
+        // checks that the parameters are SEMANTICALLY correct
         if (!areLoginInformationValid(email, password)) {
             throw new InvalidRequestParametersException("Parameters for coordinator authentication are invalid");
         }
 
         Optional<Coordinator> c = findByEmail(email);
+        // checks that a user with this email exists in the database
         if (!c.isPresent()) {
             // we don't inform the user that the email is invalid because
             // we don't want to give information to a potential hacker that the email is wrong
@@ -93,6 +95,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
         }
         else {
             Coordinator coordinator = c.get();
+            // verifies that the issuer of this request has given a valid password
             if (!coordinator.getPassword().equals(password)) {
                 // we don't inform the user that the password (only) is invalid because
                 // we don't want to give information to a potential hacker that the email he used
@@ -153,7 +156,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
         criteria.select(root).where(builder.equal(root.get("email"), email));
         TypedQuery<Coordinator> query = entityManager.createQuery(criteria);
         try {
-            // No need to use ofNullable because an event with such a name may not yet exist
+            // No need to use ofNullable because a Coordinator with such a name may not yet exist
             // in the database, but first of all,
             // this is not a situation where the back-end should crash with a NPE,
             // second the JPA framework has built-in exceptions to handle such case

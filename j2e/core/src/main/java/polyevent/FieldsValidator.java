@@ -1,7 +1,7 @@
 package polyevent;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.Calendar;
 
 /**
@@ -61,18 +61,12 @@ public class FieldsValidator {
      *           actually exists, but it only checks if the email
      *           is valid according to the RFC
      *
-     * <a href="https://stackoverflow.com/a/5931718/5710894">Inspired by this</a>
+     * <a href="https://stackoverflow.com/a/26687649/5710894">Inspired by this</a>
      *
      * @param email the email to check
      * @return true if the given email is valid
      */
     public static boolean isValidEmail(String email) {
-        try {
-            InternetAddress internetAddress = new InternetAddress(email);
-            internetAddress.validate();
-        } catch (AddressException e) {
-            return false;
-        }
-        return true;
+        return EmailValidator.getInstance().isValid(email);
     }
 }
