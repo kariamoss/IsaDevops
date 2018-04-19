@@ -1,5 +1,7 @@
 package polyevent;
 
+import polyevent.entities.Event;
+import polyevent.entities.Room;
 import polyevent.exceptions.DatabaseSavingException;
 import polyevent.exceptions.InvalidRoomException;
 import polyevent.exceptions.RoomNotAvailableException;

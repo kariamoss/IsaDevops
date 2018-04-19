@@ -1,6 +1,7 @@
 package polyevent;
 
 import org.apache.cxf.jaxrs.client.WebClient;
+import polyevent.entities.Room;
 
 public class AgendaAPI {
     private String url;
