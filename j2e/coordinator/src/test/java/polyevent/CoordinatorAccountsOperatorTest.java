@@ -3,12 +3,14 @@ package polyevent;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
+import polyevent.entities.Event;
 import polyevent.exceptions.InvalidCredentialsException;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
@@ -29,22 +31,25 @@ public class CoordinatorAccountsOperatorTest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addPackage(ICoordinatorRegistrator.class.getPackage())
                 .addPackage(ICoordinatorAuthenticator.class.getPackage())
-                .addPackage(Database.class.getPackage());
+                .addPackage(Event.class.getPackage())
+                .addPackage(Coordinator.class.getPackage())
+                .addAsManifestResource(new ClassLoaderAsset("META-INF/persistence.xml"), "persistence.xml");
     }
 
     @EJB private ICoordinatorAuthenticator coordinatorAuthenticator;
     @EJB private ICoordinatorRegistrator coordinatorRegistrator;
 
     @Test
-    public void registerWithGoodInformation() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
+    public void registerWithGoodInformation() throws UserAlreadyExistsException, InvalidRequestParametersException, InvalidCredentialsException {
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto@tutu.fr", "tototutu");
         assertNotNull(c);
         assertEquals("toto@tutu.fr", c.getEmail());
+        assertEquals(c, coordinatorAuthenticator.authenticate(c.getEmail(),c.getPassword()));
     }
 
     @Test(expected = InvalidRequestParametersException.class)
     public void registerWithBadName() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("", "Tutu", "toto@tutu.fr", "tototutu");
+        Coordinator c = coordinatorRegistrator.register("", "Tutu", "toto@tutu.fr", "tototutu");
         assertNull(c);
 
         c = coordinatorRegistrator.register(null, "Tutu", "toto@tutu.fr", "tototutu");
@@ -61,13 +66,13 @@ public class CoordinatorAccountsOperatorTest {
     @Ignore
     public void registerWithBadEmail() throws UserAlreadyExistsException, InvalidRequestParametersException {
         // TODO FIX THIS TEST ==> FieldsValidator.isValidEmail detects "toto" as a valid email
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
         assertNull(c);
     }
 
     @Test(expected = InvalidRequestParametersException.class)
     public void registerWithBadPassword() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", null);
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", null);
         assertNull(c);
 
         c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "");
@@ -76,18 +81,18 @@ public class CoordinatorAccountsOperatorTest {
 
     @Test(expected = UserAlreadyExistsException.class)
     public void registerAlreadyExistingUser() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
         assertNotNull(c);
 
-        polyevent.entities.Coordinator c2 = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
+        Coordinator c2 = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
         assertNull(c2);
     }
 
     @Test
     public void authenticateWithGoodCredentials() throws UserAlreadyExistsException, InvalidRequestParametersException, InvalidCredentialsException {
         String email = "email@email.fr";
-        polyevent.entities.Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", email, "tototutu");
-        polyevent.entities.Coordinator cGoodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
+        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", email, "tototutu");
+        Coordinator cGoodAuth = coordinatorAuthenticator.authenticate(email, "tototutu");
 
         assertEquals(c, cGoodAuth);
     }
