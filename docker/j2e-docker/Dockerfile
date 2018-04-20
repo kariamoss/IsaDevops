@@ -12,6 +12,6 @@ RUN wget http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.2
 RUN tar -xzf apache-tomee-7.0.2-plume.tar.gz
 RUN rm apache-tomee-7.0.2-plume.tar.gz
 
-ENTRYPOINT sudo curl http://207.154.199.162:8081/artifactory/libs-snapshot-local/polyevent/j2e-interface/1.0-SNAPSHOT/j2e-interface-1.0-20180329.185519-1.war -o j2e-interface-1.0-SNAPSHOT.war & \
+ENTRYPOINT curl http://207.154.199.162:8081/artifactory/libs-snapshot-local/polyevent/j2e-interface/1.0-SNAPSHOT/j2e-interface-1.0-SNAPSHOT.war -o j2e-interface-1.0-SNAPSHOT.war & \
  mv ./j2e-interface-1.0-SNAPSHOT.war ./apache-tomee-plume-7.0.2/webapps & \
  JRE_HOME=./jre1.8.0_161/ && export JRE_HOME && ./apache-tomee-plume-7.0.2/bin/catalina.sh run
