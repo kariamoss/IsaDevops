@@ -164,15 +164,18 @@ public class EventCatalogTest {
     public void testDestroyCoordinatorCascade() throws Exception {
 
         int cId = c.getId();
+        int e1Id = e1.getId();
+        int e2Id = e2.getId();
 
         c.setEventsCreated(new ArrayList<>());
         e1.setCoordinator(null);
         e2.setCoordinator(null);
+        entityManager.remove(e1);
+        entityManager.remove(e2);
+        e1 = null;
+        e2 = null;
         entityManager.remove(c);
         c = null;
-
-        int e1Id = e1.getId();
-        int e2Id = e2.getId();
 
         assertTrue(eventCatalog.getAllEvents().isPresent());
         assertTrue(eventCatalog.getAllEvents().get().isEmpty());
@@ -215,6 +218,16 @@ public class EventCatalogTest {
 
     @After
     public void cleanUp() throws Exception {
+
+        if (c != null)
+            c.setEventsCreated(new ArrayList<>());
+
+        if (e1 != null)
+            e1.setCoordinator(null);
+
+        if (e2 != null)
+            e2.setCoordinator(null);
+
         userTransaction.begin();
             Optional<Coordinator> optionalCoordinator = this.findCoordinator(coordinatorEmail);
             if (optionalCoordinator.isPresent()) {
