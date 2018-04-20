@@ -6,8 +6,9 @@ import polyevent.exceptions.DatabaseSavingException;
 import polyevent.exceptions.InvalidRoomException;
 import polyevent.exceptions.RoomNotAvailableException;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,9 @@ import java.util.logging.Logger;
 @Stateless
 public class RoomBooker implements IRoomBooker {
 
-    @EJB protected Database memory;
+    @PersistenceContext
+    private EntityManager entityManager;
+
     protected AgendaAPI api;
     private Logger l = Logger.getLogger(RoomBooker.class.getName());
 
@@ -39,11 +42,12 @@ public class RoomBooker implements IRoomBooker {
 
         for(Room r : rooms) {
             if (!api.bookRoom(r)) {
+                l.log(Level.SEVERE, "The reservation for the given room was not possible since it's already booked : " + r);
                 throw new RoomNotAvailableException("One or more rooms are not available (they have already been booked)");
             }
         }
 
-        if(!memory.bookRoomsToEvent(event, rooms)) {
+        if(!bindRoomsToEvent(event, rooms)) {
             throw new DatabaseSavingException("Internal error while saving the rooms for the event in the database");
         }
 
@@ -53,5 +57,24 @@ public class RoomBooker implements IRoomBooker {
     @Override
     public boolean cancelRoomBooking(List<Room> rooms, Event event) {
         return false;
+    }
+
+    /**
+     * Binds the rooms to the given event and returns true if the insertion in database
+     * was successful, and false otherwise
+     * @param event the event to associate to the rooms
+     * @param rooms the rooms to bind to the event
+     * @return true if the rooms have been successfully binded to the event
+     *         in the database
+     */
+    private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
+        event.addRooms(rooms);
+        for (Room r : rooms) {
+            r.addEvent(event);
+        }
+
+        Event e = entityManager.merge(event);
+
+        return e != null; // todo add this condition && e != event;
     }
 }

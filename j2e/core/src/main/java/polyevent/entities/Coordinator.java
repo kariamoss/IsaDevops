@@ -116,6 +116,8 @@ public class Coordinator implements Serializable {
         this.eventsCreated.add(e);
     }
 
+    public boolean removeEvent(Event e) { return this.eventsCreated.remove(e); }
+
     @Override
     public String toString() {
         return "Coordinator{" +

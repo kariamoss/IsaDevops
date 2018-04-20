@@ -80,6 +80,10 @@ public class Room implements Serializable {
         this.name = name;
     }
 
+    public void addEvent(Event e) {
+        this.events.add(e);
+    }
+
     @Override
     public String toString() {
         return "Room{" +
