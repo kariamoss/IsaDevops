@@ -1,4 +1,4 @@
 <%@ page session="false" %>
 <%
-    response.sendRedirect("statistics.jsf");
+    response.sendRedirect("listEvents.jsf");
 %>

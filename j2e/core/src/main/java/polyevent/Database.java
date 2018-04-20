@@ -2,6 +2,7 @@ package polyevent;
 
 import javax.ejb.Singleton;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +21,12 @@ public class Database {
 
     public Database() {
         this.coordinators = new ArrayList<>();
-        this.coordinators.add(new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr")); // todo remove this line
+        Coordinator coordinator = new Coordinator("Marc", "Jourdes", "MarcDu06@laposte.fr");
+        this.coordinators.add(coordinator); // todo remove this line
         this.events = new ArrayList<>();
+        this.events.add(new Event(coordinator, new Date(2018,5, 15),
+                new Date(2018,5, 17),
+                129, "Mon premier polyEvent"));
     }
 
     public Coordinator getCoordinatorByMail(String mail){
