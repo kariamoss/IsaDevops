@@ -1,0 +1,10 @@
+version: '3'
+services:
+  j2e:
+    build: ./j2e-docker
+    ports:
+     - "8080:8080"
+  mono:
+    build: ./mono-docker
+    ports:
+     - "9090:9090"
