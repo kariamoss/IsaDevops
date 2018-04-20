@@ -12,10 +12,7 @@ import org.junit.runner.RunWith;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
 import polyevent.entities.Room;
-import polyevent.exceptions.DatabaseSavingException;
-import polyevent.exceptions.InvalidRequestParametersException;
-import polyevent.exceptions.InvalidRoomException;
-import polyevent.exceptions.RoomNotAvailableException;
+import polyevent.exceptions.*;
 
 import javax.ejb.EJB;
 import java.util.Calendar;
@@ -51,7 +48,7 @@ public class IntegrationTest {
 
     @Test
     @Ignore
-    public void eventCreationTest() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public void eventCreationTest() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
 
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 10);

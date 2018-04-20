@@ -3,6 +3,7 @@ package polyevent;
 import polyevent.entities.Event;
 import polyevent.entities.Room;
 import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.ExternalServiceCommunicationException;
 import polyevent.exceptions.InvalidRoomException;
 import polyevent.exceptions.RoomNotAvailableException;
 
@@ -31,7 +32,7 @@ public class RoomBooker implements IRoomBooker {
     }
 
     @Override
-    public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
 
         l.log(Level.INFO, "Received request for room booking");
 

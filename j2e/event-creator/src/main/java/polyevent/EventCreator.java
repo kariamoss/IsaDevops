@@ -28,7 +28,7 @@ public class EventCreator implements IEventCreator {
     private Logger l = Logger.getLogger(EventCreator.class.getName());
 
     @Override
-    public Event registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public Event registerEvent(String name, int participantNumber, Calendar date, Coordinator coordinator) throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
 
         l.log(Level.INFO, "Received request for the event creation");
 

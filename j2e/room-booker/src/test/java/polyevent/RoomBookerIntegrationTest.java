@@ -17,6 +17,7 @@ import polyevent.entities.Event;
 import polyevent.entities.Room;
 import polyevent.entities.RoomType;
 import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.ExternalServiceCommunicationException;
 import polyevent.exceptions.InvalidRoomException;
 import polyevent.exceptions.RoomNotAvailableException;
 
@@ -69,14 +70,14 @@ public class RoomBookerIntegrationTest {
 
     @Test(expected = InvalidRoomException.class)
     @Ignore
-    public void bookEmptyRooms() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public void bookEmptyRooms() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
         rooms.clear();
         roomBooker.book(rooms, event); // throws the InvalidRoomException
      }
 
     @Test(expected = DatabaseSavingException.class)
     @Ignore
-    public void databaseFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public void databaseFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
         rooms.clear();
         Room room = new Room(RoomType.MEETING_ROOM, 100, "E+100");
         rooms.add(room);
@@ -86,7 +87,7 @@ public class RoomBookerIntegrationTest {
 
     @Test
     @Ignore
-    public void allOk() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public void allOk() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
         rooms.clear();
         Room room = new Room(RoomType.MEETING_ROOM, 100, "E+101");
         rooms.add(room);
@@ -96,7 +97,7 @@ public class RoomBookerIntegrationTest {
 
     @Test(expected = RoomNotAvailableException.class)
     @Ignore
-    public void roomServiceFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public void roomServiceFail() throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
         rooms.clear();
         Room room1 = new Room(RoomType.MEETING_ROOM, 100, "E+102");
         rooms.add(room1);

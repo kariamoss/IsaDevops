@@ -46,7 +46,7 @@ public class EventCreatorServiceTest {
     private Database database;
 
     @Before
-    public void setUpContext() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public void setUpContext() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
         coordinatorFalseMail = "MarcJourdes@free.fr";
         coordinatorMail = "MarcDu06@laposte.fr";
         dateBegin = Calendar.getInstance();
@@ -68,7 +68,7 @@ public class EventCreatorServiceTest {
      * Call EventCreation with not existing Coordinator
      */
     @Test(expected = InvalidCredentialsException.class)
-    public void falseMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public void falseMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
         assertNull(memory.getCoordinatorByMail(coordinatorFalseMail));
         assertNull(eventService.createEvent("test", 10, dateBegin, coordinatorFalseMail));
     }
@@ -77,7 +77,7 @@ public class EventCreatorServiceTest {
      * Call EventCreation with existing Coordinator
      */
     @Test
-    public void correctMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+    public void correctMailTest() throws InvalidCredentialsException, InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
         assertNotNull(memory.getCoordinatorByMail(coordinatorMail));
         assertNotNull(eventService.createEvent("test", 10, dateBegin, coordinatorMail));
     }

@@ -20,7 +20,7 @@ public class EventCreatorService implements IEventCreatorService {
     @EJB public Database memory;
 
     @Override
-    public Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
         Coordinator coordinator = memory.getCoordinatorByMail(coordinatorMail);
 
         if (coordinator == null) {

@@ -12,5 +12,5 @@ import java.util.Calendar;
 public interface IEventCreatorService {
 
     @WebMethod
-    Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException;
+    Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException;
 }

@@ -4,6 +4,7 @@ import polyevent.entities.Event;
 import polyevent.entities.Room;
 import polyevent.entities.RoomType;
 import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.ExternalServiceCommunicationException;
 import polyevent.exceptions.InvalidRoomException;
 import polyevent.exceptions.RoomNotAvailableException;
 
@@ -26,7 +27,7 @@ public class EventOrganizer implements IEventOrganizer {
 
 
     @Override
-    public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException {
+    public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
 
         l.log(Level.INFO, "Received request for room booking for event");
 
