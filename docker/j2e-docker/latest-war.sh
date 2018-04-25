@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Artifactory location
 server=http://207.154.199.162:8081/artifactory
 repo=libs-snapshot-local
