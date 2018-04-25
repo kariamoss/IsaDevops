@@ -1,7 +1,9 @@
 FROM mono
 MAINTAINER LucasLaMachineTuLeC
 
+RUN apt-get update
+RUN apt-get install curl
 
-COPY ./server ./
 
-ENTRYPOINT mono ./server /standalone
+ENTRYPOINT curl -uadmin:TeoTroFor06 -O "http://207.154.199.162:8081/artifactory/DotNet/server.exe" && \
+mono ./server.exe /standalone
