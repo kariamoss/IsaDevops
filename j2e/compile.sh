@@ -13,6 +13,6 @@ cd ..
 for i in $file
 do
     cd $i
-    mvn install -o
+    mvn clean install -o
     cd ..
 done

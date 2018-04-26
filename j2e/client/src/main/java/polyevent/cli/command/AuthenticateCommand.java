@@ -17,7 +17,7 @@ public class AuthenticateCommand extends AbstractCommand<EventApi> {
 
     @Override
     public void execute() throws Exception {
-        Coordinator c;
+        Coordinator c = shell.api.coordinatorService.authenticate(email, password);
     }
 
     @Override

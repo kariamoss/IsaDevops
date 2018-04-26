@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://event.webservice/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="CoordinatorServiceService" targetNamespace="http://event.webservice/">
   <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://event.webservice/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://event.webservice/">
+  <xs:element name="authenticate" type="tns:authenticate"/>
+  <xs:element name="authenticateResponse" type="tns:authenticateResponse"/>
   <xs:element name="register" type="tns:register"/>
   <xs:element name="registerResponse" type="tns:registerResponse"/>
-  <xs:complexType name="register">
+  <xs:complexType name="authenticate">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
       <xs:element minOccurs="0" name="arg1" type="xs:string"/>
-      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
-      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="registerResponse">
+  <xs:complexType name="authenticateResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="tns:coordinator"/>
     </xs:sequence>
@@ -46,6 +46,19 @@
       <xs:element minOccurs="0" name="roomType" type="tns:roomType"/>
     </xs:sequence>
   </xs:complexType>
+  <xs:complexType name="register">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="registerResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:coordinator"/>
+    </xs:sequence>
+  </xs:complexType>
   <xs:simpleType name="roomType">
     <xs:restriction base="xs:string">
       <xs:enumeration value="MEETING_ROOM"/>
@@ -53,14 +66,20 @@
       <xs:enumeration value="LEARNING_CENTRE"/>
     </xs:restriction>
   </xs:simpleType>
-  <xs:element name="UserAlreadyExistsException" type="tns:UserAlreadyExistsException"/>
-  <xs:complexType name="UserAlreadyExistsException">
+  <xs:element name="InvalidCredentialsException" type="tns:InvalidCredentialsException"/>
+  <xs:complexType name="InvalidCredentialsException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
   <xs:element name="InvalidRequestParametersException" type="tns:InvalidRequestParametersException"/>
   <xs:complexType name="InvalidRequestParametersException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserAlreadyExistsException" type="tns:UserAlreadyExistsException"/>
+  <xs:complexType name="UserAlreadyExistsException">
     <xs:sequence>
       <xs:element minOccurs="0" name="message" type="xs:string"/>
     </xs:sequence>
@@ -79,11 +98,33 @@
     <wsdl:part element="tns:InvalidRequestParametersException" name="InvalidRequestParametersException">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="authenticate">
+    <wsdl:part element="tns:authenticate" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="authenticateResponse">
+    <wsdl:part element="tns:authenticateResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="registerResponse">
     <wsdl:part element="tns:registerResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="InvalidCredentialsException">
+    <wsdl:part element="tns:InvalidCredentialsException" name="InvalidCredentialsException">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="ICoordinatorService">
+    <wsdl:operation name="authenticate">
+      <wsdl:input message="tns:authenticate" name="authenticate">
+    </wsdl:input>
+      <wsdl:output message="tns:authenticateResponse" name="authenticateResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidCredentialsException" name="InvalidCredentialsException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidRequestParametersException" name="InvalidRequestParametersException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="register">
       <wsdl:input message="tns:register" name="register">
     </wsdl:input>
@@ -97,6 +138,21 @@
   </wsdl:portType>
   <wsdl:binding name="CoordinatorServiceServiceSoapBinding" type="tns:ICoordinatorService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="authenticate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="authenticate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="authenticateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidCredentialsException">
+        <soap:fault name="InvalidCredentialsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="InvalidRequestParametersException">
+        <soap:fault name="InvalidRequestParametersException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="register">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="register">
