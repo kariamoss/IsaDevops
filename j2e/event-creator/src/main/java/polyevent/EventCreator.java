@@ -23,7 +23,7 @@ public class EventCreator implements IEventCreator {
     protected IEventOrganizer eventOrganizer;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     private Logger l = Logger.getLogger(EventCreator.class.getName());
 
@@ -33,6 +33,7 @@ public class EventCreator implements IEventCreator {
         l.log(Level.INFO, "Received request for the event creation");
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
+            l.log(Level.SEVERE, "Received invalid parameter(s) for event creation");
             throw new InvalidRequestParametersException("Parameters of the request are invalid");
         }
 
@@ -51,6 +52,7 @@ public class EventCreator implements IEventCreator {
     @Override
     public boolean cancelEvent(Coordinator coordinator, Event event) throws DataIntegrityException {
         if (!coordinator.removeEvent(event)) {
+            l.log(Level.SEVERE, "Tried to delete event from coordinator that doesn't exist in the database");
             throw new DataIntegrityException("The given event doesn't exist for this coordinator : " + event);
         }
         event.setCoordinator(null);
