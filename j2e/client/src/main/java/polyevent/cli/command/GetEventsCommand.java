@@ -1,7 +1,7 @@
 package polyevent.cli.command;
 
 import api.EventApi;
-import polyevent.entities.Event;
+import polyevent.Event;
 
 import java.util.List;
 
