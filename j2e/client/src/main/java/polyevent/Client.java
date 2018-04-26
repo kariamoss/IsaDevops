@@ -29,6 +29,9 @@ public class Client extends Shell<EventApi> {
                 // to create a new coordinator
                 CreateCoordinator.class,
 
+                // to authenticate a coordinator
+                AuthenticateCommand.class,
+
                 // to exit the shell
                 ExitCommand.class
         );
