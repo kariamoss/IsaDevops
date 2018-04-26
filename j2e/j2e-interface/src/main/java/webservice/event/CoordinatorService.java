@@ -1,9 +1,9 @@
 package webservice.event;
 
-import polyevent.Coordinator;
 import polyevent.ICoordinatorRegistrator;
-import polyevent.InvalidRequestParametersException;
-import polyevent.UserAlreadyExistsException;
+import polyevent.entities.Coordinator;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

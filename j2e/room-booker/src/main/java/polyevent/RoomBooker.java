@@ -1,11 +1,21 @@
 package polyevent;
 
-import javax.annotation.Resource;
-import javax.ejb.*;
-import javax.jms.JMSException;
+
+import polyevent.entities.Event;
+import polyevent.entities.Room;
+import polyevent.exceptions.DatabaseSavingException;
+import polyevent.exceptions.ExternalServiceCommunicationException;
+import polyevent.exceptions.InvalidRoomException;
+import polyevent.exceptions.RoomNotAvailableException;
+
+import javax.ejb.ActivationConfigProperty;
+import javax.ejb.MessageDriven;
+import javax.ejb.Stateless;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +26,11 @@ import java.util.logging.Logger;
  */
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty( propertyName = "destinationType", propertyValue = "javax.jms.Queue"),})
-public class RoomBooker implements MessageListener {
+public class RoomBooker implements MessageListener,IRoomBooker {
 
-    @EJB protected Database memory;
+    @PersistenceContext
+    private EntityManager entityManager;
+
     protected AgendaAPI api;
     private Logger l = Logger.getLogger(RoomBooker.class.getName());
 
@@ -26,22 +38,25 @@ public class RoomBooker implements MessageListener {
         api = new AgendaAPI();
     }
 
-    public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException {
+
+    @Override
+    public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
 
         l.log(Level.INFO, "Received request for room booking");
 
-        if(rooms.isEmpty()) {
+        if (rooms.isEmpty()) {
             l.log(Level.SEVERE, "Can't book an empty list of rooms");
             throw new InvalidRoomException("The list of desired rooms cannot be empty");
         }
 
-        for(Room r : rooms) {
+        for (Room r : rooms) {
             if (!api.bookRoom(r)) {
+                l.log(Level.SEVERE, "The reservation for the given room was not possible since it's already booked : " + r);
                 throw new RoomNotAvailableException("One or more rooms are not available (they have already been booked)");
             }
         }
 
-        if(!memory.bookRoomsToEvent(event, rooms)) {
+        if (!bindRoomsToEvent(event, rooms)) {
             throw new DatabaseSavingException("Internal error while saving the rooms for the event in the database");
         }
 
@@ -52,14 +67,38 @@ public class RoomBooker implements MessageListener {
         return false;
     }
 
+    /**
+     @Override public void onMessage(Message message) {
+
+     }
+     */
+    /**
+     * Binds the rooms to the given event and returns true if the insertion in database
+     * was successful, and false otherwise
+     *
+     * @param event the event to associate to the rooms
+     * @param rooms the rooms to bind to the event
+     * @return true if the rooms have been successfully binded to the event
+     * in the database
+     */
+    private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
+        event.addRooms(rooms);
+        for (Room r : rooms) {
+            r.addEvent(event);
+        }
+
+        Event e = entityManager.merge(event);
+
+        return e != null; // todo add this condition && e != event;
+    }
 
     @Override
     public void onMessage(Message message) {
-        try{
+        try {
             l.log(Level.INFO, "message received");
             BookingWrapper wrapper = (BookingWrapper) ((ObjectMessage) message).getObject();
-            book(wrapper.getRooms(),wrapper.getEvent());
-        }catch (Exception e) {
+            book(wrapper.getRooms(), wrapper.getEvent());
+        } catch (Exception e) {
             l.log(Level.WARNING, "request for booking couldn't not be made");
             l.log(Level.WARNING, e.getMessage());
 

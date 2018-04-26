@@ -1,0 +1,12 @@
+version: '3'
+services:
+  j2e_polyevent:
+    image: j2e_polyevent
+    build: ./j2e-docker
+    ports:
+     - "8080:8080"
+  mono_polyevent:
+    image: mono_polyevent
+    build: ./mono-docker
+    ports:
+     - "9090:9090"

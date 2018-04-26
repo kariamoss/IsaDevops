@@ -1,21 +1,30 @@
-package polyevent;
+package polyevent.entities;
 
 import org.apache.bval.constraints.NotEmpty;
-import polyevent.validation.custom.Positive;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+@Entity
+@Table(name="events")
 public class Event implements Serializable {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
+
     @NotNull
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Coordinator coordinator;
 
     @NotNull
-    @Positive(message = "The number of people at the event must be at least 1")
+    //@Min(0)
     private int nbPeople;
 
     @NotNull
@@ -25,18 +34,31 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
+    //@ManyToMany
+    /*@JoinTable(
+            name="events_rooms",
+            joinColumns = @JoinColumn(
+                    name="event_id",
+                    referencedColumnName = "id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name="room_id",
+                    referencedColumnName = "id"
+            )
+    )*/
+    @Transient
     private List<Room> rooms;
-    private List<RoomType> desiredRoomTypes;
 
     public Event() {
         // default constructor for JPA instantiation (unmarshalling)
     }
 
-    public Event(int nbPeople, String name, List<RoomType> roomTypes) {
-        this.nbPeople = nbPeople;
-        this.name = name;
-        this.desiredRoomTypes = roomTypes;
-        this.rooms = new ArrayList<>();
+    public Event(int nbPeople, String name) {
+        this(null, null, null, nbPeople, name);
+    }
+
+    public Event(Coordinator coordinator, int nbPeople, String name) {
+        this(coordinator, null, null, nbPeople, name);
     }
 
     public Event(Coordinator coordinator, Date startDate, Date endDate, int nbPeople, String name) {
@@ -46,6 +68,14 @@ public class Event implements Serializable {
         this.nbPeople = nbPeople;
         this.name = name;
         this.rooms = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public List<Room> getRooms() {
@@ -100,13 +130,11 @@ public class Event implements Serializable {
         this.rooms = rooms;
     }
 
-    public void setDesiredRoomTypes(List<RoomType> desiredRoomTypes) {
-        this.desiredRoomTypes = desiredRoomTypes;
-    }
-
     public String getName() {
         return name;
     }
+
+
 
     @Override
     public String toString() {
@@ -117,7 +145,24 @@ public class Event implements Serializable {
                 ", nbPeople=" + nbPeople +
                 ", name='" + name + '\'' +
                 ", rooms=" + rooms +
-                ", desiredRoomTypes=" + desiredRoomTypes +
                 '}';
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(coordinator, event.coordinator) &&
+                Objects.equals(name, event.name) &&
+                Objects.equals(startDate, event.startDate) &&
+                Objects.equals(endDate, event.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(coordinator, name, startDate, endDate);
     }
 }

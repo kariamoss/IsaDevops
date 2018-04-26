@@ -1,5 +1,9 @@
 package polyevent;
 
+import polyevent.entities.Coordinator;
+import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.exceptions.UserAlreadyExistsException;
+
 import javax.ejb.Local;
 
 /**

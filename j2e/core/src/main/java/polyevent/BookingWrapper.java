@@ -1,5 +1,8 @@
 package polyevent;
 
+import polyevent.entities.Event;
+import polyevent.entities.Room;
+
 import java.io.Serializable;
 import java.util.List;
 

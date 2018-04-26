@@ -11,7 +11,7 @@ public class EventOrganizerTest {
 
     @Before
     public void init(){
-        eventOrganizer = new EventOrganizer();
+        //eventOrganizer = new EventOrganizer();
     }
 
     @Test

@@ -1,6 +1,7 @@
 package polyevent.validation.custom;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.lang.annotation.Documented;
@@ -25,4 +26,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface Positive {
     String message() default "The value must be at least 1";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 }
