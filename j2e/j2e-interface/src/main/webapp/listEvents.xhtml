@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <h:outputStylesheet library="css" name="dataTable.css"  />
+    <title>.:: PolyEvent ::.</title>
+</h:head>
+
+<h:body>
+    <h1>PolyEvent / Events </h1>
+    <h2>Liste des évènements</h2>
+    <h:dataTable value="#{retrieveEventBean.events}" var="o"
+                 styleClass="event-table"
+                 headerClass="event-table-header"
+                 rowClasses="event-table-odd-row,event-table-even-row">
+
+        <h:column>
+            <!-- column header -->
+            <f:facet name="header">Nom de l'évenement</f:facet>
+            <!-- row record -->
+            #{o.name}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Coordinateur</f:facet>
+            #{o.coordinator.firstName}
+            #{o.coordinator.lastName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Date de début</f:facet>
+            #{o.startDate}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Date de fin</f:facet>
+            #{o.endDate}
+        </h:column>
+
+    </h:dataTable>
+</h:body>
+</html>
