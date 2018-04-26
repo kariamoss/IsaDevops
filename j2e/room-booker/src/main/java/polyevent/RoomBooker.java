@@ -11,6 +11,7 @@ import polyevent.exceptions.RoomNotAvailableException;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.ejb.Stateless;
+
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
@@ -26,7 +27,7 @@ import java.util.logging.Logger;
  */
 @MessageDriven(activationConfig = {
         @ActivationConfigProperty( propertyName = "destinationType", propertyValue = "javax.jms.Queue"),})
-public class RoomBooker implements MessageListener,IRoomBooker {
+public class RoomBooker implements MessageListener {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -39,7 +40,6 @@ public class RoomBooker implements MessageListener,IRoomBooker {
     }
 
 
-    @Override
     public Event book(List<Room> rooms, Event event) throws RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
 
         l.log(Level.INFO, "Received request for room booking");
@@ -67,20 +67,6 @@ public class RoomBooker implements MessageListener,IRoomBooker {
         return false;
     }
 
-    /**
-     @Override public void onMessage(Message message) {
-
-     }
-     */
-    /**
-     * Binds the rooms to the given event and returns true if the insertion in database
-     * was successful, and false otherwise
-     *
-     * @param event the event to associate to the rooms
-     * @param rooms the rooms to bind to the event
-     * @return true if the rooms have been successfully binded to the event
-     * in the database
-     */
     private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
         event.addRooms(rooms);
         for (Room r : rooms) {

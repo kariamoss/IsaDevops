@@ -20,4 +20,4 @@ RUN chmod +x ./latest-war.sh
 RUN ./latest-war.sh
 
 ENTRYPOINT JRE_HOME=./jre1.8.0_171/ && export JRE_HOME && ./latest-war.sh && \
- ./apache-tomee-plume-7.0.2/bin/catalina.sh run
+ ./apache-tomee-plume-7.0.2/bin/catalina.sh run -Dorg.apache.activemq.SERIALIZABLE_PACKAGES=*

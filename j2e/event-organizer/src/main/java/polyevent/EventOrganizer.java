@@ -54,7 +54,6 @@ public class EventOrganizer implements IEventOrganizer {
         BookingWrapper wrapper = new BookingWrapper(event,rooms);
         try {
             l.log(Level.INFO, "sending msg");
-
             Connection connection = connectionFactory.createConnection();
             connection.start();
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

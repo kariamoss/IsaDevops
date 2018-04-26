@@ -20,13 +20,13 @@ public class AgendaAPI {
         this("localhost", "9090");
     }
 
-    public boolean bookRoom(Room room) throws ExternalServiceCommunicationException {
+    public boolean bookRoom(Room room) {
         try {
             String str = WebClient.create(url).path("/book/" + room.getName()).get(String.class);
             return Boolean.parseBoolean(str);
         } catch (Exception e) {
             l.log(Level.SEVERE, "AgendaApi couldn't reach the external service for room booking");
-            throw new ExternalServiceCommunicationException("AgendaApi couldn't reach the external service for room booking");
         }
+        return false;
     }
 }
