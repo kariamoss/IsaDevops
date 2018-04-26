@@ -2,6 +2,8 @@ package polyevent;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -10,27 +12,21 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
-import static org.junit.Assert.assertNotNull;
-
 @RunWith(Arquillian.class)
+@Transactional(TransactionMode.COMMIT)
 @Category(IntegrationTests.class)
 @Ignore
 public class IntegrationTest {
 
-    @EJB
-    private Database db;
-
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addPackage(Database.class.getPackage());
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
@@ -45,6 +41,8 @@ public class IntegrationTest {
 
         client.run(is, false, 0);
 
-        assertNotNull(db.findEventByName(eventName));
+        // todo refactor this since the mocked database doesn't exist anymore
+        // todo you should consume the EventCatalogService instead of querying the database
+        //assertNotNull(db.findEventByName(eventName));
     }
 }

@@ -1,6 +1,6 @@
 package webservice.event;
 
-import polyevent.Database;
+import polyevent.ICoordinatorAuthenticator;
 import polyevent.IEventCreator;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
@@ -16,14 +16,20 @@ import java.util.Calendar;
 @Stateless
 public class EventCreatorService implements IEventCreatorService {
 
-    @EJB public IEventCreator eventCreator;
-    @EJB public Database memory;
+    @EJB
+    public IEventCreator eventCreator;
+
+    @EJB
+    ICoordinatorAuthenticator coordinatorAuthenticator;
 
     @Override
-    public Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
-        Coordinator coordinator = memory.getCoordinatorByMail(coordinatorMail);
+    public Event createEvent(String eventName, int nbParticipant, Calendar date, Coordinator coordinator) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
+        // Finds a coordinator with its email
+        // be careful when querying on columns different than the ID
+        // since the column needs to contain unique values
+        Coordinator c = coordinatorAuthenticator.authenticate(coordinator.getEmail(), coordinator.getPassword());
 
-        if (coordinator == null) {
+        if (c == null) {
             throw new InvalidCredentialsException("The coordinator doesn't exist");
         }
 

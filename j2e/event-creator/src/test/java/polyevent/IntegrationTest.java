@@ -2,6 +2,8 @@ package polyevent;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.ClassLoaderAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -15,20 +17,21 @@ import polyevent.entities.Room;
 import polyevent.exceptions.*;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Calendar;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
+@Transactional(TransactionMode.COMMIT)
 public class IntegrationTest {
 
     @EJB
     private IEventCreator eventCreator;
 
-
-    @EJB
-    private Database memory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Deployment
     public static JavaArchive createDeployment() {
@@ -57,10 +60,10 @@ public class IntegrationTest {
 
         assertNotNull(e);
 
-        Event event = memory.findEventByName("Eventname");
+        Event event = entityManager.find(Event.class, e.getId());
 
         assertNotNull(event);
         assertTrue(!event.getRooms().isEmpty());
-
+        assertEquals(e, event);
     }
 }

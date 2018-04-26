@@ -1,6 +1,7 @@
 package webservice.event;
 
 
+import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
 import polyevent.exceptions.*;
 
@@ -12,5 +13,5 @@ import java.util.Calendar;
 public interface IEventCreatorService {
 
     @WebMethod
-    Event createEvent(String eventName, int nbParticipant, Calendar date, String coordinatorMail) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException;
+    Event createEvent(String eventName, int nbParticipant, Calendar date, Coordinator coordinator) throws InvalidCredentialsException, InvalidRequestParametersException, DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException;
 }
