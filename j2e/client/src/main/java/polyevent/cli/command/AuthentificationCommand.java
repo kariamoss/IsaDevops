@@ -5,19 +5,20 @@ import polyevent.Coordinator;
 
 import java.util.List;
 
-public class AuthenticateCommand extends AbstractCommand<EventApi> {
+public class AuthentificationCommand extends AbstractCommand<EventApi> {
     private String email;
     private String password;
+    public static Coordinator cache;
 
 
     @Override
     public String command() {
-        return "Authenticate";
+        return "auth";
     }
 
     @Override
     public void execute() throws Exception {
-        Coordinator c = shell.api.coordinatorService.authenticate(email, password);
+        cache = shell.api.coordinatorService.authentificate(email,password);
     }
 
     @Override
@@ -28,6 +29,6 @@ public class AuthenticateCommand extends AbstractCommand<EventApi> {
 
     @Override
     public String helper() {
-        return "Authenticate yourself.\nUsage: " + command() + " email password ";
+        return "Authentificate yourself.\nUsage: " + command() + " email password ";
     }
 }

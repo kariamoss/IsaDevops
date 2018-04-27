@@ -30,10 +30,11 @@ public class Client extends Shell<EventApi> {
                 CreateCoordinator.class,
 
                 // to authenticate a coordinator
-                AuthenticateCommand.class,
+                AuthentificationCommand.class,
 
                 // to exit the shell
-                ExitCommand.class
+                ExitCommand.class,
+                AuthentificationCommand.class
         );
     }
 

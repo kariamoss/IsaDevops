@@ -54,7 +54,7 @@ public class CoordinatorService implements ICoordinatorService {
      *         result of the authentication trial
      */
     @Override
-    public Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException{
+    public Coordinator authentificate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException{
         return coordinatorAuthenticator.authenticate(email, password);
     }
 }

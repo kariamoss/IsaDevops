@@ -44,5 +44,5 @@ public interface ICoordinatorService {
      *         result of the authentication trial
      */
     @WebMethod
-    Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException;
+    Coordinator authentificate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException;
 }
