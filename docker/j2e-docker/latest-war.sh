@@ -15,4 +15,5 @@ url=$path/$version/$war
 # Download
 echo $url
 wget -q $url
-mv $war ./apache-tomee-plume-7.0.2/webapps
+mv $war ./j2e-interface-1.0-SNAPSHOT.war
+mv ./j2e-interface-1.0-SNAPSHOT.war ./apache-tomee-plume-7.0.2/webapps
