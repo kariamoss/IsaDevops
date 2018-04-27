@@ -113,6 +113,9 @@ public class Coordinator implements Serializable {
     }
 
     public void addEvent(Event e) {
+        if(this.eventsCreated == null) {
+            this.eventsCreated = new ArrayList<>();
+        }
         this.eventsCreated.add(e);
     }
 
