@@ -4,6 +4,7 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Event implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = CascadeType.MERGE)
+    @XmlTransient
     private Coordinator coordinator;
 
     @NotNull
