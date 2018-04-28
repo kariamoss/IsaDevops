@@ -4,8 +4,6 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name="events")
-@XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class Event implements Serializable {
 
     @Id
