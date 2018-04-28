@@ -5,6 +5,7 @@ import org.apache.bval.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Room implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public List<Event> getEvents() {
         return events;
     }
