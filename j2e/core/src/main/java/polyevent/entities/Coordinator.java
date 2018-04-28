@@ -49,6 +49,7 @@ public class Coordinator implements Serializable {
             // it is deleted in the database as well
             //orphanRemoval = true
     )
+    @XmlElement(name="event")
     private List<Event> eventsCreated;
 
     public Coordinator() {
