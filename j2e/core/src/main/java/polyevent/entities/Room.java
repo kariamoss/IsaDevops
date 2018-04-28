@@ -5,6 +5,7 @@ import org.apache.bval.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,7 @@ public class Room implements Serializable {
     }
 
     public Room(RoomType roomType, int capacity, String name) {
+        this.events = new ArrayList<>();
         this.roomType = roomType;
         this.capacity = capacity;
         this.name = name;
@@ -81,6 +83,9 @@ public class Room implements Serializable {
     }
 
     public void addEvent(Event e) {
+        if(this.events == null){
+            this.events = new ArrayList<>();
+        }
         this.events.add(e);
     }
 

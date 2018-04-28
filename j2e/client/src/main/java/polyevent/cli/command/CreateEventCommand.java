@@ -25,7 +25,6 @@ import java.util.List;
 public class CreateEventCommand extends AbstractCommand<EventApi> {
 
     private String eventName;
-    private String email;
     private XMLGregorianCalendar startDate;
     private int estimatedPeopleNumber;
     private List<RoomType> rooms;
@@ -62,7 +61,6 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     public void load(List<String> args) {
         eventName = args.get(0);
         estimatedPeopleNumber = Integer.parseInt(args.get(1));
-        email = args.get(2);
         GregorianCalendar tmpDate = new GregorianCalendar();
         tmpDate.add(Calendar.HOUR_OF_DAY, 24);
         try {
@@ -90,6 +88,6 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
      */
     @Override
     public String helper() {
-        return "Creates a new event at Polytech.\nUsage: " + command() + " eventName peopleNumber email ";
+        return "Creates a new event at Polytech. You have to be connected\nUsage: " + command() + " eventName peopleNumber";
     }
 }

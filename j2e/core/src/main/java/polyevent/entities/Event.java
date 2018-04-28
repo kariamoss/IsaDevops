@@ -67,7 +67,12 @@ public class Event implements Serializable {
         this.endDate = endDate;
         this.nbPeople = nbPeople;
         this.name = name;
-        this.rooms = new ArrayList<>();
+    }
+
+    private void checkRoomCreated(){
+        if(this.rooms == null) {
+            this.rooms = new ArrayList<>();
+        }
     }
 
     public int getId() {
@@ -83,10 +88,12 @@ public class Event implements Serializable {
     }
 
     public void addRooms(List<Room> rooms) {
+        checkRoomCreated();
         this.rooms.addAll(rooms);
     }
 
     public void addRoom(Room room) {
+        checkRoomCreated();
         this.rooms.add(room);
     }
 

@@ -64,6 +64,12 @@ public class Coordinator implements Serializable {
         this.eventsCreated = new ArrayList<>();
     }
 
+    private void checkEventCreated(){
+        if(this.eventsCreated == null) {
+            this.eventsCreated = new ArrayList<>();
+        }
+    }
+
     public int getId() {
         return id;
     }
@@ -77,6 +83,7 @@ public class Coordinator implements Serializable {
     }
 
     public void setEventsCreated(List<Event> eventsCreated) {
+        checkEventCreated();
         this.eventsCreated = eventsCreated;
     }
 
@@ -113,13 +120,14 @@ public class Coordinator implements Serializable {
     }
 
     public void addEvent(Event e) {
-        if(this.eventsCreated == null) {
-            this.eventsCreated = new ArrayList<>();
-        }
+        checkEventCreated();
         this.eventsCreated.add(e);
     }
 
-    public boolean removeEvent(Event e) { return this.eventsCreated.remove(e); }
+    public boolean removeEvent(Event e) {
+        checkEventCreated();
+        return this.eventsCreated.remove(e);
+    }
 
     @Override
     public String toString() {
