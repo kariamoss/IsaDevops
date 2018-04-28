@@ -81,7 +81,7 @@ public class Coordinator implements Serializable {
         this.id = id;
     }
 
-    @XmlElement
+    @XmlElement(name="event")
     public List<Event> getEventsCreated() {
         return eventsCreated;
     }
