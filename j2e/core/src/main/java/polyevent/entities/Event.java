@@ -4,8 +4,8 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name="events")
-@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Event implements Serializable {
 
     @Id
@@ -87,6 +86,7 @@ public class Event implements Serializable {
         this.id = id;
     }
 
+    @XmlElement(name="room")
     public List<Room> getRooms() {
         return rooms;
     }
@@ -160,8 +160,6 @@ public class Event implements Serializable {
                 '}';
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -176,5 +174,15 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(coordinator, name, startDate, endDate);
+    }
+
+    /**
+     * Needed by JAXB to give a value to the pointer on Coordinator
+     * Since the getter is annotated with @XmlTransient, it will by null
+     * after the unmarshalling of this object
+     * This callback is called by JAXB to give a value instead of null
+     */
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        this.coordinator = (Coordinator) parent;
     }
 }
