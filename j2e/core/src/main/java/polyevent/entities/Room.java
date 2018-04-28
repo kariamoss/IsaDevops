@@ -4,6 +4,8 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class Room implements Serializable {
         this.name = name;
     }
 
+    @XmlID
     public int getId() {
         return id;
     }
@@ -50,6 +53,7 @@ public class Room implements Serializable {
         this.id = id;
     }
 
+    @XmlIDREF
     public List<Event> getEvents() {
         return events;
     }
