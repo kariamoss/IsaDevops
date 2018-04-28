@@ -5,6 +5,8 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="coordinators")
+@XmlRootElement
 public class Coordinator implements Serializable {
 
     @Id
@@ -46,6 +49,7 @@ public class Coordinator implements Serializable {
             // it is deleted in the database as well
             //orphanRemoval = true
     )
+    @XmlElement(name="event")
     private List<Event> eventsCreated;
 
     public Coordinator() {
