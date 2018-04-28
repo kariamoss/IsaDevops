@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="events")
-@XmlAccessorType(value = XmlAccessType.FIELD)
+@XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class Event implements Serializable {
 
     @Id
