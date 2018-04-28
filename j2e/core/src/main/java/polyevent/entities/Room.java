@@ -125,7 +125,8 @@ public class Room implements Serializable {
      * after the unmarshalling of this object
      * This callback is called by JAXB to give a value instead of null
      */
+    @SuppressWarnings("unchecked")
     public void afterUnmarshal(Unmarshaller u, Object parent) {
-        //this.events = (ArrayList<Event>) parent;
+        this.events = (List<Event>) parent;
     }
 }
