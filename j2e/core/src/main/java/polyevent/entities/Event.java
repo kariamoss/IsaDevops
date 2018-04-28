@@ -22,7 +22,6 @@ public class Event implements Serializable {
 
     @NotNull
     @ManyToOne(cascade = CascadeType.MERGE)
-    @XmlTransient
     private Coordinator coordinator;
 
     @NotNull
@@ -99,6 +98,7 @@ public class Event implements Serializable {
         this.rooms.add(room);
     }
 
+    @XmlTransient
     public Coordinator getCoordinator() {
         return coordinator;
     }
