@@ -37,7 +37,13 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    @ManyToMany
+    @ManyToMany(
+            cascade =
+                {
+                        CascadeType.PERSIST,
+                        CascadeType.MERGE
+                }
+            )
     @JoinTable(
             name="events_rooms",
             joinColumns = @JoinColumn(
@@ -69,6 +75,7 @@ public class Event implements Serializable {
         this.endDate = endDate;
         this.nbPeople = nbPeople;
         this.name = name;
+        this.rooms = new ArrayList<>();
     }
 
     private void checkRoomCreated(){
