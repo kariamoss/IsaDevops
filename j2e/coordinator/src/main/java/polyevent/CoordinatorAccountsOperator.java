@@ -50,7 +50,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
     @Override
     public Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException {
         if (!areRegistrationInformationValid(firstName, lastName, email, password)) {
-            throw new InvalidRequestParametersException("Parameters for the registration of a new Coordinator are not valid");
+            throw new InvalidRequestParametersException();
         }
 
         if (findByEmail(email).isPresent()) {
