@@ -66,7 +66,7 @@ public class Shell<T> {
                 } catch (IllegalArgumentException iae) {
                     System.err.println("Illegal arguments for command " + keyword + ": " + args);
                 } catch (Exception e) {
-                    System.err.println("Exception caught while processing command:\n  " + e);
+                    System.err.println("Exception caught while processing command:\n  " + e.getMessage());
                 }
             }
         }

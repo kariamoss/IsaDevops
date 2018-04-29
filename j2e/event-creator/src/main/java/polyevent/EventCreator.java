@@ -39,7 +39,7 @@ public class EventCreator implements IEventCreator {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date.getTime());
-        cal.add(Calendar.HOUR_OF_DAY, 12);
+        cal.add(Calendar.HOUR_OF_DAY, 14);
 
         Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
         coordinator.addEvent(event);

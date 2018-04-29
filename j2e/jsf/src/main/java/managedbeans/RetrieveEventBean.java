@@ -1,7 +1,7 @@
 package managedbeans;
 
+import polyevent.IEventCatalog;
 import polyevent.entities.Event;
-import polyevent.EventCatalog;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,9 +14,10 @@ import java.util.Optional;
 @ManagedBean
 public class RetrieveEventBean {
 
-    @EJB private EventCatalog eventCatalog;
+    @EJB private IEventCatalog eventCatalog;
 
-    public Optional<List<Event>> getEvents(){
-        return eventCatalog.getAllEvents();
+    public List<Event> getEvents(){
+        Optional<List<Event>> events = eventCatalog.getAllEvents();
+        return events.orElse(null);
     }
 }

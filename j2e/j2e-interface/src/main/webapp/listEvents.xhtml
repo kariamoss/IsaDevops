@@ -31,13 +31,21 @@
         </h:column>
 
         <h:column>
-            <f:facet name="header">Date de début</f:facet>
-            #{o.startDate}
+            <f:facet name="header">
+                <h:outputText value="Date de début"/>
+            </f:facet>
+            <h:outputText value="#{o.startDate}">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
+            </h:outputText>
         </h:column>
 
         <h:column>
-            <f:facet name="header">Date de fin</f:facet>
-            #{o.endDate}
+            <f:facet name="header">
+                <h:outputText value="Date de fin"/>
+            </f:facet>
+            <h:outputText value="#{o.endDate}">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
+            </h:outputText>
         </h:column>
 
     </h:dataTable>

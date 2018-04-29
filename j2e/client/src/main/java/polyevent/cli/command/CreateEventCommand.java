@@ -42,12 +42,13 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
     @Override
     public void execute() throws Exception {
 
-        /*Event e = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);
+        /*Event e = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate, email);*/
 
+
+        Event e = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate,AuthentificationCommand.cache);
         // request was successful
         if (e != null)
-            System.out.println(e.toString());*/
-        Event e = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate,AuthentificationCommand.cache);
+            System.out.println(e.toString());
     }
 
     /**
