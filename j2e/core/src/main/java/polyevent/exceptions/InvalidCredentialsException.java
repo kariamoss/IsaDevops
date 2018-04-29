@@ -5,7 +5,7 @@ import javax.xml.ws.WebFault;
 /**
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
-@WebFault
+@WebFault(name = "InvalidCredentialsException")
 public class InvalidCredentialsException extends Exception {
     /**
      * Constructs a new exception with the specified detail message.  The

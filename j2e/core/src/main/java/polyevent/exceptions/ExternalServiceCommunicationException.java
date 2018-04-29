@@ -6,7 +6,7 @@ import javax.xml.ws.WebFault;
  * Exception that describes a communication problem with the external service
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
-@WebFault
+@WebFault(name = "ExternalServiceCommunicationException")
 public class ExternalServiceCommunicationException extends Exception {
 
     /**
