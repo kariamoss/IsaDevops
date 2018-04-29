@@ -37,8 +37,8 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    //@ManyToMany
-    /*@JoinTable(
+    @ManyToMany
+    @JoinTable(
             name="events_rooms",
             joinColumns = @JoinColumn(
                     name="event_id",
@@ -48,8 +48,7 @@ public class Event implements Serializable {
                     name="room_id",
                     referencedColumnName = "id"
             )
-    )*/
-    @Transient
+    )
     private List<Room> rooms;
 
     public Event() {

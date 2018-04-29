@@ -43,7 +43,7 @@ public class Coordinator implements Serializable {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy="coordinator"
             // whenever an element is removed from this collection,
             // it is deleted in the database as well
