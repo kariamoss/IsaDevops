@@ -2,7 +2,6 @@ package polyevent.cli.command;
 
 import polyevent.cli.shell.Shell;
 
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractCommand<T> {
@@ -47,12 +46,12 @@ public abstract class AbstractCommand<T> {
     public boolean process(List<String> args) throws Exception {
         try { load(args); }
         catch (Exception e) {
-            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.err.println("Caught exception while parsing arguments of the command : " + e);
         }
         try {
             execute();
         } catch (Exception e) {
-            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.err.println("Exception was thrown while executing the request : " + e);
         }
         // whether the shell should stay alive or not
         return shouldContinue();
