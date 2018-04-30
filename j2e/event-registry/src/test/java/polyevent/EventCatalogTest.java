@@ -196,16 +196,6 @@ public class EventCatalogTest {
         assertNull(entityManager.find(Event.class, e2Id));
     }
 
-    @Test(expected = InvalidRequestParametersException.class)
-    public void testFindEventWithNameEmpty() throws InvalidRequestParametersException {
-        eventCatalog.getEventWithName("");
-    }
-
-    @Test(expected = InvalidRequestParametersException.class)
-    public void testFindEventNameConstraintViolationNull() throws InvalidRequestParametersException {
-        eventCatalog.getEventWithName(null);
-    }
-
     /**
      * Utility method used to retrieve a Coordinator from the database
      * This method is used in the {@link @After} method to retrieve the coordinator
