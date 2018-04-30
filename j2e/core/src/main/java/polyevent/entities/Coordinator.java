@@ -67,12 +67,6 @@ public class Coordinator implements Serializable {
         this.eventsCreated = new ArrayList<>();
     }
 
-    private void checkEventCreated(){
-        if(this.eventsCreated == null) {
-            this.eventsCreated = new ArrayList<>();
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -81,13 +75,12 @@ public class Coordinator implements Serializable {
         this.id = id;
     }
 
-    @XmlElement(name="event")
+    @XmlElement(name="eventsCreated")
     public List<Event> getEventsCreated() {
         return eventsCreated;
     }
 
     public void setEventsCreated(List<Event> eventsCreated) {
-        checkEventCreated();
         this.eventsCreated = eventsCreated;
     }
 
@@ -121,16 +114,6 @@ public class Coordinator implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void addEvent(Event e) {
-        checkEventCreated();
-        this.eventsCreated.add(e);
-    }
-
-    public boolean removeEvent(Event e) {
-        checkEventCreated();
-        return this.eventsCreated.remove(e);
     }
 
     @Override
