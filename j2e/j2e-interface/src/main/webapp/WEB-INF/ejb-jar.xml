@@ -13,6 +13,9 @@
         <interceptor>
             <interceptor-class>polyevent.interceptors.validation.coordinator.InterceptorCoordinatorVerifier</interceptor-class>
         </interceptor>
+        <interceptor>
+            <interceptor-class>polyevent.interceptors.validation.email.InterceptorEmailVerifier</interceptor-class>
+        </interceptor>
     </interceptors>
 
 </ejb-jar>

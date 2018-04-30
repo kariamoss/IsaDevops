@@ -3,8 +3,11 @@ package polyevent;
 import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidCredentialsException;
 import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.interceptors.validation.email.InterceptorEmailVerifier;
+import polyevent.interceptors.validation.standard.InterceptorStringVerifier;
 
 import javax.ejb.Local;
+import javax.interceptor.Interceptors;
 
 /**
  * A functional interface that exposes operations to authenticate
@@ -31,5 +34,6 @@ public interface ICoordinatorAuthenticator {
      * @return a {@link Coordinator} or an {@link Exception} depending on the
      *         result of the authentication trial
      */
+    @Interceptors({InterceptorStringVerifier.class, InterceptorEmailVerifier.class})
     Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException;
 }

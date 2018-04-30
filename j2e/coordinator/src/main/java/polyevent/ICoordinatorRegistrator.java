@@ -3,8 +3,11 @@ package polyevent;
 import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
+import polyevent.interceptors.validation.email.InterceptorEmailVerifier;
+import polyevent.interceptors.validation.standard.InterceptorStringVerifier;
 
 import javax.ejb.Local;
+import javax.interceptor.Interceptors;
 
 /**
  * A functional interface that exposes operations to register
@@ -29,5 +32,6 @@ public interface ICoordinatorRegistrator {
      * @return a {@link Coordinator} object containing the result of the registration
      * process
      */
+    @Interceptors({InterceptorStringVerifier.class, InterceptorEmailVerifier.class})
     Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException;
 }

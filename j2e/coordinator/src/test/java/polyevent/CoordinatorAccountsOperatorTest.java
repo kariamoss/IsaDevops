@@ -50,40 +50,6 @@ public class CoordinatorAccountsOperatorTest {
         assertEquals(c, coordinatorAuthenticator.authenticate(c.getEmail(), c.getPassword()));
     }
 
-    @Test(expected = InvalidRequestParametersException.class)
-    public void registerWithBadName() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        Coordinator c = coordinatorRegistrator.register("", "Tutu", "toto@tutu.fr", "tototutu");
-        assertNull(c);
-
-        c = coordinatorRegistrator.register(null, "Tutu", "toto@tutu.fr", "tototutu");
-        assertNull(c);
-
-        c = coordinatorRegistrator.register("Toto", null, "toto@tutu.fr", "tototutu");
-        assertNull(c);
-
-        c = coordinatorRegistrator.register("Toto", "", "toto@tutu.fr", "tototutu");
-        assertNull(c);
-
-        assertNull(entityManager.find(Coordinator.class, "toto@tutu.fr"));
-    }
-
-    @Test(expected = InvalidRequestParametersException.class)
-    public void registerWithBadEmail() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "tototutu");
-        assertNull(c);
-    }
-
-    @Test(expected = InvalidRequestParametersException.class)
-    public void registerWithBadPassword() throws UserAlreadyExistsException, InvalidRequestParametersException {
-        Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "toto", null);
-        assertNull(c);
-
-        c = coordinatorRegistrator.register("Toto", "Tutu", "toto", "");
-        assertNull(c);
-
-        assertNull(entityManager.find(Coordinator.class, "toto"));
-    }
-
     @Test(expected = UserAlreadyExistsException.class)
     public void registerAlreadyExistingUser() throws UserAlreadyExistsException, InvalidRequestParametersException {
         Coordinator c = coordinatorRegistrator.register("Toto", "Tutu", "tutu@tutu.fr", "tototutu");
