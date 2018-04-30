@@ -34,12 +34,16 @@ public class EventCreator implements IEventCreator {
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
             l.log(Level.SEVERE, "Received invalid parameter(s) for event creation");
+            l.log(Level.SEVERE, "Name = " + FieldsValidator.isStringValid(name) +
+                    ", participantNumber = " + FieldsValidator.isStrictlyPositive(participantNumber) +
+                    ", Date = " + FieldsValidator.dateIsGood(date) +
+                    ", Coordinator = " + FieldsValidator.isObjectNotNull(coordinator));
             throw new InvalidRequestParametersException("Parameters of the request are invalid");
         }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date.getTime());
-        cal.add(Calendar.HOUR_OF_DAY, 14);
+        cal.add(Calendar.HOUR_OF_DAY, 2);
 
         Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
         coordinator.addEvent(event);
