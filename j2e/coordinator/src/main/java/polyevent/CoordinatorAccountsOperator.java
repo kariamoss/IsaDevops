@@ -2,7 +2,6 @@ package polyevent;
 
 import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidCredentialsException;
-import polyevent.exceptions.InvalidRequestParametersException;
 import polyevent.exceptions.UserAlreadyExistsException;
 
 import javax.ejb.Stateless;
@@ -48,10 +47,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * process
      */
     @Override
-    public Coordinator register(String firstName, String lastName, String email, String password) throws InvalidRequestParametersException, UserAlreadyExistsException {
-        if (!areRegistrationInformationValid(firstName, lastName, email, password)) {
-            throw new InvalidRequestParametersException();
-        }
+    public Coordinator register(String firstName, String lastName, String email, String password) throws UserAlreadyExistsException {
 
         if (findByEmail(email).isPresent()) {
             throw new UserAlreadyExistsException("A user with the given email already exists in the database !");
@@ -80,12 +76,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * result of the authentication trial
      */
     @Override
-    public Coordinator authenticate(String email, String password) throws InvalidCredentialsException, InvalidRequestParametersException {
-        // checks that the parameters are SEMANTICALLY correct
-        if (!areLoginInformationValid(email, password)) {
-            throw new InvalidRequestParametersException("Parameters for coordinator authentication are invalid");
-        }
-
+    public Coordinator authenticate(String email, String password) throws InvalidCredentialsException {
         Optional<Coordinator> c = findByEmail(email);
         // checks that a user with this email exists in the database
         if (!c.isPresent()) {
@@ -109,35 +100,6 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
     }
 
     /**
-     * Returns true if the credentials of the {@link Coordinator}
-     * are valid ones
-     *
-     * @param email the email to validate
-     * @param password the password to validate (as a String)
-     * @return true if the given credentials are semantically valid,
-     *         false otherwise
-     */
-    private boolean areLoginInformationValid(String email, String password) {
-        return FieldsValidator.isStringValid(password)
-                && FieldsValidator.isValidEmail(email);
-    }
-
-    /**
-     * Returns true if the parameters for the registration of
-     * a new {@link Coordinator} are semantically valid
-     * @param firstName the first name of the new {@link Coordinator}
-     * @param lastName the last name of the new {@link Coordinator}
-     * @param email the email of the new {@link Coordinator}
-     * @param password the password of the new {@link Coordinator}
-     * @return true if the given parameters are semantically valid
-     */
-    private boolean areRegistrationInformationValid(String firstName, String lastName, String email, String password) {
-        return FieldsValidator.isStringValid(firstName)
-                && FieldsValidator.isStringValid(lastName)
-                && areLoginInformationValid(email, password);
-    }
-
-    /**
      * Looks up in the database to find the {@link Coordinator} with the
      * given email, and returns an {@link Optional<Coordinator>} if such a user
      * exists, or {@link Optional#empty()} if not
@@ -145,10 +107,7 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
      * @return an {@link Optional<Coordinator>} if such a user
      *         exists, or {@link Optional#empty()} if not
      */
-    private Optional<Coordinator> findByEmail(String email) throws InvalidRequestParametersException {
-        if (!isEmailValid(email)) {
-            throw new InvalidRequestParametersException("Cannot find a coordinator with a null or empty email : " + email);
-        }
+    private Optional<Coordinator> findByEmail(String email) {
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Coordinator> criteria = builder.createQuery(Coordinator.class);
@@ -165,10 +124,5 @@ public class CoordinatorAccountsOperator implements ICoordinatorRegistrator, ICo
             l.log(Level.FINEST, "No result for ["+email+"]", nre);
             return Optional.empty();
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        return  FieldsValidator.isStringValid(email)
-                && FieldsValidator.isValidEmail(email);
     }
 }
