@@ -27,6 +27,7 @@ public class EventCreatorService implements IEventCreatorService {
         // Finds a coordinator with its email
         // be careful when querying on columns different than the ID
         // since the column needs to contain unique values
+        // todo delegate this to EventCreator bean ...
         Coordinator c = coordinatorAuthenticator.authenticate(coordinator.getEmail(), coordinator.getPassword());
 
         if (c == null) {
