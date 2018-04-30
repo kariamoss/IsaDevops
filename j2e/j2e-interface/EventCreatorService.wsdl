@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://event.webservice/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="EventCreatorServiceService" targetNamespace="http://event.webservice/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://event.webservice/" elementFormDefault="unqualified" targetNamespace="http://event.webservice/" version="1.0">
+
+  <xs:element name="createEvent" type="tns:createEvent"/>
+
+  <xs:element name="createEventResponse" type="tns:createEventResponse"/>
+
+  <xs:complexType name="createEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createEventResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:message"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="message">
+    <xs:sequence>
+      <xs:element name="status" type="xs:int"/>
+      <xs:element minOccurs="0" name="statusText" type="xs:string"/>
+      <xs:element minOccurs="0" name="transmittedObject" type="xs:anyType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createEvent">
+    <wsdl:part element="tns:createEvent" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createEventResponse">
+    <wsdl:part element="tns:createEventResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IEventCreatorService">
+    <wsdl:operation name="createEvent">
+      <wsdl:input message="tns:createEvent" name="createEvent">
+    </wsdl:input>
+      <wsdl:output message="tns:createEventResponse" name="createEventResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EventCreatorServiceServiceSoapBinding" type="tns:IEventCreatorService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createEvent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createEvent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createEventResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EventCreatorServiceService">
+    <wsdl:port binding="tns:EventCreatorServiceServiceSoapBinding" name="EventCreatorServicePort">
+      <soap:address location="http://localhost:8080/polyevent-backend/webservices/EventCreatorService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

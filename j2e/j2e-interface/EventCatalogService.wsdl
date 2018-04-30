@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://event.webservice/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="EventCatalogServiceService" targetNamespace="http://event.webservice/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://event.webservice/" elementFormDefault="unqualified" targetNamespace="http://event.webservice/" version="1.0">
+
+  <xs:element name="getAllEvents" type="tns:getAllEvents"/>
+
+  <xs:element name="getAllEventsResponse" type="tns:getAllEventsResponse"/>
+
+  <xs:element name="getEventWithName" type="tns:getEventWithName"/>
+
+  <xs:element name="getEventWithNameResponse" type="tns:getEventWithNameResponse"/>
+
+  <xs:complexType name="getEventWithName">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getEventWithNameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:event"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="event">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="coordinator" type="tns:coordinator"/>
+      <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element name="nbPeople" type="xs:int"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="rooms" nillable="true" type="tns:room"/>
+      <xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="coordinator">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="eventsCreated" nillable="true" type="tns:event"/>
+      <xs:element minOccurs="0" name="firstName" type="xs:string"/>
+      <xs:element minOccurs="0" name="lastName" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="room">
+    <xs:sequence>
+      <xs:element name="capacity" type="xs:int"/>
+      <xs:element minOccurs="0" name="name" type="xs:string"/>
+      <xs:element minOccurs="0" name="roomType" type="tns:roomType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAllEvents">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAllEventsResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:event"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="roomType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MEETING_ROOM"/>
+      <xs:enumeration value="MEAL"/>
+      <xs:enumeration value="LEARNING_CENTRE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getAllEventsResponse">
+    <wsdl:part element="tns:getAllEventsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllEvents">
+    <wsdl:part element="tns:getAllEvents" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEventWithName">
+    <wsdl:part element="tns:getEventWithName" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEventWithNameResponse">
+    <wsdl:part element="tns:getEventWithNameResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IEventCatalogService">
+    <wsdl:operation name="getEventWithName">
+      <wsdl:input message="tns:getEventWithName" name="getEventWithName">
+    </wsdl:input>
+      <wsdl:output message="tns:getEventWithNameResponse" name="getEventWithNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllEvents">
+      <wsdl:input message="tns:getAllEvents" name="getAllEvents">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllEventsResponse" name="getAllEventsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EventCatalogServiceServiceSoapBinding" type="tns:IEventCatalogService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getEventWithName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEventWithName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEventWithNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllEvents">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAllEvents">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAllEventsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EventCatalogServiceService">
+    <wsdl:port binding="tns:EventCatalogServiceServiceSoapBinding" name="EventCatalogServicePort">
+      <soap:address location="http://localhost:8080/polyevent-backend/webservices/EventCatalogService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
