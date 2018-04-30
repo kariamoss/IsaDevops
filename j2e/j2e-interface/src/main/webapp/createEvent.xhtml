@@ -13,5 +13,19 @@
 <h:body>
     <h1>PolyEvent / Événements </h1>
     <h2>Créer un événement</h2>
+    <h:messages id="form-error" style="color: red"/>
+    <f:view>
+        <h:form id="create-event-form">
+            <h:panelGrid columns="2" style="margin:0 auto;">
+                <h:outputText value="Nom de l'évenement"/>
+                <h:inputText value='#{createEventBean.eventName}' label="Nom de l'évenement" required="true"
+                             requiredMessage="Rentrez un nom pour l'évenement"/>
+                <h:outputText value='Nombre de personnes estimées'/>
+                <h:inputText value='#{createEventBean.nbPeople}' label="Nombre de personnes" required="true"
+                             requiredMessage="Rentrez le nombre de personnes estimé"/>
+                <h:commandButton action="#{createEventBean.createEvent}" value="Créer cet évenement"/>
+            </h:panelGrid>
+        </h:form>
+    </f:view>
 </h:body>
 </html>

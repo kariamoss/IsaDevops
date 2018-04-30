@@ -1,6 +1,7 @@
 package managedbeans;
 
 import polyevent.ICoordinatorAuthenticator;
+import polyevent.entities.Coordinator;
 import polyevent.exceptions.InvalidCredentialsException;
 import polyevent.exceptions.InvalidRequestParametersException;
 
@@ -18,6 +19,18 @@ public class AuthenticateBean implements Serializable {
 
     private String email;
     private String password;
+    private Coordinator coordinator;
+
+    public String authenticate(){
+        try {
+            this.coordinator = coordinatorAuthenticator.authenticate(email, password);
+            return Signal.LOGGED;
+        } catch (InvalidCredentialsException | InvalidRequestParametersException e) {
+            FacesContext.getCurrentInstance().addMessage("form-error",
+                    new FacesMessage("L'email et le mot de passe ne correspondent pas"));
+            return Signal.LOGIN_ERROR;
+        }
+    }
 
     public String getEmail() {
         return email;
@@ -33,14 +46,10 @@ public class AuthenticateBean implements Serializable {
         this.password = password;
     }
 
-    public String authenticate(){
-        try {
-            coordinatorAuthenticator.authenticate(email, password);
-            return Signal.LOGGED;
-        } catch (InvalidCredentialsException | InvalidRequestParametersException e) {
-            FacesContext.getCurrentInstance().addMessage("form-error",
-                    new FacesMessage("L'email et le mot de passe ne correspondent pas"));
-            return Signal.LOGIN_ERROR;
-        }
+    public Coordinator getCoordinator() {
+        return coordinator;
+    }
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
     }
 }

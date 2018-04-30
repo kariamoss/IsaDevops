@@ -30,6 +30,11 @@
             <artifactId>coordinator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>polyevent</groupId>
+            <artifactId>event-creator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
