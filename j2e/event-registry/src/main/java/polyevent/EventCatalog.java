@@ -1,7 +1,6 @@
 package polyevent;
 
 import polyevent.entities.Event;
-import polyevent.exceptions.InvalidRequestParametersException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,10 +64,7 @@ public class EventCatalog implements IEventCatalog {
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
     @Override
-    public Optional<Event> getEventWithName(String eventName) throws InvalidRequestParametersException {
-        if (!isParameterValid(eventName)) {
-            throw new InvalidRequestParametersException("Cannot find an event with an empty or null name : " + eventName);
-        }
+    public Optional<Event> getEventWithName(String eventName) {
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Event> criteria = builder.createQuery(Event.class);
