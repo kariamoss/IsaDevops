@@ -2,6 +2,7 @@ package polyevent.cli.shell;
 
 import polyevent.cli.command.AbstractCommand;
 
+import javax.xml.ws.WebServiceException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,8 +66,10 @@ public class Shell<T> {
                         shouldContinue = processCommand(keyword, args);
                 } catch (IllegalArgumentException iae) {
                     System.err.println("Illegal arguments for command " + keyword + ": " + args);
+                } catch (WebServiceException wse) {
+                    System.err.println("WebServiceException while processing command: " + wse);
                 } catch (Exception e) {
-                    System.err.println("Exception caught while processing command:\n  " + e.getMessage());
+                    System.err.println("Exception caught while processing command:\n  " + e);
                 }
             }
         }
