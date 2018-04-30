@@ -49,7 +49,7 @@ public class Coordinator implements Serializable {
             // it is deleted in the database as well
             //orphanRemoval = true
     )
-    private List<Event> eventsCreated;
+    private List<Event> eventsCreated = new ArrayList<>();
 
     public Coordinator() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -64,7 +64,6 @@ public class Coordinator implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.eventsCreated = new ArrayList<>();
     }
 
     private void checkEventCreated(){

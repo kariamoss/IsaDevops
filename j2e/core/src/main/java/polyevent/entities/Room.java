@@ -31,7 +31,7 @@ public class Room implements Serializable {
 
     //@ManyToMany(mappedBy = "rooms")
     @Transient
-    private List<Event> events;
+    private List<Event> events = new ArrayList<>();
 
     public Room() {
         // default constructor for JPA instantiation (unmarshalling)

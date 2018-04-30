@@ -50,7 +50,7 @@ public class Event implements Serializable {
             )
     )*/
     @Transient
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     public Event() {
         // default constructor for JPA instantiation (unmarshalling)
