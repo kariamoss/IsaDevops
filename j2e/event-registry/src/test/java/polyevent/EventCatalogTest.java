@@ -91,8 +91,8 @@ public class EventCatalogTest {
 
         e2.getRooms().add(r1);
 
-        c.addEvent(e1);
-        c.addEvent(e2);
+        c.getEventsCreated().add(e1);
+        c.getEventsCreated().add(e2);
 
         e1.setCoordinator(c);
         e2.setCoordinator(c);

@@ -20,7 +20,7 @@ public class EventTest {
     @Test
     public void roomAddTest(){
         Room room = new Room(RoomType.MEETING_ROOM,100,"test");
-        this.event.addRoom(room);
+        this.event.getRooms().add(room);
         assertTrue(this.event.getRooms().contains(room));
     }
 }

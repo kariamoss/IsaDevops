@@ -30,7 +30,7 @@ public class Room implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "rooms")
-    private List<Event> events;
+    private List<Event> events = new ArrayList<>();
 
     public Room() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -41,6 +41,7 @@ public class Room implements Serializable {
         this.roomType = roomType;
         this.capacity = capacity;
         this.name = name;
+        this.events = new ArrayList<>();
     }
 
     public int getId() {
@@ -53,6 +54,9 @@ public class Room implements Serializable {
 
     @XmlTransient
     public List<Event> getEvents() {
+        if (this.events == null) {
+            this.events = new ArrayList<>();
+        }
         return events;
     }
 
@@ -82,13 +86,6 @@ public class Room implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void addEvent(Event e) {
-        if(this.events == null){
-            this.events = new ArrayList<>();
-        }
-        this.events.add(e);
     }
 
     @Override

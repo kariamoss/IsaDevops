@@ -55,7 +55,7 @@ public class Event implements Serializable {
                     referencedColumnName = "id"
             )
     )
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<>();
 
     public Event() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -78,12 +78,6 @@ public class Event implements Serializable {
         this.rooms = new ArrayList<>();
     }
 
-    private void checkRoomCreated(){
-        if(this.rooms == null) {
-            this.rooms = new ArrayList<>();
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -94,17 +88,10 @@ public class Event implements Serializable {
 
     @XmlElement(name="room")
     public List<Room> getRooms() {
+        if (this.rooms == null) {
+            this.rooms = new ArrayList<>();
+        }
         return rooms;
-    }
-
-    public void addRooms(List<Room> rooms) {
-        checkRoomCreated();
-        this.rooms.addAll(rooms);
-    }
-
-    public void addRoom(Room room) {
-        checkRoomCreated();
-        this.rooms.add(room);
     }
 
     @XmlTransient

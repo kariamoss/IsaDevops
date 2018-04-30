@@ -42,7 +42,7 @@ public class EventCreator implements IEventCreator {
         cal.add(Calendar.HOUR_OF_DAY, 14);
 
         Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
-        coordinator.addEvent(event);
+        coordinator.getEventsCreated().add(event);
 
         entityManager.merge(coordinator);
 
