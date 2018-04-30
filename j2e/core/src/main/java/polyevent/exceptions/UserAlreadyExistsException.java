@@ -1,6 +1,7 @@
 package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
+import java.io.Serializable;
 
 /**
  * An exception that is thrown when an user is created with
@@ -9,7 +10,7 @@ import javax.xml.ws.WebFault;
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
 @WebFault(name = "UserAlreadyExistsException")
-public class UserAlreadyExistsException extends Exception {
+public class UserAlreadyExistsException extends Exception implements Serializable {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a

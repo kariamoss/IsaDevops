@@ -1,12 +1,13 @@
 package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
+import java.io.Serializable;
 
 /**
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
 @WebFault(name = "InvalidRequestParametersException")
-public class InvalidRequestParametersException extends Exception {
+public class InvalidRequestParametersException extends Exception implements Serializable {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
@@ -27,4 +28,6 @@ public class InvalidRequestParametersException extends Exception {
     public InvalidRequestParametersException(String message) {
         super(message);
     }
+
+
 }

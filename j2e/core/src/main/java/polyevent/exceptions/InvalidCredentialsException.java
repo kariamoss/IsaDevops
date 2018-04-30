@@ -1,12 +1,13 @@
 package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
+import java.io.Serializable;
 
 /**
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
 @WebFault(name = "InvalidCredentialsException")
-public class InvalidCredentialsException extends Exception {
+public class InvalidCredentialsException extends Exception implements Serializable {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
