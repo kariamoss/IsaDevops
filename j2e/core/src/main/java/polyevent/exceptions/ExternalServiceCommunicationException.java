@@ -1,14 +1,13 @@
 package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
-import java.io.Serializable;
 
 /**
  * Exception that describes a communication problem with the external service
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
 @WebFault(name = "ExternalServiceCommunicationException")
-public class ExternalServiceCommunicationException extends Exception implements Serializable {
+public class ExternalServiceCommunicationException extends Exception {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a

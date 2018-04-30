@@ -1,7 +1,6 @@
 package polyevent.exceptions;
 
 import javax.xml.ws.WebFault;
-import java.io.Serializable;
 
 /**
  * Defines an {@link Exception} that informs the user that the data integrity has been lost,
@@ -11,7 +10,7 @@ import java.io.Serializable;
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
 @WebFault(name = "DataIntegrityException")
-public class DataIntegrityException extends Exception implements Serializable {
+public class DataIntegrityException extends Exception {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
