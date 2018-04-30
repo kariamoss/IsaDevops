@@ -18,7 +18,7 @@ public class InterceptorIntegerVerifier {
         // gets the coordinator parameter
         for (Object parameter : parameters) {
             // if the parameter is of type String
-            if (parameter.getClass().getName().equals(String.class.getName())) {
+            if (parameter.getClass().getName().equals(Integer.class.getName())) {
                 // if the string is invalid
                 if (!FieldsValidator.isStringValid((String) parameter)) {
                     throw new InvalidRequestParametersException("A parameter of type String in the request is invalid!");
