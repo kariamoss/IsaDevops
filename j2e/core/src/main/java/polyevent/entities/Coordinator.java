@@ -43,7 +43,7 @@ public class Coordinator implements Serializable {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy="coordinator"
             // whenever an element is removed from this collection,
             // it is deleted in the database as well
@@ -66,12 +66,6 @@ public class Coordinator implements Serializable {
         this.password = password;
     }
 
-    private void checkEventCreated(){
-        if(this.eventsCreated == null) {
-            this.eventsCreated = new ArrayList<>();
-        }
-    }
-
     public int getId() {
         return id;
     }
@@ -86,7 +80,6 @@ public class Coordinator implements Serializable {
     }
 
     public void setEventsCreated(List<Event> eventsCreated) {
-        checkEventCreated();
         this.eventsCreated = eventsCreated;
     }
 
@@ -120,16 +113,6 @@ public class Coordinator implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void addEvent(Event e) {
-        checkEventCreated();
-        this.eventsCreated.add(e);
-    }
-
-    public boolean removeEvent(Event e) {
-        checkEventCreated();
-        return this.eventsCreated.remove(e);
     }
 
     @Override

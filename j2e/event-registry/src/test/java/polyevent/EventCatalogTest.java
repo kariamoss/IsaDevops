@@ -83,17 +83,21 @@ public class EventCatalogTest {
         e1 = new Event(c, 100, lookUpEventName);
         e2 = new Event(c, 10, badLookupEventName);
 
-        c.addEvent(e1);
-        c.addEvent(e2);
+        r1 = new Room(RoomType.MEETING_ROOM, 100, "E+100");
+        r2 = new Room(RoomType.MEETING_ROOM, 20, "E+101");
+
+        e1.getRooms().add(r1);
+        e1.getRooms().add(r2);
+
+        e2.getRooms().add(r1);
+
+        c.getEventsCreated().add(e1);
+        c.getEventsCreated().add(e2);
 
         e1.setCoordinator(c);
         e2.setCoordinator(c);
 
         entityManager.persist(c);
-
-        r1 = new Room(RoomType.MEETING_ROOM, 100, "E+100");
-        r2 = new Room(RoomType.MEETING_ROOM, 20, "E+101");
-
     }
 
     /**
@@ -108,8 +112,16 @@ public class EventCatalogTest {
     public void testGetAllEvents() {
         Optional<List<Event>> optionalEvents = eventCatalog.getAllEvents();
         assertTrue(optionalEvents.isPresent());
-        assertEquals("Size of event list should be equal to 2", optionalEvents.get().size(), 2);
-        assertEquals(optionalEvents.get().get(0).getName(), lookUpEventName);
+        List<Event> events = optionalEvents.get();
+        assertEquals("Size of event list should be equal to 2", events.size(), 2);
+        assertEquals(events.get(0).getName(), lookUpEventName);
+
+        // tests that the rooms have persisted
+        assertEquals(2, events.get(0).getRooms().size());
+        assertEquals(r1, events.get(0).getRooms().get(0));
+        assertEquals(r2, events.get(0).getRooms().get(1));
+        assertEquals(1, events.get(1).getRooms().size());
+        assertEquals(r1, events.get(1).getRooms().get(0));
     }
 
     /**

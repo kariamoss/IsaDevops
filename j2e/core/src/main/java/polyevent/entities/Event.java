@@ -37,8 +37,14 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    //@ManyToMany
-    /*@JoinTable(
+    @ManyToMany(
+            cascade =
+                {
+                        CascadeType.PERSIST,
+                        CascadeType.MERGE
+                }
+            )
+    @JoinTable(
             name="events_rooms",
             joinColumns = @JoinColumn(
                     name="event_id",
@@ -48,8 +54,7 @@ public class Event implements Serializable {
                     name="room_id",
                     referencedColumnName = "id"
             )
-    )*/
-    @Transient
+    )
     private List<Room> rooms = new ArrayList<>();
 
     public Event() {
@@ -70,12 +75,7 @@ public class Event implements Serializable {
         this.endDate = endDate;
         this.nbPeople = nbPeople;
         this.name = name;
-    }
-
-    private void checkRoomCreated(){
-        if(this.rooms == null) {
-            this.rooms = new ArrayList<>();
-        }
+        this.rooms = new ArrayList<>();
     }
 
     public int getId() {
@@ -88,17 +88,10 @@ public class Event implements Serializable {
 
     @XmlElement(name="room")
     public List<Room> getRooms() {
+        if (this.rooms == null) {
+            this.rooms = new ArrayList<>();
+        }
         return rooms;
-    }
-
-    public void addRooms(List<Room> rooms) {
-        checkRoomCreated();
-        this.rooms.addAll(rooms);
-    }
-
-    public void addRoom(Room room) {
-        checkRoomCreated();
-        this.rooms.add(room);
     }
 
     @XmlTransient
