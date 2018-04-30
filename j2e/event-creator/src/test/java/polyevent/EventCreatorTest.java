@@ -79,7 +79,7 @@ public class EventCreatorTest {
 
         e = new Event(coordinator, 100, "Event");
 
-        coordinator.addEvent(e);
+        coordinator.getEventsCreated().add(e);
 
         // we need to instantiate the EJBs in order for mocks/spies to work
         // within an EJB container

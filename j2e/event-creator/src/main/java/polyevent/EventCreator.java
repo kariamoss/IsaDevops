@@ -40,13 +40,13 @@ public class EventCreator implements IEventCreator {
                     ", Coordinator = " + FieldsValidator.isObjectNotNull(coordinator));
             throw new InvalidRequestParametersException("Parameters of the request are invalid");
         }
-        l.log(Level.INFO, "Coordinator is : " + coordinator + "\n and list of events: " + coordinator.getEventsCreated());
+        l.log(Level.INFO, "Coordinator is : " + coordinator + "\n and list of events: " + coordinator.getEventsCreated() + "\n " + (coordinator.getEventsCreated() == null));
         Calendar cal = Calendar.getInstance();
         cal.setTime(date.getTime());
         cal.add(Calendar.HOUR_OF_DAY, 2);
 
         Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
-        coordinator.addEvent(event);
+        coordinator.getEventsCreated().add(event);
 
         entityManager.merge(coordinator);
 
