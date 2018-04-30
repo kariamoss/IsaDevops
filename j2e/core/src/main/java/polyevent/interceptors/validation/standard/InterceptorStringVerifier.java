@@ -17,11 +17,15 @@ public class InterceptorStringVerifier {
 
         // gets the coordinator parameter
         for (Object parameter : parameters) {
+            if (parameter == null) {
+                throw new InvalidRequestParametersException("One or more parameters of the request are null!");
+            }
+
             // if the parameter is of type String
             if (parameter.getClass().getName().equals(String.class.getName())) {
                 // if the string is invalid
                 if (!FieldsValidator.isStringValid((String) parameter)) {
-                    throw new InvalidRequestParametersException("The parameter of type int should be strictly positive!");
+                    throw new InvalidRequestParametersException("One or more parameters of type String in the request are invalid!");
                 }
             }
         }

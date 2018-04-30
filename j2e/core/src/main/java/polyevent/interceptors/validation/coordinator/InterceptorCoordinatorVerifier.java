@@ -23,9 +23,13 @@ public class InterceptorCoordinatorVerifier {
     public Object intercept(InvocationContext ctx) throws Exception {
         Coordinator coordinator = null;
         Object[] parameters = ctx.getParameters();
-        
+
         // gets the coordinator parameter
         for (Object parameter : parameters) {
+            if (parameter == null) {
+                throw new InvalidRequestParametersException("One or more parameters of of the request are null!");
+            }
+
             if (parameter.getClass().getName().equals(Coordinator.class.getName())) {
                 coordinator = (Coordinator) parameter;
             }
