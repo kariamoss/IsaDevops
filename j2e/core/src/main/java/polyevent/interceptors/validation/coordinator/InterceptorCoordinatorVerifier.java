@@ -23,7 +23,7 @@ public class InterceptorCoordinatorVerifier {
     public Object intercept(InvocationContext ctx) throws Exception {
         Coordinator coordinator = null;
         Object[] parameters = ctx.getParameters();
-
+        
         // gets the coordinator parameter
         for (Object parameter : parameters) {
             if (parameter.getClass().getName().equals(Coordinator.class.getName())) {
