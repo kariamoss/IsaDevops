@@ -20,7 +20,7 @@ public class InterceptorIntegerVerifier {
             // if the parameter is of type String
             if (parameter.getClass().getName().equals(Integer.class.getName())) {
                 // if the string is invalid
-                if (!FieldsValidator.isStringValid((String) parameter)) {
+                if (!FieldsValidator.isStrictlyPositive((int) parameter)) {
                     throw new InvalidRequestParametersException("A parameter of type String in the request is invalid!");
                 }
             }

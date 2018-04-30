@@ -20,7 +20,7 @@ public class InterceptorStringVerifier {
             // if the parameter is of type String
             if (parameter.getClass().getName().equals(String.class.getName())) {
                 // if the string is invalid
-                if (!FieldsValidator.isStrictlyPositive((int) parameter)) {
+                if (!FieldsValidator.isStringValid((String) parameter)) {
                     throw new InvalidRequestParametersException("The parameter of type int should be strictly positive!");
                 }
             }
