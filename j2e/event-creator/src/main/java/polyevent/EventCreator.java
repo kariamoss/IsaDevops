@@ -53,7 +53,7 @@ public class EventCreator implements IEventCreator {
 
     @Override
     public boolean cancelEvent(Coordinator coordinator, Event event) throws DataIntegrityException {
-        if (!coordinator.removeEvent(event)) {
+        if (!coordinator.getEventsCreated().remove(event)) {
             l.log(Level.SEVERE, "Tried to delete event from coordinator that doesn't exist in the database");
             throw new DataIntegrityException("The given event doesn't exist for this coordinator : " + event);
         }
