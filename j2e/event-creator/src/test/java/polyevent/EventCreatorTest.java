@@ -109,6 +109,11 @@ public class EventCreatorTest {
         assertEquals(e, entityManager.find(Event.class, e.getId()));
     }
 
+    @Test(expected = InvalidRequestParametersException.class)
+    public void creationNullCoordinator() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
+        eventCreator.registerEvent("toto", 10, startDate, null);
+    }
+
     /**
      * Utility method used to retrieve a Coordinator from the database
      * This method is used in the {@link @After} method to retrieve the coordinator
