@@ -33,9 +33,6 @@ public class MessageTest {
     public void simpleMessage() throws Exception{
         Event event = new Event(100,"salut");
 
-
-        organizer.bookRoom(event);
-
-        assertEquals(event,event);
+        assertEquals(event,organizer.bookRoom(event));
     }
 }

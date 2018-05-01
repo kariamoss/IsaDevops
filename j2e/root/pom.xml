@@ -180,6 +180,7 @@
                     <tomeeClassifier>plus</tomeeClassifier>
                     <args>-Xmx512m -XX:PermSize=256m</args>
                     <deployOpenEjbApplication>true</deployOpenEjbApplication>
+                    <args>-Dorg.apache.activemq.SERIALIZABLE_PACKAGES=*</args>
                 </configuration>
             </plugin>
         </plugins>
