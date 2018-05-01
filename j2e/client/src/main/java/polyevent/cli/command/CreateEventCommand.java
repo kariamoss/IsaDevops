@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import api.EventApi;
 import polyevent.Event;
+import polyevent.dto.EventDTO;
 import polyevent.entities.RoomType;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -48,7 +49,7 @@ public class CreateEventCommand extends AbstractCommand<EventApi> {
         Event e = shell.api.eventCreatorService.createEvent(eventName, estimatedPeopleNumber, startDate,AuthentificationCommand.cache);
         // request was successful
         if (e != null)
-            System.out.println(e.toString());
+            System.out.println(new EventDTO(e).toString());
     }
 
     /**
