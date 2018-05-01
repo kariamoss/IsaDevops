@@ -67,6 +67,11 @@ public class RoomBooker implements MessageListener {
     private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
         Event e = entityManager.find(Event.class, event.getId());
 
+        l.log(Level.SEVERE, "event by id : " + e);
+
+        if (e == null)
+            return false;
+
         e.getRooms().addAll(rooms);
         for (Room r : rooms) {
             r.getEvents().add(e);

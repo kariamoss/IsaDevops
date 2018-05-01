@@ -37,8 +37,11 @@ public class EventCreator implements IEventCreator {
         cal.add(Calendar.HOUR_OF_DAY, 2);
 
         Coordinator c = entityManager.find(Coordinator.class, coordinator.getId());
-        Event event = new Event(c, date.getTime(), cal.getTime(), participantNumber, name);
+        Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
+
+        entityManager.persist(event);
         c.getEventsCreated().add(event);
+
 
         return eventOrganizer.bookRoom(event);
     }
