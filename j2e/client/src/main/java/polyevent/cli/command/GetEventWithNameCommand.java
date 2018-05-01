@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import api.EventApi;
 import polyevent.Event;
+import polyevent.dto.EventDTO;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class GetEventWithNameCommand extends AbstractCommand<EventApi> {
             System.out.println("No event with the name : " + eventName + " exists in the PolyEvent system!");
         }
         else {
-            System.out.println(event.toString());
+            System.out.println(new EventDTO(event).toString());
         }
     }
 

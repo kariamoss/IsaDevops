@@ -20,7 +20,7 @@
                 <h:outputText value='Email'/>
                 <h:inputText value='#{authenticateBean.email}' label="Email" required="true" requiredMessage="Rentrez votre email"/>
                 <h:outputText value='Mot de passe'/>
-                <h:inputText value='#{authenticateBean.password}' label="Mot de passe" required="true" requiredMessage="Rentrez votre mot de passe"/>
+                <h:inputSecret value='#{authenticateBean.password}' label="Mot de passe" required="true" requiredMessage="Rentrez votre mot de passe"/>
                 <h:commandButton action="#{authenticateBean.authenticate}" value="Se connecter"/>
             </h:panelGrid>
         </h:form>

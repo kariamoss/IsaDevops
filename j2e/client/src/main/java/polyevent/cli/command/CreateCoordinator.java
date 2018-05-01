@@ -1,7 +1,7 @@
 package polyevent.cli.command;
 
 import api.EventApi;
-import polyevent.Coordinator;
+import polyevent.dto.CoordinatorDTO;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class CreateCoordinator extends AbstractCommand<EventApi>{
 
         // request was successful
         if (AuthentificationCommand.cache != null)
-            System.out.println(AuthentificationCommand.cache.toString());
+            System.out.println(new CoordinatorDTO(AuthentificationCommand.cache).toString());
         else
             System.err.println("Failed to create new coordinator");
     }

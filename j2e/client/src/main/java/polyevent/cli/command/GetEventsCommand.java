@@ -2,6 +2,7 @@ package polyevent.cli.command;
 
 import api.EventApi;
 import polyevent.Event;
+import polyevent.dto.EventDTO;
 
 import java.util.List;
 
@@ -26,8 +27,11 @@ public class GetEventsCommand extends AbstractCommand<EventApi> {
     public void execute() throws Exception {
         List<Event> events = shell.api.eventCatalogService.getAllEvents();
         System.out.println("Events created with PolyEvent : ");
-        for (Event e : events)
-            System.out.println("\t" + e.toString());
+        EventDTO eventDTO;
+        for (Event e : events) {
+            eventDTO = new EventDTO(e);
+            System.out.println("\t" + eventDTO.toString());
+        }
     }
 
     /**
