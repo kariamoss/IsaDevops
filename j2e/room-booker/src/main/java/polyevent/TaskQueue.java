@@ -1,6 +1,8 @@
 package polyevent;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
@@ -43,4 +45,10 @@ public class TaskQueue {
         l.log(Level.INFO,"adding task");
         queue.add(task);
     }
+
+    public List<BookingTask> getTaskList(){
+        return new ArrayList<>(this.queue);
+    }
+
+
 }

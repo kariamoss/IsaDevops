@@ -54,4 +54,8 @@ public class BookingTask {
 
         return e != null; // todo add this condition && e != event;
     }
+
+    public BookingWrapper getWrapper(){
+        return new BookingWrapper(this.event,this.rooms);
+    }
 }
