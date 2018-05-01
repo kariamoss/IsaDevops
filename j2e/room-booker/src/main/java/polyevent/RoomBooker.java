@@ -66,7 +66,7 @@ public class RoomBooker implements MessageListener {
     }
 
     private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
-        l.log(Level.SEVERE, "event & room : " + event + " " + rooms);
+        l.log(Level.SEVERE, "event & room : " + event + " " + event.getId() + " " + rooms);
         if (event == null || rooms == null)
             return false;
 

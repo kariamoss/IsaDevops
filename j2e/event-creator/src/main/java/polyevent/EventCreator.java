@@ -39,7 +39,7 @@ public class EventCreator implements IEventCreator {
         Coordinator c = entityManager.find(Coordinator.class, coordinator.getId());
         Event event = new Event(c, date.getTime(), cal.getTime(), participantNumber, name);
         c.getEventsCreated().add(event);
-        l.log(Level.SEVERE, "event : " + event);
+        l.log(Level.SEVERE, "event : " + event + " event.getId:" + event.getId());
         return eventOrganizer.bookRoom(event);
     }
 
