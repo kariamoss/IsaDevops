@@ -42,7 +42,8 @@ public class Event implements Serializable {
                 {
                         CascadeType.PERSIST,
                         CascadeType.MERGE
-                }
+                },
+            fetch = FetchType.EAGER
             )
     @JoinTable(
             name="events_rooms",
