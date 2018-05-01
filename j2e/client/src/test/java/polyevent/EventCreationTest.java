@@ -36,7 +36,7 @@ public class EventCreationTest extends TestHelper {
         GregorianCalendar tmpDate = new GregorianCalendar();
         tmpDate.add(Calendar.HOUR_OF_DAY, 24);
 
-        event = api.eventCreatorService.createEvent("test",
+        event = api.eventCreatorService.createEvent(generateEvent(),
                 100,
                 DatatypeFactory.newInstance().newXMLGregorianCalendar(tmpDate), coordinator);
 

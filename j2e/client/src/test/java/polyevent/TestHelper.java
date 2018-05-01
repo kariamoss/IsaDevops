@@ -15,9 +15,13 @@ public abstract class TestHelper {
     }
 
     public String generateEmail(){
-        String beginEmail = randomString(5);
-        String midEmail = randomString(5);
-        String endEmail = randomString(3);
+        String beginEmail = randomString(9);
+        String midEmail = "gmail";
+        String endEmail = "com";
         return  beginEmail + "@" + midEmail + "." + endEmail;
+    }
+
+    public String generateEvent(){
+        return randomString(10);
     }
 }
