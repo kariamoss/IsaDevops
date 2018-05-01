@@ -55,7 +55,7 @@ public class IntegrationTest {
         Coordinator c = new Coordinator("Jehan", "Lelama", "lelamadu06@msn.fr");
         Event e = new Event(c, cal.getTime(), cal.getTime(), 30, "Eventname");
 
-        c.addEvent(e);
+        c.getEventsCreated().add(e);
 
         // will persist the events as well
         entityManager.persist(c);

@@ -2,8 +2,10 @@ package polyevent;
 
 import polyevent.entities.Event;
 import polyevent.exceptions.InvalidRequestParametersException;
+import polyevent.interceptors.validation.standard.InterceptorStringVerifier;
 
 import javax.ejb.Local;
+import javax.interceptor.Interceptors;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +28,6 @@ public interface IEventCatalog {
      * @param eventName the name of the event to retrieve
      * @return an {@link Optional<Event>} or {@link Optional#empty}
      */
+    @Interceptors({InterceptorStringVerifier.class})
     Optional<Event> getEventWithName(String eventName) throws InvalidRequestParametersException;
 }

@@ -31,7 +31,8 @@ import javax.transaction.UserTransaction;
 import java.util.Calendar;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.when;
 
@@ -79,7 +80,7 @@ public class EventCreatorTest {
 
         e = new Event(coordinator, 100, "Event");
 
-        coordinator.addEvent(e);
+        coordinator.getEventsCreated().add(e);
 
         // we need to instantiate the EJBs in order for mocks/spies to work
         // within an EJB container
@@ -107,61 +108,6 @@ public class EventCreatorTest {
         assertNotNull(e);
         assertEquals(e, entityManager.find(Event.class, e.getId()));
     }
-
-    /**
-     * Registers a new event with a negative number of people
-     * The registration should fail because a negative number of people is impossible
-     */
-    @Test(expected = InvalidRequestParametersException.class)
-    public void eventCreationWithBadPeopleNumber() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
-        Event e = eventCreator.registerEvent("toto", -10, startDate, coordinator);
-        assertNull(e);
-    }
-
-    /**
-     * Registers a new event with an empty name
-     * The registration should fail because an event should always have a name
-     */
-    @Test(expected = InvalidRequestParametersException.class)
-    public void eventCreationWithNoName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
-        Event e = eventCreator.registerEvent("", 10, startDate, coordinator);
-        assertNull(e);
-    }
-
-    /**
-     * Registers a new event with a null name
-     * The registration should fail because an event should always have a name
-     */
-    @Test(expected = InvalidRequestParametersException.class)
-    public void eventCreationWithNullName() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
-        Event e = eventCreator.registerEvent(null, 10, startDate, coordinator);
-        assertNull(e);
-    }
-
-    /**
-     * Registers a new event with a starting date that isn't valid, i.e.,
-     * a date in the past
-     * The registration should fail because an event that already happened or
-     * has a date that has been passed shouldn't be registered (that's not logical)
-     */
-    @Test(expected = InvalidRequestParametersException.class)
-    public void eventCreationWithAlreadyPassedDate() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
-        Calendar badStartDate = Calendar.getInstance();
-        badStartDate.add(Calendar.HOUR_OF_DAY, -12);
-        Event e = eventCreator.registerEvent(null, 10, badStartDate, coordinator);
-        assertNull(e);
-    }
-
-    /**
-     * Registers a new event with a null coordinator
-     * The registration should fail because an event is always associated to a coordinator
-     */
-    @Test(expected = InvalidRequestParametersException.class)
-    public void eventCreationWithNullCoordinator() throws InvalidRequestParametersException, RoomNotAvailableException, InvalidRoomException, DatabaseSavingException, ExternalServiceCommunicationException {
-        Event e = eventCreator.registerEvent("toto", 10, startDate, null);
-        assertNull(e);
-    }
-
 
     /**
      * Utility method used to retrieve a Coordinator from the database

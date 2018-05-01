@@ -39,19 +39,21 @@ public class EventCreator implements IEventCreator {
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date.getTime());
-        cal.add(Calendar.HOUR_OF_DAY, 12);
+        cal.add(Calendar.HOUR_OF_DAY, 2);
 
         Event event = new Event(coordinator, date.getTime(), cal.getTime(), participantNumber, name);
-        coordinator.addEvent(event);
+        coordinator.getEventsCreated().add(event);
 
-        entityManager.persist(event);
+        entityManager.merge(coordinator);
+
+
 
         return eventOrganizer.bookRoom(event);
     }
 
     @Override
     public boolean cancelEvent(Coordinator coordinator, Event event) throws DataIntegrityException {
-        if (!coordinator.removeEvent(event)) {
+        if (!coordinator.getEventsCreated().remove(event)) {
             l.log(Level.SEVERE, "Tried to delete event from coordinator that doesn't exist in the database");
             throw new DataIntegrityException("The given event doesn't exist for this coordinator : " + event);
         }

@@ -3,4 +3,19 @@
         version = "3.0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation = "http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
 
+    <interceptors>
+        <interceptor>
+            <interceptor-class>polyevent.interceptors.validation.standard.InterceptorStringVerifier</interceptor-class>
+        </interceptor>
+        <interceptor>
+            <interceptor-class>polyevent.interceptors.validation.standard.InterceptorIntegerVerifier</interceptor-class>
+        </interceptor>
+        <interceptor>
+            <interceptor-class>polyevent.interceptors.validation.coordinator.InterceptorCoordinatorVerifier</interceptor-class>
+        </interceptor>
+        <interceptor>
+            <interceptor-class>polyevent.interceptors.validation.email.InterceptorEmailVerifier</interceptor-class>
+        </interceptor>
+    </interceptors>
+
 </ejb-jar>

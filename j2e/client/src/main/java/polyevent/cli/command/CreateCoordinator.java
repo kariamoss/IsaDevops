@@ -31,13 +31,13 @@ public class CreateCoordinator extends AbstractCommand<EventApi>{
 
     @Override
     public void execute() throws Exception {
-        Coordinator c = shell.api.coordinatorService.register(firstName, lastName, email, password);
+        AuthentificationCommand.cache = shell.api.coordinatorService.register(firstName, lastName, email, password);
 
         // request was successful
-        if (c != null)
-            System.out.println(c.toString());
+        if (AuthentificationCommand.cache != null)
+            System.out.println(AuthentificationCommand.cache.toString());
         else
-            System.err.println("Failed to new coordinator");
+            System.err.println("Failed to create new coordinator");
     }
 
     @Override

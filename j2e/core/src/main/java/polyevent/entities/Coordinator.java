@@ -5,6 +5,8 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="coordinators")
+@XmlRootElement
 public class Coordinator implements Serializable {
 
     @Id
@@ -40,13 +43,13 @@ public class Coordinator implements Serializable {
                     CascadeType.MERGE,
                     CascadeType.PERSIST
             },
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             mappedBy="coordinator"
             // whenever an element is removed from this collection,
             // it is deleted in the database as well
             //orphanRemoval = true
     )
-    private List<Event> eventsCreated;
+    private List<Event> eventsCreated = new ArrayList<>();
 
     public Coordinator() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -61,7 +64,6 @@ public class Coordinator implements Serializable {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.eventsCreated = new ArrayList<>();
     }
 
     public int getId() {
@@ -72,6 +74,7 @@ public class Coordinator implements Serializable {
         this.id = id;
     }
 
+    @XmlElement(name="eventsCreated")
     public List<Event> getEventsCreated() {
         return eventsCreated;
     }
@@ -111,12 +114,6 @@ public class Coordinator implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public void addEvent(Event e) {
-        this.eventsCreated.add(e);
-    }
-
-    public boolean removeEvent(Event e) { return this.eventsCreated.remove(e); }
 
     @Override
     public String toString() {

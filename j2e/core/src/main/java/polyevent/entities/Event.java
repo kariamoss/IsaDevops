@@ -4,6 +4,9 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,8 +37,14 @@ public class Event implements Serializable {
     private Date startDate;
     private Date endDate;
 
-    //@ManyToMany
-    /*@JoinTable(
+    @ManyToMany(
+            cascade =
+                {
+                        CascadeType.PERSIST,
+                        CascadeType.MERGE
+                }
+            )
+    @JoinTable(
             name="events_rooms",
             joinColumns = @JoinColumn(
                     name="event_id",
@@ -45,9 +54,8 @@ public class Event implements Serializable {
                     name="room_id",
                     referencedColumnName = "id"
             )
-    )*/
-    @Transient
-    private List<Room> rooms;
+    )
+    private List<Room> rooms = new ArrayList<>();
 
     public Event() {
         // default constructor for JPA instantiation (unmarshalling)
@@ -78,18 +86,15 @@ public class Event implements Serializable {
         this.id = id;
     }
 
+    @XmlElement(name="room")
     public List<Room> getRooms() {
+        if (this.rooms == null) {
+            this.rooms = new ArrayList<>();
+        }
         return rooms;
     }
 
-    public void addRooms(List<Room> rooms) {
-        this.rooms.addAll(rooms);
-    }
-
-    public void addRoom(Room room) {
-        this.rooms.add(room);
-    }
-
+    @XmlTransient
     public Coordinator getCoordinator() {
         return coordinator;
     }
@@ -148,8 +153,6 @@ public class Event implements Serializable {
                 '}';
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -164,5 +167,15 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(coordinator, name, startDate, endDate);
+    }
+
+    /**
+     * Needed by JAXB to give a value to the pointer on Coordinator
+     * Since the getter is annotated with @XmlTransient, it will by null
+     * after the unmarshalling of this object
+     * This callback is called by JAXB to give a value instead of null
+     */
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        this.coordinator = (Coordinator) parent;
     }
 }

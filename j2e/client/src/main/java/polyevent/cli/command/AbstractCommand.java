@@ -2,7 +2,7 @@ package polyevent.cli.command;
 
 import polyevent.cli.shell.Shell;
 
-import java.util.Arrays;
+import javax.xml.ws.WebServiceException;
 import java.util.List;
 
 public abstract class AbstractCommand<T> {
@@ -45,14 +45,18 @@ public abstract class AbstractCommand<T> {
     public void withShell(Shell<T> shell) { this.shell = shell;   }
 
     public boolean process(List<String> args) throws Exception {
-        try { load(args); }
-        catch (Exception e) {
-            System.err.println(Arrays.toString(e.getStackTrace()));
+
+        try {
+            load(args);
+        } catch (Exception e) {
+            System.err.println("Caught exception while parsing arguments of the command : " + e);
         }
         try {
             execute();
+        } catch (WebServiceException wse) {
+            System.err.println("WebServiceException was thrown while executing the request : " + wse);
         } catch (Exception e) {
-            System.err.println(Arrays.toString(e.getStackTrace()));
+            System.err.println("Exception was thrown while executing the request : " + e);
         }
         // whether the shell should stay alive or not
         return shouldContinue();

@@ -5,8 +5,17 @@ import javax.xml.ws.WebFault;
 /**
  * @author Maxime Flament (maxime.flament@etu.unice.fr)
  */
-@WebFault
+@WebFault(name = "RoomNotAvailableException")
 public class RoomNotAvailableException extends Exception {
+    /**
+     * Constructs a new exception with {@code null} as its detail message.
+     * The cause is not initialized, and may subsequently be initialized by a
+     * call to {@link #initCause}.
+     */
+    public RoomNotAvailableException() {
+        super("One or more rooms are not available (they have already been booked)");
+    }
+
     /**
      * Constructs a new exception with the specified detail message.  The
      * cause is not initialized, and may subsequently be initialized by

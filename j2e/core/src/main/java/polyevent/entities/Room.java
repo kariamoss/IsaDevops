@@ -4,7 +4,10 @@ import org.apache.bval.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,18 +29,19 @@ public class Room implements Serializable {
     @NotEmpty
     private String name;
 
-    //@ManyToMany(mappedBy = "rooms")
-    @Transient
-    private List<Event> events;
+    @ManyToMany(mappedBy = "rooms")
+    private List<Event> events = new ArrayList<>();
 
     public Room() {
         // default constructor for JPA instantiation (unmarshalling)
     }
 
     public Room(RoomType roomType, int capacity, String name) {
+        this.events = new ArrayList<>();
         this.roomType = roomType;
         this.capacity = capacity;
         this.name = name;
+        this.events = new ArrayList<>();
     }
 
     public int getId() {
@@ -48,7 +52,11 @@ public class Room implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public List<Event> getEvents() {
+        if (this.events == null) {
+            this.events = new ArrayList<>();
+        }
         return events;
     }
 
@@ -80,10 +88,6 @@ public class Room implements Serializable {
         this.name = name;
     }
 
-    public void addEvent(Event e) {
-        this.events.add(e);
-    }
-
     @Override
     public String toString() {
         return "Room{" +
@@ -109,5 +113,16 @@ public class Room implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    /**
+     * Needed by JAXB to give a value to the pointer on Coordinator
+     * Since the getter is annotated with @XmlTransient, it will by null
+     * after the unmarshalling of this object
+     * This callback is called by JAXB to give a value instead of null
+     */
+    @SuppressWarnings("unchecked")
+    public void afterUnmarshal(Unmarshaller u, Object parent) {
+        this.events = (List<Event>) parent;
     }
 }
