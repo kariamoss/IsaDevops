@@ -18,7 +18,7 @@ import javax.jms.*;
 @Stateless
 public class EventOrganizer implements IEventOrganizer {
 
-    @Resource(name = "RoomBooker") private Queue bookingQueue;
+    @Resource(name = "BookingReceiver") private Queue bookingQueue;
     @Resource private ConnectionFactory connectionFactory;
 
     private AbstractBehaviour behaviour;
