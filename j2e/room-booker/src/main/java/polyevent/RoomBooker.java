@@ -57,7 +57,6 @@ public class RoomBooker implements MessageListener {
         if (!bindRoomsToEvent(event, rooms)) {
             throw new DatabaseSavingException("Internal error while saving the rooms for the event in the database");
         }
-
         return event;
     }
 
@@ -66,20 +65,13 @@ public class RoomBooker implements MessageListener {
     }
 
     private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
-        l.log(Level.SEVERE, "event & room : " + event + " " + event.getId() + " " + rooms);
-        if (event == null || rooms == null)
-            return false;
-
         Event e = entityManager.find(Event.class, event.getId());
-        l.log(Level.SEVERE, "event : " + e);
-
-        if (e == null)
-            return false;
 
         e.getRooms().addAll(rooms);
         for (Room r : rooms) {
             r.getEvents().add(e);
         }
+
         return true;
     }
 
