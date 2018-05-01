@@ -69,11 +69,15 @@ public class RoomBooker implements MessageListener {
         if (event == null || rooms == null)
             return false;
 
-        event.getRooms().addAll(rooms);
-        for (Room r : rooms) {
-            r.getEvents().add(event);
-        }
+        Event e = entityManager.find(Event.class, event.getId());
 
+        if (e == null)
+            return false;
+
+        e.getRooms().addAll(rooms);
+        for (Room r : rooms) {
+            r.getEvents().add(e);
+        }
         return true;
     }
 
