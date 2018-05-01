@@ -15,10 +15,16 @@ import static org.junit.Assert.assertNotNull;
 public class EventCreationTest {
 
     private EventApi api;
+    private Coordinator coordinator;
 
     @Before
     public void init(){
         api = new EventApi();
+        try {
+            coordinator = api.coordinatorService.register("jehan", "milleret", "jehanmilleret@gmail.com", "passwd");
+        } catch (InvalidRequestParametersException_Exception | UserAlreadyExistsException_Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -26,11 +32,10 @@ public class EventCreationTest {
         GregorianCalendar tmpDate = new GregorianCalendar();
         tmpDate.add(Calendar.HOUR_OF_DAY, 24);
 
-        /*Event e = api.eventCreatorService.createEvent("test",
+        Event e = api.eventCreatorService.createEvent("test",
                 100,
-                DatatypeFactory.newInstance().newXMLGregorianCalendar(tmpDate),
-                "MarcDu06@laposte.fr");
+                DatatypeFactory.newInstance().newXMLGregorianCalendar(tmpDate), coordinator);
 
-        assertNotNull(e);*/
+        assertNotNull(e);
     }
 }

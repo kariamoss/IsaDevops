@@ -1,48 +1,45 @@
 package polyevent;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
-import org.jboss.arquillian.transaction.api.annotation.Transactional;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Ignore;
+import api.EventApi;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import polyevent.entities.Coordinator;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.UUID;
 
-@RunWith(Arquillian.class)
-@Transactional(TransactionMode.COMMIT)
+import static org.junit.Assert.assertNotNull;
+
+
 @Category(IntegrationTests.class)
-@Ignore
 public class IntegrationTest {
 
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+    private EventApi api;
+
+    @Before
+    public void init(){
+        api = new EventApi();
     }
 
     @Test
-    public void createEventTest() {
+    public void authenticateAndCreateEventTest() throws InvalidRequestParametersException_Exception {
         Client client = new Client();
 
-        String eventName = UUID.randomUUID().toString();
-
-        String command ="createEvent " + eventName + " 30 MarcDu06@laposte.fr\n";
-
-        InputStream is = new ByteArrayInputStream(command.getBytes(StandardCharsets.UTF_8));
-
+        String authenticate = "createCoordinator jehan milleret jehanmillerai@gmail.com passwd";
+        InputStream is = new ByteArrayInputStream(authenticate.getBytes(StandardCharsets.UTF_8));
         client.run(is, false, 0);
 
-        // todo refactor this since the mocked database doesn't exist anymore
-        // todo you should consume the EventCatalogService instead of querying the database
-        //assertNotNull(db.findEventByName(eventName));
+        String eventName = UUID.randomUUID().toString();
+        String createEvent ="createEvent " + eventName + " 30\n";
+        is = new ByteArrayInputStream(createEvent.getBytes(StandardCharsets.UTF_8));
+        client.run(is, false, 0);
+
+        assertNotNull(api.eventCatalogService.getEventWithName(eventName));
     }
 }
