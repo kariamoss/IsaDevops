@@ -5,20 +5,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import polyevent.entities.Coordinator;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 
 
 @Category(IntegrationTests.class)
-public class IntegrationTest {
+public class IntegrationTest extends TestHelper {
 
     private EventApi api;
 
@@ -31,8 +31,8 @@ public class IntegrationTest {
     public void authenticateAndCreateEventTest() throws InvalidRequestParametersException_Exception {
         Client client = new Client();
 
-        String authenticate = "createCoordinator jehan milleret jehanmillerai@gmail.com passwd";
-        InputStream is = new ByteArrayInputStream(authenticate.getBytes(StandardCharsets.UTF_8));
+        String createCoordinator = "createCoordinator jehan milleret " + generateEmail() + " passwd";
+        InputStream is = new ByteArrayInputStream(createCoordinator.getBytes(StandardCharsets.UTF_8));
         client.run(is, false, 0);
 
         String eventName = UUID.randomUUID().toString();

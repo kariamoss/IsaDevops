@@ -18,7 +18,7 @@ public class CoordinatorDTO {
         if (coordinator != null) {
             StringBuilder sb = new StringBuilder();
 
-            for (Event e : coordinator.getEvent()) {
+            for (Event e : coordinator.getEventsCreated()) {
                 sb.append(new EventDTO(e).toString());
                 sb.append(", ");
             }
