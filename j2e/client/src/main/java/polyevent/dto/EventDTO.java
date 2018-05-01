@@ -26,7 +26,7 @@ public class EventDTO {
 
             return "Event{" +
                     "name=" + event.getName() +
-                    "rooms=" + sb.toString() +
+                    ", rooms=" + sb.toString() +
                     '}';
         }
         return "";

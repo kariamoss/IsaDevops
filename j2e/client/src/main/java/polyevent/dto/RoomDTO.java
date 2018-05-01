@@ -19,7 +19,7 @@ public class RoomDTO {
         if (room != null) {
             return "Room{" +
                     "name=" + room.getName() +
-                    "capacity=" + room.getCapacity() +
+                    ", capacity=" + room.getCapacity() +
                     '}';
 
         }
