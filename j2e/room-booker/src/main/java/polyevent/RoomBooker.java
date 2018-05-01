@@ -10,8 +10,6 @@ import polyevent.exceptions.RoomNotAvailableException;
 
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
-import javax.ejb.Stateless;
-
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
@@ -68,14 +66,17 @@ public class RoomBooker implements MessageListener {
     }
 
     private boolean bindRoomsToEvent(Event event, List<Room> rooms) {
-        event.getRooms().addAll(rooms);
+        Event e = entityManager.find(Event.class, event.getId());
+
+        if (e == null)
+            return false;
+
+        e.getRooms().addAll(rooms);
         for (Room r : rooms) {
-            r.getEvents().add(event);
+            r.getEvents().add(e);
         }
 
-        Event e = entityManager.merge(event);
-
-        return e != null; // todo add this condition && e != event;
+        return true;
     }
 
     @Override

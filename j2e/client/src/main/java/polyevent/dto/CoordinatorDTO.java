@@ -25,8 +25,8 @@ public class CoordinatorDTO {
 
             return "CoordinatorDTO{" +
                     "first name=" + coordinator.getFirstName() +
-                    "last name=" + coordinator.getLastName() +
-                    "events=" + sb.toString() +
+                    ", last name=" + coordinator.getLastName() +
+                    ", events=" + sb.toString() +
                     '}';
         }
         return "";
