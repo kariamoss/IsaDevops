@@ -1,17 +1,10 @@
 package polyevent;
 
-
 import polyevent.entities.Event;
 import polyevent.entities.Room;
 import polyevent.entities.RoomType;
-import polyevent.exceptions.DatabaseSavingException;
-import polyevent.exceptions.ExternalServiceCommunicationException;
-import polyevent.exceptions.InvalidRoomException;
-import polyevent.exceptions.RoomNotAvailableException;
 
 import javax.annotation.Resource;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.jms.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,38 +12,23 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Hello world!
- *
- */
-@Stateless
-public class EventOrganizer implements IEventOrganizer {
+public abstract class AbstractBehaviour {
 
-    private Logger l = Logger.getLogger(EventOrganizer.class.getName());
+    private Logger l = Logger.getLogger(AbstractBehaviour.class.getName());
 
-
-
-
-
-    @Override
-    public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
-
+    public Event bookRoom(Event event, Queue bookingQueue, ConnectionFactory connectionFactory) {
         l.log(Level.INFO, "Received request for room booking for event");
 
         ArrayList<Room> rooms = new ArrayList<>();
 
         rooms.add(new Room(RoomType.MEETING_ROOM, 100, (new Random()).nextBoolean() ? "E+100" : "E+101"));
 
-        sendToEdt(rooms,event);
+        sendToEdt(rooms, event, bookingQueue, connectionFactory);
 
         return event;
     }
 
-    @Resource(name = "RoomBooker") private Queue bookingQueue;
-    @Resource private ConnectionFactory connectionFactory;
-
-
-    public void sendToEdt(List<Room> rooms,Event event){
+    public void sendToEdt(List<Room> rooms, Event event, Queue bookingQueue, ConnectionFactory connectionFactory){
         BookingWrapper wrapper = new BookingWrapper(event,rooms);
         try {
             l.log(Level.INFO, "sending msg");
@@ -69,4 +47,5 @@ public class EventOrganizer implements IEventOrganizer {
             l.log(Level.WARNING,"unable to book room for event :"+event.getName());
         }
     }
+
 }
