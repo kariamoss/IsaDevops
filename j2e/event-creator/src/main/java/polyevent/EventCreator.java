@@ -34,6 +34,10 @@ public class EventCreator implements IEventCreator {
 
         if (!areParametersValid(name, participantNumber, date, coordinator)) {
             l.log(Level.SEVERE, "Received invalid parameter(s) for event creation");
+            l.log(Level.SEVERE, "Name = " + FieldsValidator.isStringValid(name) +
+                    ", participantNumber = " + FieldsValidator.isStrictlyPositive(participantNumber) +
+                    ", Date = " + FieldsValidator.dateIsGood(date) +
+                    ", Coordinator = " + FieldsValidator.isObjectNotNull(coordinator));
             throw new InvalidRequestParametersException("Parameters of the request are invalid");
         }
 
