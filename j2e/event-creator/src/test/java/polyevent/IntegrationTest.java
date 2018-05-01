@@ -42,10 +42,8 @@ public class IntegrationTest {
                 .addPackage(Room.class.getPackage())
                 .addPackage(IEventCreator.class.getPackage())
                 .addPackage(IEventOrganizer.class.getPackage())
-                .addPackage(IRoomBooker.class.getPackage())
                 .addPackage(EventCreator.class.getPackage())
                 .addPackage(EventOrganizer.class.getPackage())
-                .addPackage(RoomBooker.class.getPackage())
                 .addAsManifestResource(new ClassLoaderAsset("META-INF/persistence.xml"), "persistence.xml");
     }
 

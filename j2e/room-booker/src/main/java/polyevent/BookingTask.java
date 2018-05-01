@@ -36,7 +36,7 @@ public class BookingTask {
 
         for (Room r : rooms) {
             if (!api.bookRoom(r)) {
-                l.log(Level.SEVERE, "The reservation for the given room was not possible since it's already booked : " + r);
+                l.log(Level.SEVERE, "The reservation for the given room ");
                 return false;
             }
         }

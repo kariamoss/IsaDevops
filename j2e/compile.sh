@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 file="core
-     webapp room-booker event-registry coordinator
+     webapp room-booker booking-receiver event-registry coordinator
      client event-organizer
      event-creator
      j2e-interface"

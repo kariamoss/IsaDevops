@@ -46,7 +46,7 @@ public class EventOrganizer implements IEventOrganizer {
         return event;
     }
 
-    @Resource(name = "RoomBooker") private Queue bookingQueue;
+    @Resource(name = "BookingReceiver") private Queue bookingQueue;
     @Resource private ConnectionFactory connectionFactory;
 
 

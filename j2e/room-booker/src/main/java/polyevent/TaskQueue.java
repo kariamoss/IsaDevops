@@ -3,29 +3,44 @@ package polyevent;
 import javax.persistence.EntityManager;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TaskQueue {
     private Queue<BookingTask> queue;
     private EntityManager entityManager;
+    private Logger l = Logger.getLogger(TaskQueue.class.getName());
+
 
     public TaskQueue(EntityManager entityManager){
         queue = new ConcurrentLinkedQueue<>();
         this.entityManager = entityManager;
     }
 
-    public void execTask(){
-        BookingTask task = queue.poll();
+    public boolean execTask(){
+        l.log(Level.INFO,"executing tasks");
+        BookingTask task;
 
-        if(task==null) return;
+        if((task=queue.poll()) != null) {
 
-        if(!task.book()){
-            queue.add(task);
-        } else {
-            task.bindRoomsToEvent(entityManager);
+            if (!task.book()) {
+                queue.add(task);
+                return true;
+            } else {
+                task.bindRoomsToEvent(entityManager);
+                return false;
+            }
         }
+        l.log(Level.INFO,"queue empty");
+        return false;
+    }
+
+    public boolean isEmpty(){
+        return queue.isEmpty();
     }
 
     public void addTask(BookingTask task){
+        l.log(Level.INFO,"adding task");
         queue.add(task);
     }
 }
