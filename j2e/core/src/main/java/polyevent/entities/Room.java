@@ -123,6 +123,12 @@ public class Room implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public void afterUnmarshal(Unmarshaller u, Object parent) {
-        this.events = (List<Event>) parent;
+        if (parent != null && parent.getClass().getName().equals(Event.class.getName())) {
+            this.events = new ArrayList<>();
+            this.events.add((Event) parent);
+        }
+        else {
+            this.events = (List<Event>) parent;
+        }
     }
 }
