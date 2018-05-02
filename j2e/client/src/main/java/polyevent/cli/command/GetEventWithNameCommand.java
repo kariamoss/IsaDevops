@@ -32,7 +32,7 @@ public class GetEventWithNameCommand extends AbstractCommand<EventApi> {
 
         // no events with this name have been found...
         if (event == null) {
-            System.out.println("No event with the name : " + eventName + " exists in the PolyEvent system!");
+            System.out.println("No event with the name " + eventName + " exists in the PolyEvent system!");
         }
         else {
             System.out.println("Found an event with the name " + eventName + ".");
