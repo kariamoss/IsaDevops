@@ -15,7 +15,7 @@
   <xs:complexType name="coordinator">
     <xs:sequence>
       <xs:element minOccurs="0" name="email" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="event" type="tns:event"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="eventsCreated" type="tns:event"/>
       <xs:element minOccurs="0" name="firstName" type="xs:string"/>
       <xs:element name="id" type="xs:int"/>
       <xs:element minOccurs="0" name="lastName" type="xs:string"/>

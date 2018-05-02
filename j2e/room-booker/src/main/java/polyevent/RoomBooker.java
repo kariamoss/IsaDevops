@@ -57,6 +57,10 @@ public class RoomBooker implements IRoomBooker {
     }
 
 
+
+
+    
+
     @Resource(name = "BookingReceiver") private Queue bookingQueue;
     @Resource private ConnectionFactory connectionFactory;
 

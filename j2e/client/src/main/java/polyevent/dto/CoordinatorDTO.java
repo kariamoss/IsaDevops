@@ -18,15 +18,15 @@ public class CoordinatorDTO {
         if (coordinator != null) {
             StringBuilder sb = new StringBuilder();
 
-            for (Event e : coordinator.getEvent()) {
+            for (Event e : coordinator.getEventsCreated()) {
                 sb.append(new EventDTO(e).toString());
                 sb.append(", ");
             }
 
             return "CoordinatorDTO{" +
                     "first name=" + coordinator.getFirstName() +
-                    "last name=" + coordinator.getLastName() +
-                    "events=" + sb.toString() +
+                    ", last name=" + coordinator.getLastName() +
+                    ", events=" + sb.toString() +
                     '}';
         }
         return "";
