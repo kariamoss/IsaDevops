@@ -45,14 +45,19 @@ public class BookingTask {
     }
 
     public boolean bindRoomsToEvent(EntityManager entityManager) {
-        event.getRooms().addAll(rooms);
+        Event e = entityManager.find(Event.class, event.getId());
+
+        l.log(Level.SEVERE, "event by id : " + e);
+
+        if (e == null)
+            return false;
+
+        e.getRooms().addAll(rooms);
         for (Room r : rooms) {
-            r.getEvents().add(event);
+            r.getEvents().add(e);
         }
 
-        Event e = entityManager.merge(event);
-
-        return e != null; // todo add this condition && e != event;
+        return true;
     }
 
     public BookingWrapper getWrapper(){
