@@ -28,17 +28,21 @@ public class BookingTask {
     public boolean book(){
 
         l.log(Level.INFO, "attempting room booking");
-
-        if (rooms.isEmpty()) {
-            l.log(Level.SEVERE, "Can't book an empty list of rooms");
-            return true;
-        }
-
-        for (Room r : rooms) {
-            if (!api.bookRoom(r)) {
-                l.log(Level.SEVERE, "The reservation for the given room ");
-                return false;
+        try {
+            if (rooms.isEmpty()) {
+                l.log(Level.SEVERE, "Can't book an empty list of rooms");
+                return true;
             }
+
+            for (Room r : rooms) {
+                if (!api.bookRoom(r)) {
+                    l.log(Level.SEVERE, "The reservation for the given room can't be done ");
+                    return false;
+                }
+            }
+        }catch (Exception e){
+            l.log(Level.SEVERE, "something went wrong with the booking ");
+            return true;
         }
 
         return true;
