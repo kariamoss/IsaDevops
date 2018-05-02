@@ -35,6 +35,8 @@ public class GetEventWithNameCommand extends AbstractCommand<EventApi> {
             System.out.println("No event with the name : " + eventName + " exists in the PolyEvent system!");
         }
         else {
+            System.out.println("Found an event with the name " + eventName + ".");
+            System.out.println("If multiple events had the same name, only the most recent event was selected.");
             System.out.println(new EventDTO(event).toString());
         }
     }
