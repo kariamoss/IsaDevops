@@ -2,6 +2,7 @@ package polyevent;
 
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
+import polyevent.entities.Room;
 import polyevent.exceptions.*;
 
 import javax.ejb.EJB;
@@ -44,8 +45,11 @@ public class EventCreator implements IEventCreator {
 
 
         l.log(Level.SEVERE, "coordinator : " + c + " " + coordinator + " " + " zevent : " + event);
-        l.log(Level.SEVERE, "event by id : " + entityManager.find(Event.class, event.getId()));
+        l.log(Level.SEVERE, "event by id : " + entityManager.find(Event.class, event.getId()) + " event getRooms: " + event.getRooms());
 
+        for (Room r: event.getRooms()) {
+            l.log(Level.SEVERE, "room events: " + r.getEvents());
+        }
 
         return eventOrganizer.bookRoom(event);
     }
