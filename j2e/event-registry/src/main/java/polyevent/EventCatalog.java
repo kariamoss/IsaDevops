@@ -75,7 +75,14 @@ public class EventCatalog implements IEventCatalog {
             // in the database, but first of all,
             // this is not a situation where the back-end should crash with a NPE,
             // second the JPA framework has built-in exceptions to handle such case
-            return Optional.of(query.getSingleResult());
+            Optional<List<Event>> optionalEvents = Optional.of(query.getResultList());
+            if (optionalEvents.get().size() == 0) {
+                return Optional.empty();
+            }
+            else {
+                // default orderBy is ASC (on ID) so we take the last entry of the list as it's the latest inserted element
+                return Optional.of(optionalEvents.get().get(optionalEvents.get().size() - 1));
+            }
         } catch (NoResultException nre){
             l.log(Level.FINEST, "No result for ["+eventName+"]", nre);
             return Optional.empty();
