@@ -21,6 +21,4 @@ RUN ./latest-war.sh
 
 
 ENTRYPOINT JRE_HOME=./jre1.8.0_171/ && export JRE_HOME && \
- rm -r ./apache-tomee-plus-7.0.2/webapps/* && \
- ./latest-war.sh && \
- sudo ./apache-tomee-plus-7.0.2/bin/catalina.sh run
+ ./apache-tomee-plus-7.0.2/bin/catalina.sh run
