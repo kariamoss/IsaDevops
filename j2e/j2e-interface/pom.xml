@@ -39,7 +39,12 @@
               <groupId>polyevent</groupId>
               <artifactId>event-creator</artifactId>
               <version>1.0-SNAPSHOT</version>
-              <classifier>freebuild</classifier>
+            <exclusions>
+              <exclusion>
+                <groupId>polyevent</groupId>
+                <artifactId>event-organizer-with-billing</artifactId>
+              </exclusion>
+            </exclusions>
           </dependency>
       </dependencies>
     </profile>
@@ -50,7 +55,12 @@
           <groupId>polyevent</groupId>
           <artifactId>event-creator</artifactId>
           <version>1.0-SNAPSHOT</version>
-          <classifier>withbillingbuild</classifier>
+          <exclusions>
+            <exclusion>
+              <groupId>polyevent</groupId>
+              <artifactId>event-organizer-free</artifactId>
+            </exclusion>
+          </exclusions>
         </dependency>
       </dependencies>
     </profile>
