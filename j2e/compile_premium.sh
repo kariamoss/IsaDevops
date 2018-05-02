@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-files="core webapp room-booker event-registry coordinator client bill-creator event-organizer-root event-organizer-with-billing"
+files="core webapp room-booker booking-receiver event-registry coordinator client bill-creator event-organizer-root event-organizer-with-billing"
 
 files_with_P="event-organizer"
 
