@@ -2,8 +2,8 @@
 
 
 files="core
-     webapp room-booker booking-receiver event-registry coordinator
-     client event-organizer-root event-organizer-free event-organizer
+     webapp room-booker booking-receiver event-registry coordinator bill-creator
+     client event-organizer-root event-organizer-free event-organizer-with-billing event-organizer
      event-creator jsf
      j2e-interface"
 
