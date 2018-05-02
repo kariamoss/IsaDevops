@@ -63,6 +63,15 @@
           </exclusions>
         </dependency>
       </dependencies>
+
+      <distributionManagement>
+        <snapshotRepository>
+          <id>snapshots</id>
+          <name>pop-os-snapshots</name>
+          <url>http://207.154.199.162:8081/artifactory/premium</url>
+        </snapshotRepository>
+      </distributionManagement>
+
     </profile>
   </profiles>
 
