@@ -19,10 +19,14 @@ public class BookingTask {
 
     private Logger l = Logger.getLogger(BookingTask.class.getName());
 
-    public BookingTask(List<Room> rooms, Event event) {
+    public BookingTask(List<Room> rooms, Event event, AgendaAPI api) {
         this.rooms = rooms;
         this.event = event;
-        api = new AgendaAPI();
+        this.api = api;
+    }
+
+    public BookingTask(List<Room> rooms, Event event) {
+        this(rooms,event,new AgendaAPI());
     }
 
     public boolean book(){

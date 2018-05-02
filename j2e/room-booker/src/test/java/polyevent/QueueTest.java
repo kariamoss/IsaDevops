@@ -22,7 +22,7 @@ public class QueueTest {
     @Test
     public void addingTest(){
         assertTrue(this.queue.isEmpty());
-        queue.addTask(new BookingTask(Arrays.asList(new Room()),new Event()));
+        queue.addTask(new BookingTask(Arrays.asList(new Room()),new Event(),new AgendaAPI("salut.com","98852")));
         queue.execTask();
         assertFalse(this.queue.isEmpty());
     }
