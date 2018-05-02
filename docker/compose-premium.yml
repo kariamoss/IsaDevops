@@ -1,0 +1,12 @@
+version: '3'
+services:
+  j2e_premium_polyevent:
+    image: j2e_premium_polyevent
+    build: ./premium-docker
+    ports:
+     - "8080:8080"
+  mono_polyevent:
+    image: mono_polyevent
+    build: ./mono-docker
+    ports:
+     - "9090:9090"

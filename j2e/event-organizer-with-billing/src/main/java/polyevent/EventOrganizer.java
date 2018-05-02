@@ -11,6 +11,9 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jms.*;
+import javax.websocket.OnMessage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -19,10 +22,13 @@ import javax.jms.*;
 @Stateless
 public class EventOrganizer implements IEventOrganizer {
 
-    @Resource(name = "RoomBooker") private Queue bookingQueue;
+    @Resource(name = "BookingReceiver") private Queue bookingQueue;
     @Resource private ConnectionFactory connectionFactory;
 
     @EJB private IBillCreator billCreator;
+
+    private Logger l = Logger.getLogger(EventOrganizer.class.getName());
+
 
     private BehaviourWithBilling behaviour;
 
@@ -32,6 +38,8 @@ public class EventOrganizer implements IEventOrganizer {
 
     @Override
     public Event bookRoom(Event event) throws DatabaseSavingException, InvalidRoomException, RoomNotAvailableException, ExternalServiceCommunicationException {
+        l.log(Level.INFO, String.valueOf(billCreator==null));
+
         return behaviour.bookRoomWithBilling(event, bookingQueue, connectionFactory, billCreator);
     }
 }
