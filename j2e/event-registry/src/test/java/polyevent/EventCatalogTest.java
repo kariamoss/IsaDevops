@@ -29,6 +29,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,6 +139,30 @@ public class EventCatalogTest {
         Optional<Event> optionalEvent = eventCatalog.getEventWithName(lookUpEventName);
         assertTrue(optionalEvent.isPresent());
         assertEquals(optionalEvent.get().getName(), lookUpEventName);
+    }
+
+    @Test
+    public void testFindEventWithNameConflict() throws InvalidRequestParametersException {
+        Calendar start = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+
+        end.add(Calendar.HOUR_OF_DAY, 3);
+
+        Coordinator coord = entityManager.find(Coordinator.class, c.getId());
+        Event event = new Event(coord, start.getTime(), end.getTime(), 11, lookUpEventName);
+        entityManager.persist(event);
+        coord.getEventsCreated().add(event);
+        Optional<List<Event>> events = eventCatalog.getAllEvents();
+        assertTrue(events.isPresent());
+        assertEquals(3, events.get().size());
+
+        Optional<Event>  eventOptional = eventCatalog.getEventWithName(lookUpEventName);
+        assertTrue(eventOptional.isPresent());
+        assertEquals(event, eventOptional.get());
+        assertNotEquals(e1, eventOptional.get());
+
+        entityManager.remove(event);
+        c.getEventsCreated().remove(event);
     }
 
     /**
