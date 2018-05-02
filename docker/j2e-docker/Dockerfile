@@ -11,9 +11,9 @@ RUN curl -uadmin:TeoTroFor06 -O http://207.154.199.162:8081/artifactory/env/jre-
 RUN tar -xzf jre-8u171-linux-x64.tar.gz
 RUN rm jre-8u171-linux-x64.tar.gz
 
-RUN curl -uadmin:TeoTroFor06 -O http://207.154.199.162:8081/artifactory/env/apache-tomee-plume-7.0.2.tar.gz
-RUN tar -xzf apache-tomee-plume-7.0.2.tar.gz
-RUN rm apache-tomee-plume-7.0.2.tar.gz
+RUN curl -uadmin:TeoTroFor06 -O http://207.154.199.162:8081/artifactory/env/apache-tomee-plus-7.0.2.tar.gz
+RUN tar -xzf apache-tomee-plus-7.0.2.tar.gz
+RUN rm apache-tomee-plus-7.0.2.tar.gz
 
 
 RUN chmod +x ./latest-war.sh
@@ -21,6 +21,6 @@ RUN ./latest-war.sh
 
 
 ENTRYPOINT JRE_HOME=./jre1.8.0_171/ && export JRE_HOME && \
- rm -r ./apache-tomee-plume-7.0.2/webapps/* && \
+ rm -r ./apache-tomee-plus-7.0.2/webapps/* && \
  ./latest-war.sh && \
- ./apache-tomee-plume-7.0.2/bin/catalina.sh run
+ sudo ./apache-tomee-plus-7.0.2/bin/catalina.sh run
