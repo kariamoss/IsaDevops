@@ -13,11 +13,29 @@ public class AgendaAPI {
     private Logger l = Logger.getLogger(AgendaAPI.class.getName());
 
     public AgendaAPI(String host, String port) {
-        this.url = "http://" + host + ":" + port;
+        build(host,port);
     }
 
     public AgendaAPI() {
-        this("localhost", "9090");
+        String addr = "localhost";
+        String port = "9090";
+
+        String envAddr;
+        String envPort;
+
+        if((envAddr = System.getenv("AgendaAddr")) != null){
+            addr = envAddr;
+        }
+
+        if((envPort = System.getenv("AgendaPort")) != null){
+            port = envPort;
+        }
+
+        build(addr,port);
+    }
+
+    private void build(String host,String port){
+        this.url = "http://" + host + ":" + port;
     }
 
     public boolean bookRoom(Room room) {
@@ -28,5 +46,9 @@ public class AgendaAPI {
             l.log(Level.SEVERE, "AgendaApi couldn't reach the external service for room booking");
         }
         return false;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

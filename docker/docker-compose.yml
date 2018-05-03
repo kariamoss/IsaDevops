@@ -5,6 +5,8 @@ services:
     build: ./j2e-docker
     ports:
      - "8080:8080"
+    links :
+     - mono_polyevent
   mono_polyevent:
     image: mono_polyevent
     build: ./mono-docker
