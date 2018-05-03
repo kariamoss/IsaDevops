@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-files="core webapp room-booker booking-receiver event-registry coordinator client bill-creator event-organizer-root event-organizer-with-billing"
+files="core webapp room-booker booking-receiver event-registry coordinator client bill-creator event-organizer-root event-organizer-free event-organizer-with-billing event-organizer event-creator jsf"
 
-files_with_P="event-organizer event-creator j2e-interface"
+files_with_P="j2e-interface"
 
 cd root
 mvn install
