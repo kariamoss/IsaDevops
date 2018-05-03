@@ -8,6 +8,7 @@
         <navigation-case>
             <from-outcome>LOGGED</from-outcome>
             <to-view-id>/createEvent.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
 
@@ -16,7 +17,16 @@
         <navigation-case>
             <from-outcome>ADDED</from-outcome>
             <to-view-id>/listEvents.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
 
+    <navigation-rule>
+        <from-view-id>/createCoordinator.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>ADDED</from-outcome>
+            <to-view-id>/listEvents.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
