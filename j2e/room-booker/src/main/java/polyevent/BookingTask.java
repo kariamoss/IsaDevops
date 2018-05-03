@@ -46,7 +46,7 @@ public class BookingTask {
             }
         }catch (Exception e){
             l.log(Level.SEVERE, "something went wrong with the booking ");
-            return true;
+            return false;
         }
 
         return true;

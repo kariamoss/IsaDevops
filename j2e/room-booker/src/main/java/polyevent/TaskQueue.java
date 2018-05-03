@@ -26,11 +26,13 @@ public class TaskQueue {
         if((task=queue.poll()) != null) {
 
             if (!task.book()) {
+
                 queue.add(task);
                 return true;
+
             } else {
                 task.bindRoomsToEvent(entityManager);
-                return false;
+                return !isEmpty();
             }
         }
         l.log(Level.INFO,"queue empty");
