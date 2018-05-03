@@ -13,6 +13,7 @@
 <h:body>
     <h1>PolyEvent / Événements </h1>
     <h:button value="Créer un évenement" outcome="authenticate" />
+    <h:button value="S'enregistrer" outcome="createCoordinator" />
     <h2>Liste des évenements</h2>
     <h:dataTable style="margin:0 auto;" value="#{retrieveEventBean.events}" var="o"
                      styleClass="event-table"
