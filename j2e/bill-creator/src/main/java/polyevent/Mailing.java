@@ -1,12 +1,11 @@
 package polyevent;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
-
-import java.io.File;
 
 
 
