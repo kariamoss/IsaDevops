@@ -20,36 +20,45 @@
                      headerClass="event-table-header"
                      rowClasses="event-table-odd-row,event-table-even-row">
 
-            <h:column>
-                <!-- column header -->
-                <f:facet name="header">Nom</f:facet>
-                <!-- row record -->
-                <h:outputText value="#{o.name}" style="padding-left: 0"/>
-            </h:column>
+        <h:column>
+            <!-- column header -->
+            <f:facet name="header">Nom</f:facet>
+            <!-- row record -->
+            <h:outputText value="#{o.name}" style="padding-left: 0"/>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">Coordinateur</f:facet>
-                <h:outputText value="#{o.coordinator.firstName} #{o.coordinator.lastName}" style="padding-left: 0"/>
-            </h:column>
+        <h:column>
+            <f:facet name="header">Coordinateur</f:facet>
+            <h:outputText value="#{o.coordinator.firstName} #{o.coordinator.lastName}" style="padding-left: 0"/>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Date de début"/>
-                </f:facet>
-                <h:outputText value="#{o.startDate}" style="padding-left: 0">
-                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
-                </h:outputText>
-            </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Date de début"/>
+            </f:facet>
+            <h:outputText value="#{o.startDate}" style="padding-left: 0">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
+            </h:outputText>
+        </h:column>
 
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Date de fin"/>
-                </f:facet>
-                <h:outputText value="#{o.endDate}" style="padding-left: 0">
-                    <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
-                </h:outputText>
-            </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Date de fin"/>
+            </f:facet>
+            <h:outputText value="#{o.endDate}" style="padding-left: 0">
+                <f:convertDateTime type="date" pattern="dd-MM-yyyy hh:mm"/>
+            </h:outputText>
+        </h:column>
 
-        </h:dataTable>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Salle"/>
+            </f:facet>
+            <ui:repeat value="#{o.rooms}" var="room">
+                <h:outputText value="#{room.name}"/>
+            </ui:repeat>
+        </h:column>
+
+    </h:dataTable>
 </h:body>
 </html>
