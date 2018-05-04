@@ -6,7 +6,6 @@ ADD latest-war.sh ./
 RUN apt-get update
 RUN apt-get install -y curl
 RUN apt-get install -y wget
-RUN apt-get install -y ping
 
 
 RUN curl -uadmin:TeoTroFor06 -O http://207.154.199.162:8081/artifactory/env/jre-8u171-linux-x64.tar.gz
