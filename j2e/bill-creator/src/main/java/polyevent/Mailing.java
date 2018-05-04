@@ -1,12 +1,11 @@
 package polyevent;
+
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import polyevent.entities.Coordinator;
 import polyevent.entities.Event;
-
-import java.io.File;
 
 
 
@@ -114,7 +113,7 @@ public class Mailing {
         HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/sandboxd67ad01d73c64b15915a5bac7c743c79.mailgun.org/messages")
                 .basicAuth("api", "key-0c2fcad4200b9f1143cd1cce37e01c58")
                 .queryString("from", "Mailgun Sandbox <postmaster@sandboxd67ad01d73c64b15915a5bac7c743c79.mailgun.org>")
-                .queryString("to", coordinator.getFirstName() + " " + coordinator.getLastName() + " " + coordinator.getEmail())
+                .queryString("to", "Jehan Milleret <jehanportable@gmail.com>")
                 .queryString("subject", subject)
                 .queryString("text", content)
                 .asJson();
