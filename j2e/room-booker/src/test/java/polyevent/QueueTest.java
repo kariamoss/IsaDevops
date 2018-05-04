@@ -50,7 +50,7 @@ public class QueueTest {
         AgendaAPI api = Mockito.mock(AgendaAPI.class);
         when(api.bookRoom(notNull(Room.class))).thenReturn(true);
 
-        
+
         assertTrue(this.queue.isEmpty());
 
         queue.addTask(new BookingTask(Arrays.asList(new Room()),new Event(),api));
