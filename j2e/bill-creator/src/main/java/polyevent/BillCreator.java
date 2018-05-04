@@ -1,5 +1,6 @@
 package polyevent;
 
+import com.mashape.unirest.http.exceptions.UnirestException;
 import polyevent.entities.Event;
 
 import javax.ejb.Stateless;
@@ -13,8 +14,14 @@ public class BillCreator implements IBillCreator {
 
     @Override
     public boolean createBill(Event event) {
-
+        Mailing mailing = new Mailing(event);
         l.log(Level.INFO, "Sending bill for event " + event.getName() + ".");
+
+        try {
+            mailing.sendSimpleMessage();
+        } catch (UnirestException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
