@@ -21,4 +21,5 @@ RUN ./latest-war.sh
 
 
 ENTRYPOINT JRE_HOME=./jre1.8.0_171/ && export JRE_HOME && \
+  echo $AgendaAddr && echo $AgendaPort
  ./apache-tomee-plus-7.0.2/bin/catalina.sh run
