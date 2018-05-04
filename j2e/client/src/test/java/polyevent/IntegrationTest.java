@@ -35,6 +35,8 @@ public class IntegrationTest extends TestHelper {
         InputStream is = new ByteArrayInputStream(createCoordinator.getBytes(StandardCharsets.UTF_8));
         client.run(is, false, 0);
 
+
+
         String eventName = generateEvent();
         String createEvent ="createEvent " + eventName + " 30\n";
         is = new ByteArrayInputStream(createEvent.getBytes(StandardCharsets.UTF_8));
