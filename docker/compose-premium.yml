@@ -1,12 +1,14 @@
 version: '3'
 services:
-  j2e_premium_polyevent:
-    image: j2e_premium_polyevent
-    build: ./premium-docker
+  j2e_polyevent:
+    image: lucassalut/j2e_premium_polyevent
     ports:
      - "8080:8080"
-  mono_polyevent:
-    image: mono_polyevent
-    build: ./mono-docker
+    environment:
+      - AgendaAddr=mono-polyevent
+      - AgendaPort=9090
+
+  mono-polyevent:
+    image: lucassalut/mono_polyevent
     ports:
      - "9090:9090"
