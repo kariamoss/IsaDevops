@@ -19,8 +19,8 @@ public class BillCreator implements IBillCreator {
 
         try {
             mailing.sendSimpleMessage();
-        } catch (UnirestException e1) {
-            e1.printStackTrace();
+        } catch (UnirestException e) {
+            e.printStackTrace();
         }
 
         return true;
