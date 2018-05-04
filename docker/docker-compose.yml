@@ -5,10 +5,10 @@ services:
     ports:
      - "8080:8080"
     environment:
-      - AgendaAddr=mono_polyevent
+      - AgendaAddr=mono-polyevent
       - AgendaPort=9090
 
-  mono_polyevent:
+  mono-polyevent:
     image: lucassalut/mono_polyevent
     ports:
      - "9090:9090"
