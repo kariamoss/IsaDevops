@@ -1,6 +1,6 @@
 version: '3'
 services:
-  j2e_polyevent:
+  j2e_premium_polyevent:
     image: lucassalut/j2e_premium_polyevent
     ports:
      - "8080:8080"
