@@ -35,6 +35,7 @@ public class AgendaAPI {
     }
 
     private void build(String host,String port){
+        l.log(Level.INFO, "http://" + host + ":" + port);
         this.url = "http://" + host + ":" + port;
     }
 
