@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Artifactory location
 server=http://207.154.199.162:8081/artifactory
-repo=premium
+repo=$1
 
 # Maven artifact location
 name=j2e-interface

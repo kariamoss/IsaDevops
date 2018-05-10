@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+server="http://207.154.199.162:8081/artifactory/"
+repo="DotNet"
+username="admin"
+pass="TeoTroFor06"
+
 case "$(uname -s)" in
 
    CYGWIN*|MINGW*|MSYS*)
@@ -11,4 +16,4 @@ case "$(uname -s)" in
 
 esac
 
-curl -uadmin:TeoTroFor06 -T ./server.exe "http://207.154.199.162:8081/artifactory/DotNet/"
+curl -u$username:$pass -T ./server.exe $server$repo

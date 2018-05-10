@@ -68,7 +68,7 @@
         <snapshotRepository>
           <id>snapshots</id>
           <name>pop-os-snapshots</name>
-          <url>http://207.154.199.162:8081/artifactory/premium</url>
+          <url>${artifactory}${artifactory.premiumrepo}</url>
         </snapshotRepository>
       </distributionManagement>
 

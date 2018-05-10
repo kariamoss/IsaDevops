@@ -13,6 +13,6 @@ cd ..
 for i in ${files}
 do
     cd ${i}
-    mvn clean install -o
+    mvn clean deploy
     cd ..
 done
