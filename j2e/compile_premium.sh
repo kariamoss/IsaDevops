@@ -2,4 +2,4 @@
 
 cd j2e-interface
 
-mvn clean deploy -P premium
+mvn clean install deploy -P premium
