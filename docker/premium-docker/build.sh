@@ -4,6 +4,6 @@
 cp ../docker.sh ./
 cp ../latest-war.sh ./
 
-sudo docker build -t lucassalut/j2e_premium_polyevent ./
+sudo docker build -t lucassalut/j2e_premium_polyevent --no-cache ./
 
 rm docker.sh latest-war.sh

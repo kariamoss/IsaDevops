@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sudo docker run -p 8080:8080 j2e_polyevent
+sudo docker run -p 8080:8080 lucassalut/j2e_polyevent

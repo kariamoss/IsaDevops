@@ -6,5 +6,5 @@ username="admin"
 pass="TeoTroFor06"
 
 
-
+echo -u$username:$pass -O $server$repo/server.exe
 curl -u$username:$pass -O $server$repo/server.exe
